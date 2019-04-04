@@ -11,7 +11,7 @@ import {
 } from '@/utils/cookieUtils';
 import { getUser, setUser } from '@/utils/userUtils';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
-import store from '../index';
+import store from '../../index';
 @Module({
     dynamic: true,
     name: 'user',

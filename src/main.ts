@@ -10,7 +10,7 @@ Vue.use(Element, {
     zIndex: 3000
 });
 import { default as util } from '@/utils/util';
-import { getToken, removeSystemId, setSystemId } from '@/utils/cookieUtils';
+import { getToken } from '@/utils/cookieUtils';
 import { getUser, setUser } from '@/utils/userUtils';
 Vue.config.productionTip = false;
 import { Loading } from 'element-ui';
@@ -50,6 +50,7 @@ new Vue({
         async loadSystem(userData: any) {
             //获取系统列表
             console.log('加载用户系统列表');
+
             let systemList: any = await apiUser.checkSystem();
             if (systemList.length > 0) {
                 //对默认系统进行排序
@@ -70,18 +71,19 @@ new Vue({
                 if (window.location.pathname !== userData.index) {
                     window.location.href = userData.index;
                 } else {
-                    this.$store.dispatch('FedLogOut');
+                    this.$store.dispatch('user/FedLogOut');
                     this.loadingInstance.text =
                         '请确认权限是否正确，3秒后跳转到登陆界面';
+                    console.log(this.$store);
                     setTimeout(() => {
-                        window.location.href = '/login.html';
+                        //         window.location.href = '/login.html';
                     }, 3000);
                 }
             } else {
                 this.loadingInstance.text =
                     '未获取到用户信息，3秒后跳转到登陆界面';
                 setTimeout(() => {
-                    this.$store.dispatch('FedLogOut');
+                    this.$store.dispatch('user/FedLogOut');
                     window.location.href = '/login.html';
                 }, 3000);
             }

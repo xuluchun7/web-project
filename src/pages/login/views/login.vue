@@ -66,7 +66,7 @@
 import { setUser, getUser, setFiled } from "@/utils/userUtils";
 import { setToken } from "@/utils/cookieUtils";
 import Vue from "vue";
-import apiUser from "@/api/base/apiUser";
+import { default as apiUser } from "@/api/base/apiUser";
 import QRCode from "qrcode";
 export default Vue.extend({
   name: "home",
@@ -92,7 +92,7 @@ export default Vue.extend({
       QRCode.toCanvas(
         canvas,
         window.location.origin + "/upload/app/" + process.env.VUE_APP_APK_NAME,
-        function(error) {
+        function(error:any) {
           if (error) console.error(error);
           console.log("QRCode success!");
         }

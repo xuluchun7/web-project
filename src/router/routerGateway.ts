@@ -7,7 +7,7 @@ import { getToken } from '@/utils/cookieUtils'; // getToken from cookie
 import { getUser } from '@/utils/userUtils';
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
 import { getModule } from 'vuex-module-decorators';
-import TagsView from '@/store/modules/tagsView';
+import TagsView from '@/store/modules/core/tagsView';
 const tagsView = getModule(TagsView, store);
 
 // permissiom judge function

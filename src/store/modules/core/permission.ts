@@ -19,9 +19,9 @@ function buildRouter(
         path: '/',
         name: 'aes' + encodeCipher(system.entry),
         meta: { title: system.name, id: 'root' },
-        component: (resolve: any) => {
-            require(['@/components/Layout/Layout.vue'], resolve);
-        },
+        // component: (resolve: any) => {
+        //     require(['@/components/Layout/Layout.vue'], resolve);
+        // },
         children: child
     };
 }
@@ -104,7 +104,7 @@ function filterAsyncRouter(asyncRouterMap: Array<any>, roles: Array<any>) {
 }
 
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
-import store from '../index';
+import store from '../../index';
 @Module({
     dynamic: true,
     name: 'permission',

@@ -1,5 +1,5 @@
 import * as API from './index';
-class baseApi {
+export default class baseApi {
     baseUrl: string;
     constructor(baseUrl: any) {
         this.baseUrl = baseUrl;

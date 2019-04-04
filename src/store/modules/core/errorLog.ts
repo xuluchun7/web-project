@@ -1,5 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
-import store from '../index';
+import store from '../../index';
 const Cookies = require('js-cookie');
 @Module({
     dynamic: true,
