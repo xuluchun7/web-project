@@ -1,8 +1,14 @@
 interface String {
     replaceAll(findText: string, repText: string): String;
-    format(arg: any): String;
+    format(arg: any): string;
     toLong(): number;
     isNullOrEmpty(): boolean;
+    /**
+     * 过滤指定字符
+     * @param char 需要过滤的字符
+     * @param type 需要过滤的位置，left,right,other
+     */
+    filter(char: string, type: string): string;
 }
 String.prototype.replaceAll = function(
     findText: string,
@@ -10,6 +16,20 @@ String.prototype.replaceAll = function(
 ): String {
     const regExp = new RegExp(findText, 'g');
     return this.replace(regExp, repText);
+};
+String.prototype.filter = function(char: string, type: string) {
+    if (char) {
+        if (type === 'left') {
+            return this.replace(new RegExp('^\\' + char + '+', 'g'), '');
+        } else if (type === 'right') {
+            return this.replace(new RegExp('\\' + char + '+$', 'g'), '');
+        }
+        return this.replace(
+            new RegExp('^\\' + char + '+|\\' + char + '+$', 'g'),
+            ''
+        );
+    }
+    return this.replace(/^\s+|\s+$/g, '');
 };
 
 //用法: 'hello{0}'.format('world')；返回'hello world'
@@ -21,7 +41,7 @@ var template2='我是{name}，今年{age}了';
 var result1=template1.format('loogn',22);
 var result2=template1.format({name:'loogn',age:22});
 */
-String.prototype.format = function(args): String {
+String.prototype.format = function(args): string {
     if (arguments.length > 0) {
         let result = this;
         if (arguments.length === 1 && typeof args === 'object') {
@@ -39,9 +59,9 @@ String.prototype.format = function(args): String {
                 }
             }
         }
-        return result;
+        return result.toString();
     } else {
-        return this;
+        return this.toString();
     }
 };
 

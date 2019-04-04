@@ -10,16 +10,25 @@
     "dependencies": {
         "@types/js-cookie": "^2.2.2",
         "@types/long": "^4.0.0",
+        "@types/nprogress": "0.0.29",
+        "@xkeshi/vue-qrcode": "xkeshi/vue-qrcode",
         "axios": "^0.18.0",
         "core-js": "^2.6.5",
         "downloadjs": "^1.4.7",
+        "element-ui": "^2.7.2",
+        "es6-promise": "^4.2.6",
+        "js-cookie": "^2.2.0",
         "long": "^4.0.0",
         "moment": "^2.24.0",
-        "vue": "^2.6.6",
+        "normalize.css": "^8.0.1",
+        "nprogress": "^0.2.0",
+        "register-service-worker": "^1.6.2",
+        "vue": "^2.6.10",
         "vue-class-component": "^6.0.0",
         "vue-property-decorator": "^8.0.0",
         "vue-router": "^3.0.1",
-        "vuex": "^3.0.1"
+        "vuex": "^3.0.1",
+        "vuex-module-decorators": "^0.9.8"
     },
     "devDependencies": {
         "@vue/cli-plugin-babel": "^3.5.0",
@@ -38,6 +47,8 @@
         "babel-preset-stage-2": "^6.24.1",
         "eslint": "^5.8.0",
         "eslint-plugin-vue": "^5.0.0",
+        "node-sass": "^4.11.0",
+        "sass-loader": "^7.1.0",
         "typescript": "^3.2.1",
         "vue-template-compiler": "^2.5.21"
     },
