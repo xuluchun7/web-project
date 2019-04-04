@@ -45,9 +45,8 @@
               <a href="javascript:;"
                  class="submit"
                  @click="onLoginClick">登 录</a>
-              <qrcode :value="qrcodeUrl"
-                      style="height: 100px;margin-top:-15px; margin-left: -650px;"
-                      :options="{ size: 170 }">凉烟生产</qrcode>
+              <canvas id="canvas"
+                      style="height: 100px !important;width:100px !important;margin-top:-60px; margin-left: -650px;">凉烟生产</canvas>
 
             </form>
           </div>
@@ -62,13 +61,13 @@
   </div>
 </template>
 
+
 <script lang="ts">
 import { setUser, getUser, setFiled } from "@/utils/userUtils";
 import { setToken } from "@/utils/cookieUtils";
 import Vue from "vue";
 import apiUser from "@/api/base/apiUser";
-import QRcode from "@xkeshi/vue-qrcode";
-
+import QRCode from "qrcode";
 export default Vue.extend({
   name: "home",
   data() {
@@ -84,11 +83,21 @@ export default Vue.extend({
     let user = getUser();
     this.remember = user.remember;
     this.username = user.username;
+    this.seqrcode();
   },
-  components: {
-    qrcode: QRcode
-  },
+  components: {},
   methods: {
+    seqrcode() {
+      var canvas = document.getElementById("canvas");
+      QRCode.toCanvas(
+        canvas,
+        window.location.origin + "/upload/app/" + process.env.VUE_APP_APK_NAME,
+        function(error) {
+          if (error) console.error(error);
+          console.log("QRCode success!");
+        }
+      );
+    },
     onLoginClick() {
       let that = this;
       apiUser

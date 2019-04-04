@@ -8,7 +8,7 @@ const Cookies = require('js-cookie');
 })
 export default class errorLog extends VuexModule {
     state = {
-        logs: []
+        logs: Array
     };
 
     @Mutation

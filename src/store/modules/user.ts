@@ -83,11 +83,7 @@ export default class user extends VuexModule {
     }
     @Mutation
     LOGOUT() {
-        this.user = {} as User;
-        let userData = getUser();
-        userData.index = '';
-        userData.systemId = undefined;
-        setUser(userData);
+        setUser(undefined);
         removeToken();
         removeSystemId();
     }

@@ -6,8 +6,8 @@ import store from '../index';
     store
 })
 export default class tagsView extends VuexModule {
-    visitedViews = [];
-    cachedViews = [];
+    visitedViews: Array<any> = [];
+    cachedViews: Array<any> = [];
     @Mutation
     ADD_VISITED_VIEWS(state: any, view: any) {
         if (state.visitedViews.some((v: any) => v.id === view.meta.id)) return;

@@ -1,11 +1,5 @@
 import { decodeCipher, encodeCipher } from './cryptoUtils';
-let user = {
-    username: '',
-    systemId: '',
-    index: '',
-    remember: true,
-    systemList: []
-};
+
 let UserKey = 'user';
 export function setFiled(filed: string, value: any) {
     //获取数据
