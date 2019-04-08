@@ -15,7 +15,7 @@ export default new Vuex.Store({
         // errorLog: getModule(errorLog),
         // permission: getModule(permission),
         // tagsView: getModule(tagsView),
-        // user: getModule(user)
+        user
     }
 });
 

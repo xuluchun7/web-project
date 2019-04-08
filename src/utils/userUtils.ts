@@ -36,5 +36,7 @@ export function getUser() {
 }
 
 export function setUser(user: any) {
-    localStorage.setItem(UserKey, encodeCipher(JSON.stringify(user)));
+    if (user === undefined || user === null) {
+        localStorage.removeItem(UserKey);
+    } else localStorage.setItem(UserKey, encodeCipher(JSON.stringify(user)));
 }

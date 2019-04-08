@@ -13,9 +13,9 @@ import { getUser, setUser } from '@/utils/userUtils';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import store from '../../index';
 @Module({
-    dynamic: true,
-    name: 'user',
-    store
+    // dynamic: true,
+    // name: 'user',
+    // store
 })
 export default class user extends VuexModule {
     /**

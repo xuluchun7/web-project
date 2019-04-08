@@ -71,7 +71,7 @@ new Vue({
                 if (window.location.pathname !== userData.index) {
                     window.location.href = userData.index;
                 } else {
-                    this.$store.dispatch('user/FedLogOut');
+                    this.$store.dispatch('FedLogOut');
                     this.loadingInstance.text =
                         '请确认权限是否正确，3秒后跳转到登陆界面';
                     console.log(this.$store);
@@ -83,7 +83,7 @@ new Vue({
                 this.loadingInstance.text =
                     '未获取到用户信息，3秒后跳转到登陆界面';
                 setTimeout(() => {
-                    this.$store.dispatch('user/FedLogOut');
+                    this.$store.dispatch('FedLogOut');
                     window.location.href = '/login.html';
                 }, 3000);
             }
