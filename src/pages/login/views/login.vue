@@ -68,6 +68,8 @@ import { setToken } from "@/utils/cookieUtils";
 import Vue from "vue";
 import { default as apiUser } from "@/api/base/apiUser";
 import QRCode from "qrcode";
+import app from "@/store/modules/core/app";
+import { getModule } from "vuex-module-decorators";
 export default Vue.extend({
   name: "home",
   data() {
@@ -92,13 +94,15 @@ export default Vue.extend({
       QRCode.toCanvas(
         canvas,
         window.location.origin + "/upload/app/" + process.env.VUE_APP_APK_NAME,
-        function(error:any) {
+        function(error: any) {
           if (error) console.error(error);
           console.log("QRCode success!");
         }
       );
     },
     onLoginClick() {
+      const app1 = getModule(app);
+      app1.setLanguage("aaa");
       let that = this;
       apiUser
         .loginByUserName(this.username, this.password)

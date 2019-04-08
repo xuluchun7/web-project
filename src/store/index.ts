@@ -6,16 +6,16 @@ import permission from './modules/core/permission';
 import tagsView from './modules/core/tagsView';
 import user from './modules/core/user';
 Vue.use(Vuex);
-
+import { getModule } from 'vuex-module-decorators';
 // store.ts
 export default new Vuex.Store({
     modules: {
-        /* 其余的store */
-        app,
-        errorLog,
-        permission,
-        tagsView,
-        user
+        // /* 其余的store */
+        // app: getModule(app),
+        // errorLog: getModule(errorLog),
+        // permission: getModule(permission),
+        // tagsView: getModule(tagsView),
+        // user: getModule(user)
     }
 });
 
