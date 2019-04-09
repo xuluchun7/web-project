@@ -1,12 +1,12 @@
 const _import = require('./_import_' + process.env.NODE_ENV);
 /* Layout */
-//import Layout from '@/components/Layout/Layout';
+import Layout from '@/components/Layout/Layout.vue';
 export default [
     { path: '/404', component: _import('errorPage/404'), hidden: true },
     { path: '/401', component: _import('errorPage/401'), hidden: true },
     {
         path: '',
-        //        component: Layout,
+        component: Layout,
         redirect: 'dashboard',
         children: [
             {

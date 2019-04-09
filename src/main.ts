@@ -34,8 +34,13 @@ new Vue({
         console.log(
             '当前系统时间:' + util.dateFormat(new Date(), 'YYYY-MM-DD HH:mm:ss')
         );
+        //如果直接进入登陆
+        if (window.location.pathname === '/login.html') {
+            this.$store.dispatch('FedLogOut');
+            window.location.href = window.location.pathname;
+        }
         //判定是否登陆，token存在，说明，已经登陆过，不验证是否有效
-        if (getToken()) {
+        else if (getToken()) {
             console.log('检测到令牌');
             //如果token有效，获取跳转界面，然后跳转界面
             let user = getUser();
@@ -73,7 +78,7 @@ new Vue({
                 } else {
                     this.$store.dispatch('FedLogOut');
                     this.loadingInstance.text =
-                        '请确认权限是否正确，3秒后跳转到登陆界面';
+                        '请确认权限是否正确，5秒后跳转到登陆界面';
                     console.log(this.$store);
                     setTimeout(() => {
                         window.location.href = '/login.html';
@@ -81,7 +86,7 @@ new Vue({
                 }
             } else {
                 this.loadingInstance.text =
-                    '未获取到用户信息，3秒后跳转到登陆界面';
+                    '未获取到用户信息，5秒后跳转到登陆界面';
                 setTimeout(() => {
                     this.$store.dispatch('FedLogOut');
                     window.location.href = '/login.html';
