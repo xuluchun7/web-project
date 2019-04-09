@@ -76,8 +76,8 @@ new Vue({
                         '请确认权限是否正确，3秒后跳转到登陆界面';
                     console.log(this.$store);
                     setTimeout(() => {
-                        //         window.location.href = '/login.html';
-                    }, 3000);
+                        window.location.href = '/login.html';
+                    }, 5000);
                 }
             } else {
                 this.loadingInstance.text =
@@ -85,7 +85,7 @@ new Vue({
                 setTimeout(() => {
                     this.$store.dispatch('FedLogOut');
                     window.location.href = '/login.html';
-                }, 3000);
+                }, 5000);
             }
             return userData;
         },

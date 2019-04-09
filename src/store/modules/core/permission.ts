@@ -25,10 +25,8 @@ function buildRouter(
         children: child
     };
 }
-
 const _import = require('@/router/_import_' + process.env.NODE_ENV);
 import { encodeCipher } from '@/utils/cryptoUtils';
-import router from '@/router';
 function ergodicMenuTree(item: Menu): Array<Route> {
     let cc: Array<Route> = [];
     if (item.leaf) {
@@ -104,12 +102,7 @@ function filterAsyncRouter(asyncRouterMap: Array<any>, roles: Array<any>) {
 }
 
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
-import store from '../../index';
-@Module({
-    dynamic: true,
-    name: 'permission',
-    store
-})
+@Module({})
 export default class permission extends VuexModule {
     routers: Array<Route> = [];
     addRouters: Array<Route> = [];

@@ -191,3 +191,8 @@ interface KeyValue {
     key: any;
     value: any;
 }
+interface JsonResult {
+    code: number;
+    message: string;
+    data: any;
+}

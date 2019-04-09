@@ -70,8 +70,11 @@ import { default as apiUser } from "@/api/base/apiUser";
 import QRCode from "qrcode";
 import app from "@/store/modules/core/app";
 import { getModule } from "vuex-module-decorators";
+import util from "../../../utils/util";
+
 export default Vue.extend({
-  name: "home",
+  name: "login",
+
   data() {
     return {
       username: "",
@@ -101,9 +104,18 @@ export default Vue.extend({
       );
     },
     onLoginClick() {
-      const app1 = getModule(app);
-      app1.setLanguage("aaa");
       let that = this;
+      if (
+        util.isNullOrEmpty(this.username) ||
+        util.isNullOrEmpty(this.password)
+      ) {
+        that.$notify({
+          title: "提示",
+          message: "用户名或者密码不能为空",
+          type: "warning"
+        });
+        return;
+      }
       apiUser
         .loginByUserName(this.username, this.password)
         .then((response: any) => {

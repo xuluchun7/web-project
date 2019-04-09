@@ -2,19 +2,16 @@ import { default as util } from '@/utils/util';
 import apiUser from '@/api/base/apiUser';
 import {
     getToken,
-    setToken,
     removeToken,
     getSystemId,
     removeSystemId,
-    setTokenExpire,
     setSystemId
 } from '@/utils/cookieUtils';
 import { getUser, setUser } from '@/utils/userUtils';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
-import store from '../../index';
 @Module({
     // dynamic: true,
-    // name: 'user',
+    name: 'user'
     // store
 })
 export default class user extends VuexModule {

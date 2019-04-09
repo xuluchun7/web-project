@@ -1,12 +1,7 @@
 const Cookies = require('js-cookie');
 
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
-import store from '../../index';
-@Module({
-    dynamic: true,
-    name: 'app',
-    store
-})
+@Module({})
 export default class app extends VuexModule {
     sidebar = {
         opened: !+Cookies.get('sidebarStatus')

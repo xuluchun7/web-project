@@ -1,10 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
-import store from '../../index';
-@Module({
-    dynamic: true,
-    name: 'tagsView',
-    store
-})
+@Module({})
 export default class tagsView extends VuexModule {
     visitedViews: Array<any> = [];
     cachedViews: Array<any> = [];
