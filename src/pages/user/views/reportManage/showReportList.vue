@@ -59,14 +59,17 @@
       </div>
       <div class='toolButton'
            style="min-width: 250px">
-       <el-button-group>
-          <el-button plain type='primary'
+        <el-button-group>
+          <el-button plain
+                     type='primary'
                      @click='onExpandClick'
                      v-show="showFilter">{{ $t('base.buttonFilter') }}</el-button>
-          <el-button plain type='primary'
+          <el-button plain
+                     type='primary'
                      @click='downloadXlsFile'
                      v-show="isExport">导出</el-button>
-          <el-button plain type='primary'
+          <el-button plain
+                     type='primary'
                      @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }}</el-button>
         </el-button-group>
       </div>
@@ -93,7 +96,7 @@ const path = require("path");
 
 import statisticApi from "../../api/online/apiStatistic";
 import statisticParamApi from "../../api/online/apiStatisticParam";
-
+import moment from "moment";
 export default {
   data() {
     return {
@@ -349,12 +352,12 @@ export default {
               this.$set(
                 this.searchData,
                 item.name,
-                this.dateFormat(new Date(), "yyyy-mm-dd")
+                moment(new Date()).format("YYYY-MM-DD")
               );
               this.$set(
                 this.templateData,
                 item.templateName,
-                this.dateFormat(new Date(), "yyyy-mm-dd")
+                moment(new Date()).format("YYYY-MM-DD")
               );
             } else if (item.type === "tobaccoType") {
               //烟叶类型组件

@@ -67,7 +67,7 @@
                            width="100"
                            v-if="false">
             <template slot-scope="scope">
-              {{dateFormat(scope.row.date,'yyyy-mm-dd')}}
+              {{scope.row.date| parseDate('YYYY-MM-DD')}}
             </template>
           </el-table-column>
           <!-- <el-table-column

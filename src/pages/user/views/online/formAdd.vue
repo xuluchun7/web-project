@@ -2,20 +2,25 @@
   <div class='mainPanel'>
     <div class='toolPanel'>
       <div class='queryCriteria'>
-        <el-button plain type='text'
+        <el-button plain
+                   type='text'
                    icon="el-icon-d-arrow-left"
                    @click="onBackClick()">{{ $t('base.buttonBack') }}</el-button>
       </div>
       <div class='toolButton'
            style="min-width: 300px">
-       <el-button-group>
-          <el-button plain type='primary'
+        <el-button-group>
+          <el-button plain
+                     type='primary'
                      @click="dialogVisible=true">{{ $t('onlineForm.buttonImport') }}</el-button>
-          <el-button plain type='primary'
+          <el-button plain
+                     type='primary'
                      @click="createProperty">{{ $t('onlineForm.buttonInsertField') }}</el-button>
-          <el-button plain type='primary'
+          <el-button plain
+                     type='primary'
                      @click="createForeignKey">{{ $t('onlineForm.buttonInsertForeigh') }}</el-button>
-          <el-button plain type="primary"
+          <el-button plain
+                     type="primary"
                      @click="onSubmitClick('formValidate')">{{ $t('base.buttonSubmit') }}
           </el-button>
         </el-button-group>
@@ -291,7 +296,8 @@
                                 effect="dark"
                                 :content="$t('base.buttonDelete')"
                                 placement="right">
-                      <el-button plain type="danger"
+                      <el-button plain
+                                 type="danger"
                                  size="small"
                                  @click="removeProperty(scope.row)"
                                  icon="el-icon-delete" />
@@ -479,8 +485,10 @@
 
           <span slot="footer"
                 class="dialog-footer">
-            <el-button plain @click="dialogVisible = false">取 消</el-button>
-            <el-button plain type="primary"
+            <el-button plain
+                       @click="dialogVisible = false">取 消</el-button>
+            <el-button plain
+                       type="primary"
                        @click="onImportTableClick">确 定</el-button>
           </span>
         </el-dialog>
@@ -499,7 +507,7 @@ import indexPanel from "./indexPanel.vue";
 import systemApi from "../../api/apiSystem";
 import formApi from "../../api/online/apiForm";
 import dataSourceApi from "../../api/online/apiDataSource";
-import dateFormat from "dateformat";
+import moment from "moment";
 import Sortable from "sortablejs";
 export default {
   props: ["visible"],
@@ -776,7 +784,7 @@ export default {
         canSearch: false, //是否可以查询
         searchType: "EQ", //查询类型
         index:
-          dateFormat(new Date(), "yyyymmddHHMMss") +
+          moment(new Date()).format("YYYYMMDDhhmmss") +
           Math.ceil(Math.random() * 100), //序号
         _edit: true //用于属性编辑状态
       };
@@ -793,7 +801,7 @@ export default {
         fetchType: "FetchType.EAGER", //连接方法
         _edit: true,
         index:
-          dateFormat(new Date(), "yyyymmddHHMMss") +
+          moment(new Date()).format("YYYYMMDDhhmmss") +
           Math.ceil(Math.random() * 100) //序号
       };
       this.formItem.foreignKeyList.push(property);

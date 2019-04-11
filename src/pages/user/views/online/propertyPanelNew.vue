@@ -184,7 +184,7 @@
 </template>
 <script>
 import Sortable from "sortablejs";
-import dateFormat from "dateformat";
+import moment from "moment";
 import formApi from "../../api/online/apiForm";
 export default {
   props: ["tableId"],
@@ -371,7 +371,7 @@ export default {
         canSearch: false, //是否可以查询
         searchType: "EQ", //查询类型
         index:
-          dateFormat(new Date(), "yyyymmddHHMMss") +
+          moment(new Date()).format("YYYYMMDDhhmmss") +
           Math.ceil(Math.random() * 100), //序号
         _edit: true //用于属性编辑状态
       };

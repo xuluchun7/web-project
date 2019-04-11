@@ -4,18 +4,22 @@
        element-loading-text="拼命加载中">
     <div class='toolPanel'>
       <div class='queryCriteria'>
-        <el-button plain type='text'
+        <el-button plain
+                   type='text'
                    icon="el-icon-d-arrow-left"
                    @click="onBackClick()">{{ $t('base.buttonBack') }}</el-button>
       </div>
       <div class='toolButton'
            style="min-width: 300px">
-       <el-button-group>
-          <el-button plain type='primary'
+        <el-button-group>
+          <el-button plain
+                     type='primary'
                      @click="creatProperty">{{ $t('onlineForm.buttonInsertField') }}</el-button>
-          <el-button plain type='primary'
+          <el-button plain
+                     type='primary'
                      @click="creatForeignKey">{{ $t('onlineForm.buttonInsertForeigh') }}</el-button>
-          <el-button plain type="primary"
+          <el-button plain
+                     type="primary"
                      @click="onSubmitClick('formValidate')">{{ $t('base.buttonSubmit') }}
           </el-button>
         </el-button-group>
@@ -292,7 +296,8 @@
                                 effect="dark"
                                 :content="$t('base.buttonDelete')"
                                 placement="right">
-                      <el-button plain type="danger"
+                      <el-button plain
+                                 type="danger"
                                  size="small"
                                  @click="removeProperty(scope.row)"
                                  icon="el-icon-delete" />
@@ -441,7 +446,8 @@ import foreignKeyPanel from "./foreignKeyPanel.vue";
 import indexPanel from "./indexPanel.vue";
 import systemApi from "../../api/apiSystem";
 import formApi from "../../api/online/apiForm";
-import dateFormat from "dateformat";
+import montent from "moment";
+
 import Sortable from "sortablejs";
 export default {
   props: ["tableId", "visible"],
@@ -642,7 +648,7 @@ export default {
         canSearch: false, //是否可以查询
         searchType: "EQ", //查询类型
         index:
-          dateFormat(new Date(), "yyyymmddHHMMss") +
+          moment(new Date()).format("YYYYMMDDhhmmss") +
           Math.ceil(Math.random() * 100), //序号
         _edit: true //用于属性编辑状态
       };
@@ -659,7 +665,7 @@ export default {
         fetchType: "FetchType.EAGER", //连接方法
         _edit: true,
         index:
-          dateFormat(new Date(), "yyyymmddHHMMss") +
+          moment(new Date()).format("YYYYMMDDhhmmss") +
           Math.ceil(Math.random() * 100) //序号
       };
       this.formItem.foreignKeyList.push(property);
