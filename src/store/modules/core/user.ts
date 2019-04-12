@@ -53,7 +53,7 @@ export default class user extends VuexModule {
     this.user.loginName = userInfo.user.loginName;
     this.user.roles = userInfo.roles;
     this.user.menus = userInfo.menus;
-    this.user.permissions = userInfo.propertys;
+    this.user.permissions = userInfo.permissions;
     if (
       userInfo.propertys !== undefined &&
       !util.isNullOrEmpty(userInfo.propertys.avatar)

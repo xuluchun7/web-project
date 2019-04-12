@@ -19,9 +19,9 @@ function buildRouter(
     path: '/',
     name: 'aes' + encodeCipher(system.entry),
     meta: { title: system.name, id: 'root' },
-    // component: (resolve: any) => {
-    //     require(['@/components/Layout/Layout.vue'], resolve);
-    // },
+    component: (resolve: any) => {
+      require(['@/components/Layout/Layout.vue'], resolve);
+    },
     children: child
   };
 }
@@ -109,11 +109,11 @@ export default class permission extends VuexModule {
   routers: Array<Route> = [];
   addRouters: Array<Route> = [];
   @Mutation
-  SET_ROUTERS(state: any, routers: Array<Route>) {
-    state.addRouters = routers;
+  SET_ROUTERS(routers: Array<Route>) {
+    this.addRouters = routers;
     //console.log(store.state.router);
     //state.routers = store.state.constantRouterMap.concat(routers);
-    state.routers = routers;
+    this.routers = routers;
   }
 
   @Action({ commit: 'SET_ROUTERS' })
