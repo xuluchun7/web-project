@@ -13,6 +13,10 @@
 <script>
 import Vue from "vue";
 import { Navbar, Sidebar, AppMain, TagsView, Tabs } from "./components";
+import { getModule } from "vuex-module-decorators";
+import store from "@/store/index";
+import App from "@/store/modules/core/app";
+const app = getModule(App, store);
 export default Vue.extend({
   name: "layout",
   components: {
@@ -24,7 +28,7 @@ export default Vue.extend({
   },
   computed: {
     sidebar() {
-      return this.$store.state.app.sidebar;
+      return app.sidebar;
     }
   }
 });

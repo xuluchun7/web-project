@@ -72,7 +72,8 @@
       </el-select>
     </el-form-item>
     <el-form-item>
-      <el-button plain v-show='isEdit'
+      <el-button plain
+                 v-show='isEdit'
                  type="primary"
                  style="float: right"
                  @click="onSubmitClick('formValidate')">
@@ -82,7 +83,7 @@
   </el-form>
 </template>
 <script>
-import userApi from "@/api/base/apiUser";
+import userApi from "../../api/apiUser";
 import districtApi from "@/api/xbasic/apiDistrict";
 export default {
   props: ["item", "isEdit", "visible"],

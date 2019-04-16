@@ -193,7 +193,7 @@ const AssignRole = () => import("./assignRole.vue");
 const AssignMenu = () => import("./assignMenu.vue");
 const AssignOrginization = () => import("./assignOrginization.vue");
 const AssignUserInfoExt = () => import("./assignUserInfoExt.vue");
-import userApi from "@/api/base/apiUser";
+import userApi from "../../api/apiUser";
 import organizationApi from "@/api/xbasic/apiOrganization";
 
 export default {
@@ -242,7 +242,7 @@ export default {
       .then(([organizationResponse, orgResponse]) => {
         this.organizationList = organizationResponse;
       })
-      .catch(error => { });
+      .catch(error => {});
   },
   components: {
     "add-form": AddForm,
@@ -292,7 +292,7 @@ export default {
           this.formData.selectRow = null;
           this.onSearchButtonClick();
         })
-        .catch(error => { });
+        .catch(error => {});
     },
     deleteButtonConfirm() {
       this.$confirm(
@@ -338,7 +338,7 @@ export default {
           this.formData.userList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
         })
-        .catch(error => { });
+        .catch(error => {});
     },
 
     onPageChange(index) {

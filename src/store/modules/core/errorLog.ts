@@ -1,7 +1,9 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
-@Module({})
+@Module({
+  name: 'errorLog'
+})
 export default class errorLog extends VuexModule {
-  logs: Array<any>;
+  logs: Array<any> = [];
 
   @Mutation
   ADD_ERROR_LOG(log: Array<any>) {

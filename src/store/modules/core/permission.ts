@@ -17,7 +17,8 @@ function buildRouter(
   }
   return {
     path: '/',
-    name: 'aes' + encodeCipher(system.entry),
+    //name: 'aes' + encodeCipher(system.entry),
+    // name: 'aes' + (system.entry),
     meta: { title: system.name, id: 'root' },
     component: (resolve: any) => {
       require(['@/components/Layout/Layout.vue'], resolve);
@@ -59,7 +60,7 @@ function ergodicMenuTree(item: Menu): Array<Route> {
   } else {
     let entity: any = {
       path: item.url.filter('/', ''),
-      name: 'aes' + encodeCipher(item.url),
+      //name: 'aes' + encodeCipher(item.url),
       meta: { title: item.title, icon: item.icon, id: item.id }
     };
     cc.push(entity);

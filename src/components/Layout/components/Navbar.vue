@@ -41,7 +41,7 @@
         <div class="avatar-wrapper">
           <span class="el-dropdown-link userinfo-inner"
                 style="color:black">
-            {{$store.state.user.userName}}
+            {{username}}
             <i class="el-icon-arrow-down el-icon--right" />
           </span>
         </div>
@@ -90,7 +90,12 @@ import API from "@/api/base/apiUser";
 import ChangePassword from "@/components/Profile/changePassword.vue";
 import personal from "@/components/Profile/personal.vue";
 import { getSystemId, setSystemId } from "@/utils/cookieUtils";
-
+import store from "@/store/index";
+import App from "@/store/modules/core/app";
+import User from "@/store/modules/core/user";
+import { getModule } from "vuex-module-decorators";
+const app = getModule(App, store);
+const user = getModule(User, store);
 export default {
   data() {
     return {
@@ -110,7 +115,26 @@ export default {
     personal
   },
   computed: {
-    ...mapGetters(["sidebar", "name", "avatar"])
+    sidebar() {
+      return app.sidebar;
+    },
+    avatar() {
+      user.user.avatar;
+
+      if (util.isNullOrEmpty(user.user.avatar)) {
+        return "@/styles/image/head.jpg";
+      } else {
+        return user.user.avatar;
+      }
+    },
+    username() {
+      let length = user.user.userName.length;
+      if (length <= 7) {
+        return user.user.userName;
+      } else {
+        return user.user.userName.slice(0, 6) + "...";
+      }
+    }
   },
   created() {
     this.updateTime();
@@ -125,6 +149,7 @@ export default {
   },
   methods: {
     toggleSideBar() {
+      console.log(this.$store);
       this.$store.dispatch("toggleSideBar");
     },
     logout() {

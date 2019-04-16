@@ -7,7 +7,21 @@ import {
   removeSystemId,
   setSystemId
 } from '@/utils/cookieUtils';
-import { getUser, setUser } from '@/utils/userUtils';
+const searchTree = (item, id) => {
+  if (item.id === id) {
+    return item;
+  } else if (item.child != null) {
+    var i;
+    var result = null;
+    for (i = 0; result == null && i < item.child.length; i++) {
+      result = searchTree(item.child[i], id);
+    }
+    return result;
+  }
+  return null;
+};
+
+import { setUser } from '@/utils/userUtils';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 @Module({
   // dynamic: true,
@@ -121,9 +135,32 @@ export default class user extends VuexModule {
       });
     }
   }
+
   @Action({ commit: 'LOGOUT' })
   LogOut() { }
   // 强制
   @Action({ commit: 'LOGOUT' })
   FedLogOut() { }
+  @Action
+  async getTitleList(path) {
+    var item;
+    for (var menu of this.user.menus) {
+      item = searchTree(menu, path);
+      if (item !== null) {
+        break;
+      }
+    }
+    const titleList = [];
+    if (item !== undefined && item !== null) {
+      if (item.ancestry !== undefined && item.ancestry.length > 0) {
+        const ancestryArray = JSON.parse(item.ancestry);
+        for (var it of ancestryArray) {
+          titleList.push(it.title);
+        }
+      }
+      titleList.push(item.title);
+    }
+    return titleList;
+  }
+
 }

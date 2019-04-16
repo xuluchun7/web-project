@@ -158,6 +158,13 @@ import ScrollBar from "@/components/ScrollBar";
 import API from "@/api/base/apiUser";
 import { getUser, setUser } from "@/utils/userUtils";
 import { setSystemId } from "@/utils/cookieUtils";
+import store from "@/store/index";
+import App from "@/store/modules/core/app";
+import User from "@/store/modules/core/user";
+import { getModule } from "vuex-module-decorators";
+import util from "../../../../utils/util";
+const app = getModule(App, store);
+const user = getModule(User, store);
 export default {
   data() {
     return {
@@ -166,54 +173,50 @@ export default {
   },
   components: { SidebarItem, ScrollBar },
   computed: {
-    ...mapGetters(["menus", "sidebar"]),
     isCollapse() {
-      return !this.sidebar.opened;
+      return !app.sidebar.opened;
+    },
+    menus() {
+      return user.user.menus;
     },
     systemName() {
       return this.$store.getters.system.title;
     },
     username() {
-      let length = this.$store.getters.user.userName.length;
+      let length = user.user.userName.length;
       if (length <= 7) {
-        return this.$store.getters.user.userName;
+        return user.user.userName;
       } else {
-        return this.$store.getters.user.userName.slice(0, 6) + "...";
+        return user.user.userName.slice(0, 6) + "...";
       }
     },
     organization() {
-      if (!this.$store.getters.user.organization) {
+      if (!user.user.organization) {
         return "未设置组织单位";
       }
-      let length = this.$store.getters.user.organization.organizationName
-        .length;
+      let length = user.user.organization.name.length;
       if (length <= 7) {
-        return this.$store.getters.user.organization.organizationName;
+        return user.user.organization.name;
       } else {
-        return (
-          this.$store.state.user.organization.organizationName.slice(0, 8) +
-          "..."
-        );
+        return user.user.organization.name.slice(0, 8) + "...";
       }
     },
     organization2() {
-      if (!this.$store.state.user.organization) {
+      if (!user.user.organization) {
         return "未设置组织单位";
       }
-      return this.$store.state.user.organization.organizationName;
+      return user.user.organization.name;
     },
     banner() {
       return this.$store.state.user.system.banner;
     },
     avatar() {
-      let length = this.$store.getters.user.avatar.length;
-      if (
-        this.$store.getters.user.avatar === undefined ||
-        this.$store.getters.user.avatar === ""
-      ) {
+      user.user.avatar;
+
+      if (util.isNullOrEmpty(user.user.avatar)) {
         return "@/styles/image/head.jpg";
       } else {
-        return this.$store.getters.user.avatar;
+        return user.user.avatar;
       }
     }
   },
