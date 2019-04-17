@@ -15,7 +15,10 @@
 <script>
 import { generateTitle } from "@/utils/i18n";
 import { mapGetters } from "vuex";
-
+import store from "@/store/index";
+import User from "@/store/modules/core/user";
+import { getModule } from "vuex-module-decorators";
+const user = getModule(User, store);
 export default {
   created() {
     this.getBreadcrumb();
@@ -30,9 +33,7 @@ export default {
       this.getBreadcrumb();
     }
   },
-  computed: {
-    ...mapGetters(["getTitleList"])
-  },
+
   methods: {
     generateTitle,
     getBreadcrumb() {
@@ -44,7 +45,9 @@ export default {
         }
         */
       if (this.$route.meta !== undefined && this.$route.meta.id !== undefined) {
-        this.levelList = this.getTitleList(this.$route.meta.id);
+        user.getTitleList(this.$route.meta.id).then(titleList => {
+          this.levelList = titleList;
+        });
       } else {
         this.levelList = [];
       }

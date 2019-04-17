@@ -41,7 +41,7 @@
         <div class="avatar-wrapper">
           <span class="el-dropdown-link userinfo-inner"
                 style="color:black">
-            {{$store.state.user.userName}}
+            {{username}}
             <i class="el-icon-arrow-down el-icon--right" />
           </span>
         </div>
@@ -90,7 +90,12 @@ import API from "@/api/base/apiUser";
 import ChangePassword from "@/components/Profile/changePassword.vue";
 import personal from "@/components/Profile/personal.vue";
 import { getSystemId, setSystemId } from "@/utils/cookieUtils";
-
+import store from "@/store/index";
+import App from "@/store/modules/core/app";
+import User from "@/store/modules/core/user";
+import { getModule } from "vuex-module-decorators";
+const app = getModule(App, store);
+const user = getModule(User, store);
 export default {
   data() {
     return {
@@ -110,7 +115,26 @@ export default {
     personal
   },
   computed: {
-    ...mapGetters(["sidebar", "name", "avatar"])
+    sidebar() {
+      return app.sidebar;
+    },
+    avatar() {
+      user.user.avatar;
+
+      if (util.isNullOrEmpty(user.user.avatar)) {
+        return "@/styles/image/head.jpg";
+      } else {
+        return user.user.avatar;
+      }
+    },
+    username() {
+      let length = user.user.userName.length;
+      if (length <= 7) {
+        return user.user.userName;
+      } else {
+        return user.user.userName.slice(0, 6) + "...";
+      }
+    }
   },
   created() {
     this.updateTime();
@@ -125,6 +149,7 @@ export default {
   },
   methods: {
     toggleSideBar() {
+      console.log(this.$store);
       this.$store.dispatch("toggleSideBar");
     },
     logout() {
@@ -182,89 +207,5 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-.navbar {
-  height: 50px;
-  line-height: 50px;
-  border-radius: 0px !important;
-  background: lightseagreen;
-  .hamburger-container {
-    line-height: 58px;
-    height: 50px;
-    float: left;
-    padding: 0 10px;
-  }
-  .breadcrumb-container {
-    float: left;
-  }
-  .errLog-container {
-    display: inline-block;
-    vertical-align: top;
-  }
-  .right-menu {
-    float: right;
-    height: 100%;
-    &:focus {
-      outline: none;
-    }
-    .right-menu-item {
-      display: inline-block;
-      margin: 0 8px;
-    }
-    .screenfull {
-      height: 20px;
-    }
-    .international {
-      vertical-align: top;
-    }
-    .theme-switch {
-      vertical-align: 15px;
-    }
-    .avatar-container {
-      height: 50px;
-      margin-right: 30px;
-      .avatar-wrapper {
-        cursor: pointer;
-        margin-top: 5px;
-        position: relative;
-        .user-avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
-        }
-        .el-icon-caret-bottom {
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
-        }
-      }
-    }
-  }
-}
-
-#clock {
-  font-family: "Share Tech Mono", monospace;
-  color: #000;
-  text-align: center;
-  //text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);
-  display: inline;
-  margin-right: 10px;
-}
-
-#clock .time {
-  letter-spacing: 0.05em;
-  font-size: 14px;
-  padding: 5px 0;
-}
-
-#clock .date {
-  letter-spacing: 0.1em;
-  font-size: 14px;
-}
-
-#clock .text {
-  letter-spacing: 0.1em;
-  font-size: 14px;
-  padding: 20px 0 0;
-}
+@import "src/styles/mixin.scss";
 </style>

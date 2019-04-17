@@ -1,86 +1,9 @@
-<style scoped>
-.systemIcon {
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: inline-block;
-  width: 200px;
-  /*text-align: center;*/
-  background: #ffffff;
-  /*padding: 15px 0px 15px 0px;*/
-  margin: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  z-index: 9999;
-  height: 50px !important;
-  text-align: center;
-  padding: 5px;
-  background: lightseagreen;
-}
-.systemIcon img {
-  width: 190px;
-}
-.userPart {
-  margin-top: 50px;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  white-space: nowrap;
-  height: 57px;
-  color: #4a4a4a;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-.user-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 160px;
-  padding: 0px;
-}
-.profile-image {
-  width: 40px;
-  height: 40px;
-}
-.profile-image img {
-  display: inline-block;
-  max-width: 100%;
-  vertical-align: middle;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  opacity: 0.5;
-}
-.text-wrapper {
-  margin-left: 15px;
-  line-height: 1;
-  font-size: 13px;
-  font-family: "Poppins", sans-serif;
-}
-.profile-name {
-  font-weight: 500;
-  margin-top: 4px;
-  margin-bottom: 8px;
-  font-size: 18px;
-  color: black;
-}
-.designation {
-  color: black !important;
-}
-</style>
+
 <template>
   <div>
     <router-link to="/dashboard"
                  v-show="!isCollapse">
-      <h1 class="systemIcon">
+      <h1 class="banner">
         <img src="@/styles/image/logo.png"
              alt="systemLogo"
              style="width: auto;	height: auto;	max-width: 100%;	max-height: 100%;">
@@ -158,6 +81,13 @@ import ScrollBar from "@/components/ScrollBar";
 import API from "@/api/base/apiUser";
 import { getUser, setUser } from "@/utils/userUtils";
 import { setSystemId } from "@/utils/cookieUtils";
+import store from "@/store/index";
+import App from "@/store/modules/core/app";
+import User from "@/store/modules/core/user";
+import { getModule } from "vuex-module-decorators";
+import util from "../../../../utils/util";
+const app = getModule(App, store);
+const user = getModule(User, store);
 export default {
   data() {
     return {
@@ -166,54 +96,50 @@ export default {
   },
   components: { SidebarItem, ScrollBar },
   computed: {
-    ...mapGetters(["menus", "sidebar"]),
     isCollapse() {
-      return !this.sidebar.opened;
+      return !app.sidebar.opened;
+    },
+    menus() {
+      return user.user.menus;
     },
     systemName() {
       return this.$store.getters.system.title;
     },
     username() {
-      let length = this.$store.getters.user.userName.length;
+      let length = user.user.userName.length;
       if (length <= 7) {
-        return this.$store.getters.user.userName;
+        return user.user.userName;
       } else {
-        return this.$store.getters.user.userName.slice(0, 6) + "...";
+        return user.user.userName.slice(0, 6) + "...";
       }
     },
     organization() {
-      if (!this.$store.getters.user.organization) {
+      if (!user.user.organization) {
         return "未设置组织单位";
       }
-      let length = this.$store.getters.user.organization.organizationName
-        .length;
+      let length = user.user.organization.name.length;
       if (length <= 7) {
-        return this.$store.getters.user.organization.organizationName;
+        return user.user.organization.name;
       } else {
-        return (
-          this.$store.state.user.organization.organizationName.slice(0, 8) +
-          "..."
-        );
+        return user.user.organization.name.slice(0, 8) + "...";
       }
     },
     organization2() {
-      if (!this.$store.state.user.organization) {
+      if (!user.user.organization) {
         return "未设置组织单位";
       }
-      return this.$store.state.user.organization.organizationName;
+      return user.user.organization.name;
     },
     banner() {
       return this.$store.state.user.system.banner;
     },
     avatar() {
-      let length = this.$store.getters.user.avatar.length;
-      if (
-        this.$store.getters.user.avatar === undefined ||
-        this.$store.getters.user.avatar === ""
-      ) {
+      user.user.avatar;
+
+      if (util.isNullOrEmpty(user.user.avatar)) {
         return "@/styles/image/head.jpg";
       } else {
-        return this.$store.getters.user.avatar;
+        return user.user.avatar;
       }
     }
   },
@@ -238,7 +164,7 @@ export default {
   }
 };
 </script>
-<style>
+<style  >
 .icon-cus {
   margin-right: 5px;
   font-size: 16px;
@@ -251,15 +177,5 @@ export default {
   line-height: 1;
   display: inline-block;
   -webkit-font-smoothing: antialiased;
-}
-.systemBanner {
-  text-align: center;
-  font-size: 30px;
-  font-weight: bold;
-  margin: 10px;
-}
-.more-system {
-  font-size: 14px;
-  color: #fff;
 }
 </style>
