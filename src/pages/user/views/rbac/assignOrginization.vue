@@ -8,11 +8,11 @@
   <el-form label-width='80px'
            ref='formValidate'
            :rules='ruleValidate'>
-    <el-form-item :label="$t(' user.loginName')">
+    <el-form-item :label="$t('user.name')">
       <span>{{ displayName}}</span>
     </el-form-item>
 
-    <el-form-item :label="$t(' user.belongSystem')">
+    <el-form-item :label="$t('user.belongSystem')">
       <el-select v-model='formData.systemId'
                  @change='onSystemChanged'
                  style="width:100%">
@@ -25,13 +25,13 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item :label="$t(' user.orginization')">
+    <el-form-item :label="$t('user.orginization')">
       <organization-form root="0"
                          style="width:100%"
                          :code.sync="formData.organizationId"
                          :name.sync="formData.organizationName" />
     </el-form-item>
-    <el-form-item :label="$t(' user.station')">
+    <el-form-item :label="$t('user.station')">
       <el-select style="width:100%"
                  v-model="formData.stationId"
                  @change='onStationChanged'
@@ -46,7 +46,7 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item :label="$t(' user.exsitOrginization')">
+    <el-form-item :label="$t('user.exsitOrginization')">
       <el-table highlight-current-row
                 border
                 style="width: 100%"
@@ -78,14 +78,14 @@
                  type='primary'
                  size='large'
                  style="float: right"
-                 @click="onSubmitClick(' formValidate')">{{ $t('base.buttonAdd') }}
+                 @click="onSubmitClick(' formValidate')">{{ $t('base.buttonInsert') }}
       </el-button>
     </el-form-item>
   </el-form>
 </template>
 <script>
 import systemApi from "../../api/apiSystem";
-import userApi from "@/api/base/apiUser";
+import { default as userApi } from "../../api/apiUser.ts";
 const OrganizationForm = () => import("@/components/Organization");
 export default {
   props: ["userId", "loginName", "displayName"],

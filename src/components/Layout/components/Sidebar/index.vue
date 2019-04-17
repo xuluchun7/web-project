@@ -1,86 +1,9 @@
-<style scoped>
-.systemIcon {
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: inline-block;
-  width: 200px;
-  /*text-align: center;*/
-  background: #ffffff;
-  /*padding: 15px 0px 15px 0px;*/
-  margin: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  z-index: 9999;
-  height: 50px !important;
-  text-align: center;
-  padding: 5px;
-  background: lightseagreen;
-}
-.systemIcon img {
-  width: 190px;
-}
-.userPart {
-  margin-top: 50px;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  white-space: nowrap;
-  height: 57px;
-  color: #4a4a4a;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-.user-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 160px;
-  padding: 0px;
-}
-.profile-image {
-  width: 40px;
-  height: 40px;
-}
-.profile-image img {
-  display: inline-block;
-  max-width: 100%;
-  vertical-align: middle;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  opacity: 0.5;
-}
-.text-wrapper {
-  margin-left: 15px;
-  line-height: 1;
-  font-size: 13px;
-  font-family: "Poppins", sans-serif;
-}
-.profile-name {
-  font-weight: 500;
-  margin-top: 4px;
-  margin-bottom: 8px;
-  font-size: 18px;
-  color: black;
-}
-.designation {
-  color: black !important;
-}
-</style>
+
 <template>
   <div>
     <router-link to="/dashboard"
                  v-show="!isCollapse">
-      <h1 class="systemIcon">
+      <h1 class="banner">
         <img src="@/styles/image/logo.png"
              alt="systemLogo"
              style="width: auto;	height: auto;	max-width: 100%;	max-height: 100%;">
@@ -241,7 +164,7 @@ export default {
   }
 };
 </script>
-<style>
+<style  >
 .icon-cus {
   margin-right: 5px;
   font-size: 16px;
@@ -254,15 +177,5 @@ export default {
   line-height: 1;
   display: inline-block;
   -webkit-font-smoothing: antialiased;
-}
-.systemBanner {
-  text-align: center;
-  font-size: 30px;
-  font-weight: bold;
-  margin: 10px;
-}
-.more-system {
-  font-size: 14px;
-  color: #fff;
 }
 </style>

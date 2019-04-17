@@ -20,7 +20,8 @@
                  filterable
                  @change='transferOnChange'>
       <div :style="{float: 'right', margin: '5px'}">
-        <el-button plain type='ghost'
+        <el-button plain
+                   type='ghost'
                    size='small'
                    @click='reloadMockData'>刷新</el-button>
       </div>
@@ -30,7 +31,7 @@
 </template>
 <script>
 import roleApi from "../../api/apiRole";
-import userApi from "@/api/base/apiUser";
+import { default as userApi } from "../../api/apiUser.ts";
 
 export default {
   props: ["userId"],

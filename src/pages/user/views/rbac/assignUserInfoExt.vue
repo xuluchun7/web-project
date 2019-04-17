@@ -22,7 +22,8 @@
     </el-form-item>
 
     <el-form-item>
-      <el-button plain type="primary"
+      <el-button plain
+                 type="primary"
                  size="large"
                  style="float: right"
                  @click="onSubmitClick('formValidate')">{{ $t('base.buttonSave') }}
@@ -32,7 +33,7 @@
 </template>
 <script>
 import propertyApi from "../../api/apiProperty";
-import userApi from "@/api/base/apiUser";
+import { default as userApi } from "../../api/apiUser.ts";
 import districtApi from "@/api/xbasic/apiDistrict";
 
 export default {

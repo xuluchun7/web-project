@@ -81,7 +81,7 @@
 <script>
 import orginizationApi from "@/api/xbasic/apiOrganization";
 import districtApi from "@/api/xbasic/apiDistrict";
-import userApi from "@/api/base/apiUser";
+import { default as userApi } from "../../api/apiUser.ts";
 export default {
   data() {
     return {

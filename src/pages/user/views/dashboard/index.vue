@@ -1,6 +1,9 @@
 <template>
   <div class='mainPanel'>
-    <span style="font-size:60px;text-align: center">欢迎使用</span>
+    <main class='contentPanel'
+          style="font-size:60px;text-align: center">
+      <span>欢迎使用</span>
+    </main>
 
   </div>
 

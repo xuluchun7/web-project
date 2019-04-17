@@ -82,8 +82,8 @@
     </el-form-item>
   </el-form>
 </template>
-<script>
-import userApi from "../../api/apiUser";
+<script >
+import { default as userApi } from "../../api/apiUser.ts";
 import districtApi from "@/api/xbasic/apiDistrict";
 export default {
   props: ["item", "isEdit", "visible"],

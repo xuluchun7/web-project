@@ -12,6 +12,7 @@ import App from '@/App.vue';
 import router from '@/router/index';
 import store from '@/store/index';
 import i18n from '@/lang/index'; // 国际化
+import cusLang from './lang';//加载应用中的国际化
 import '@/utils/stringUtils';
 import '@/registerServiceWorker';
 import '@/utils/util';
@@ -25,6 +26,7 @@ import utilsPlugin from '@/utils/utilsPlugin';
 import fullscreen from '@/directive/el-fullscreenDialog';
 import center from '@/directive/el-centerDialog';
 import * as langFilters from '../../filters/langFilters';
+
 Vue.config.productionTip = false;
 Vue.use(utilsPlugin);
 Vue.use(fullscreen);
@@ -43,9 +45,9 @@ Object.keys(filters).forEach(key => {
 Object.keys(langFilters).forEach(key => {
   Vue.filter(key, langFilters[key]);
 });
-i18n.mergeLocaleMessage('zh', require('./lang/rbac.js').default);
-i18n.mergeLocaleMessage('zh', require('./lang/online.js').default);
-i18n.mergeLocaleMessage('zh', require('./lang/oauth.js').default);
+Object.keys(cusLang).forEach(key => {
+  i18n.mergeLocaleMessage('zh', cusLang[key]);
+});
 
 new Vue({
   router,

@@ -186,14 +186,14 @@
     </template>
   </div>
 </template>
-<script>
+<script >
 const AddForm = () => import("./userAdd.vue");
 const EditForm = () => import("./userEdit.vue");
 const AssignRole = () => import("./assignRole.vue");
 const AssignMenu = () => import("./assignMenu.vue");
 const AssignOrginization = () => import("./assignOrginization.vue");
 const AssignUserInfoExt = () => import("./assignUserInfoExt.vue");
-import userApi from "../../api/apiUser";
+import { default as userApi } from "../../api/apiUser.ts";
 import organizationApi from "@/api/xbasic/apiOrganization";
 
 export default {
@@ -283,7 +283,7 @@ export default {
         return;
       }
 
-      Promise.all([userApi.deleteUser(this.formData.selectRow.id)])
+      Promise.all([userApi.delete(this.formData.selectRow.id)])
         .then(([response]) => {
           this.$message({
             type: "info",

@@ -41,7 +41,8 @@
                 <i class="android-checkbox-outline"></i>
                 <span>{{$t('base.allSelect')}}</span>
               </el-checkbox>
-              <el-button plain type="ghost"
+              <el-button plain
+                         type="ghost"
                          icon="iconfont el-iconfont-brush"
                          @click="onSubmitElementClick('')"
                          style="float: right"
@@ -67,7 +68,8 @@
     </el-row>
     <el-form-item>
 
-      <el-button plain type="primary"
+      <el-button plain
+                 type="primary"
                  style="float: right"
                  @click="onSubmitMenuClick('formValidate')">{{ $t('base.buttonSave') }}
       </el-button>
@@ -77,7 +79,7 @@
 <script>
 import systemApi from "../../api/apiSystem";
 import menuApi from "../../api/apiMenu";
-import userApi from "@/api/base/apiUser";
+import { default as userApi } from "../../api/apiUser.ts";
 
 export default {
   props: ["roleId", "roleType"],

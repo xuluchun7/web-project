@@ -1,0 +1,85 @@
+.navbar {
+  height: $titlebarHeight+1;
+  line-height: $titlebarHeight;
+  border-radius: 0px !important;
+  background: lightseagreen;
+  .hamburger-container {
+    line-height: 58px;
+    height: 50px;
+    float: left;
+    padding: 0 10px;
+  }
+  .breadcrumb-container {
+    float: left;
+  }
+  .errLog-container {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .right-menu {
+    float: right;
+    height: 100%;
+    &:focus {
+      outline: none;
+    }
+    .right-menu-item {
+      display: inline-block;
+      margin: 0 8px;
+    }
+    .screenfull {
+      height: 20px;
+    }
+    .international {
+      vertical-align: top;
+    }
+    .theme-switch {
+      vertical-align: 15px;
+    }
+    .avatar-container {
+      height: 50px;
+      margin-right: 30px;
+      .avatar-wrapper {
+        cursor: pointer;
+        margin-top: 5px;
+        position: relative;
+        .user-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+        }
+        .el-icon-caret-bottom {
+          position: absolute;
+          right: -20px;
+          top: 25px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+#clock {
+  font-family: "Share Tech Mono", monospace;
+  color: #000;
+  text-align: center;
+  //text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);
+  display: inline;
+  margin-right: 10px;
+}
+
+#clock .time {
+  letter-spacing: 0.05em;
+  font-size: 14px;
+  padding: 5px 0;
+}
+
+#clock .date {
+  letter-spacing: 0.1em;
+  font-size: 14px;
+}
+
+#clock .text {
+  letter-spacing: 0.1em;
+  font-size: 14px;
+  padding: 20px 0 0;
+}
