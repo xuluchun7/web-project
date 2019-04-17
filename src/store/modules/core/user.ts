@@ -162,5 +162,15 @@ export default class user extends VuexModule {
     }
     return titleList;
   }
+  /**
+   * 
+   * @param permission 判定是否包含权限
+   */
+  async hasPermission(permission: string) {
+    return this.user.permissions.includes(permission) ||
+      this.user.roles.findIndex(t => {
+        return t.code === permission
+      }) > -1
+  }
 
 }
