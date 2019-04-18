@@ -21,7 +21,7 @@ import i18n from '@/lang'; // 国际化
 
 import '@/registerServiceWorker';
 import '@/utils/util';
-
+import '@/utils/stringUtils';
 import '@/icons/index'; // icon
 import '@/errorLog'; // error log
 import '@/router/routerGateway'; // permission control

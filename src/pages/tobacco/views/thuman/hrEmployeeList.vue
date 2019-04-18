@@ -261,7 +261,6 @@ const BindForm = () => import("./bindUser.vue");
 const OrganizationForm = () => import("@/components/Organization");
 const famerForm = () => import("./hrEmployee_showFarmer.vue");
 
-
 import categoryApi from "../../api/basic/api_category";
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 

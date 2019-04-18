@@ -46,7 +46,6 @@ router.beforeEach((to, from, next: any) => {
         .catch((error: any) => {
           console.log(error);
           store.dispatch('FedLogOut').then(() => {
-            //Message.error('Verification failed, please login again');
             window.location.href = '/login.html';
           });
         });

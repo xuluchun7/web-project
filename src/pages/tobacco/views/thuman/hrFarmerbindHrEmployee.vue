@@ -102,7 +102,6 @@
   </div>
 </template>
 <script>
-
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 import hrEmployeeRelation from "../../api/thuman/api_hrEmployeeRelation";
 

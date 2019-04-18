@@ -22,7 +22,7 @@ const system = {
                         size: 1,
                         sort: 'id,DESC',
                         page: 0,
-                        search: 'control:eq:5'.format({})
+                        search: 'control:eq:5'
                     })
                     .then(response => {
                         if (response.content.length === 0) {
