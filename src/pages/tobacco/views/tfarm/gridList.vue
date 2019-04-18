@@ -244,6 +244,7 @@ const EditForm = () => import("./gridEdit.vue");
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui
 import userApi from "@/api/base/apiUser";
 import gridApi from "../../api/tfarm/api_grid";
+import { mapGetters } from "vuex";
 const status = [
   { value: 0, label: "编辑" },
   { value: 5, label: "启用" },
@@ -344,22 +345,7 @@ export default {
     }
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.orgId = undefined;
-        return undefined;
-      } else {
-        this.searchData.orgId = this.$store.state.user.organization.organizationId;
-        return this.$store.state.user.organization.organizationId;
-      }
-    },
-    userDistrictId() {
-      if (this.$store.state.user.detail.districtId === undefined) {
-        return "0";
-      } else {
-        return this.$store.state.user.detail.districtId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     "add-form": AddForm,

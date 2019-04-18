@@ -170,7 +170,7 @@
 const AddForm = () => import("./applybreachofcontractAdd.vue");
 const EditForm = () => import("./applybreachofcontractEdit.vue");
 const OrganizationForm = () => import("@/components/Organization");
-
+import { mapGetters } from "vuex";
 import applybreachofcontractApi from "../../api/tsell/api_applybreachofcontract";
 
 export default {
@@ -216,7 +216,7 @@ export default {
         ]
       },
       searchData: {
-        organizationId: this.$store.state.user.organization.organizationId
+        organizationId:this.userOrgId
       },
       formData: {
         applybreachofcontractList: [],
@@ -242,13 +242,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     checkDisable(row) {

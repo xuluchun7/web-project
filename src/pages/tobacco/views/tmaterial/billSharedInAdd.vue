@@ -260,13 +260,7 @@ export default {
   },
 
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   watch: {
     operation(curl, old) {
@@ -326,11 +320,11 @@ export default {
         desc: "",
         warehouse: "",
         books: "",
-        organizationId: this.$store.state.user.organization.organizationId,
-        organizationIds: [this.$store.state.user.organization.organizationId],
+        organizationId: this.userOrgId,
+        organizationIds: [this.userOrgId],
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId
+        organizationCode: this.userOrgId
       };
     },
 

@@ -79,14 +79,14 @@
                          :label="this.$t('tobacco.tsell.preCheck.reserveDate')"
                          width="100">
           <template slot-scope="scope">
-             {{scope.row.reserveBegin|parseDate('YYYY-MM-DD')}}
+            {{scope.row.reserveBegin|parseDate('YYYY-MM-DD')}}
           </template>
         </el-table-column>
         <el-table-column prop="reserveBegin"
                          :label="this.$t('tobacco.tsell.preCheck.reserveBeginEnd')"
                          width="160">
           <template slot-scope="scope">
-              {{scope.row.reserveBegin|parseDate('HH:MM:SS')}}-  {{scope.row.reserveEnd|parseDate('HH:MM:SS')}}
+            {{scope.row.reserveBegin|parseDate('HH:MM:SS')}}- {{scope.row.reserveEnd|parseDate('HH:MM:SS')}}
           </template>
         </el-table-column>
         <el-table-column prop="partName"
@@ -293,13 +293,7 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     "add-form": AddForm,

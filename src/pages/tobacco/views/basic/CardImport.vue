@@ -74,6 +74,7 @@
 <script>
 const OrganizationForm = () => import("@/components/Organization");
 import { getToken } from "@/utils/cookieUtils";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -83,10 +84,10 @@ export default {
         type: "RFID",
         usage: "",
         sheetName: "",
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId
+        organizationCode: this.userOrgId
       },
       header: {
         Authorization: getToken()
@@ -105,13 +106,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     getRootPath() {

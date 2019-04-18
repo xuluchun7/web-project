@@ -59,10 +59,10 @@ export default {
   data() {
     return {
       formItem: {
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         number: "",
         title: "",
         author: this.$store.state.user.userName,
@@ -88,13 +88,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     organizationOnchange(label, value, values) {

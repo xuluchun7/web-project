@@ -262,13 +262,7 @@ export default {
     }
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     onButtonCreate() {
@@ -486,11 +480,11 @@ export default {
         currentAmount: 0,
         currentAmountUnit: 0,
         control: 0,
-        organizationId: this.$store.state.user.organization.organizationId,
-        organizationIds: [this.$store.state.user.organization.organizationId],
+        organizationId: this.userOrgId,
+        organizationIds: [this.userOrgId],
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: 0,
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         desc: "",
         measureId: "",
         measureName: "",

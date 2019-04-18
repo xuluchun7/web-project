@@ -205,7 +205,7 @@ import plantPlanApi from "../../api/tfarm/api_plantPlan";
 import hrFarmerApi from "../../api/thuman/api_hrFarmer";
 import typeApi from "../../api/basic/api_type";
 import varietyApi from "../../api/basic/api_variety";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -241,10 +241,10 @@ export default {
         score: "",
         control: 1,
         desc: "",
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: 0,
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         districtId: "",
         districtCode: "",
         districtName: "",
@@ -281,13 +281,7 @@ export default {
       .catch(error => {});
   },
   computed: {
-    userDistrictId() {
-      if (this.$store.state.user.detail.districtId === undefined) {
-        return "0";
-      } else {
-        return this.$store.state.user.detail.districtId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     OrganizationForm: () => import("@/components/Organization")

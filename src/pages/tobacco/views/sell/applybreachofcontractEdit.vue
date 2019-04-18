@@ -141,7 +141,7 @@ const OrganizationForm = () => import("@/components/Organization");
 
 import categoryApi from "../../api/basic/api_category";
 import applybreachofcontractApi from "../../api/tsell/api_applybreachofcontract";
-
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
   data() {
@@ -149,10 +149,10 @@ export default {
       cantEdit: false, //判断能否进行编辑
       controllist: [],
       formItem: {
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId:this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode:this.userOrgId,
         applyPerson: this.$store.state.user.userName,
         applyDate: "",
         contractNumber: "",
@@ -175,13 +175,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   created() {
     this.load();

@@ -189,8 +189,8 @@
                          :label="this.$t('tobacco.tstorage.transport.depart')"
                          width="140"
                          show-overflow-tooltip>
-          <template slot-scope="scope">            
-              {{scope.row.depart|parseDate('YYYY-MM-DD')}}
+          <template slot-scope="scope">
+            {{scope.row.depart|parseDate('YYYY-MM-DD')}}
           </template>
         </el-table-column>
         <el-table-column prop="arrive"
@@ -465,7 +465,7 @@ export default {
       },
       searchData: {
         isOnTheWay: 0,
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         annual: "",
         serial: "",
         number: "",
@@ -526,13 +526,7 @@ export default {
     "edit-form2": EditForm2
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     onExpandClick() {

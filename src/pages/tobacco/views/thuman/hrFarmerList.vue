@@ -400,7 +400,7 @@ const OrganizationForm = () => import("@/components/Organization");
 const bindForm = () => import("./hrFarmerbindHrEmployee.vue");
 import hrFarmerApi from "../../api/thuman/api_hrFarmer";
 import categoryApi from "../../api/basic/api_category";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -485,7 +485,7 @@ export default {
       },
       searchData2: {
         mark: 0,
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         positionId: "SC_F020"
       },
       relatiodata: {
@@ -542,26 +542,11 @@ export default {
         this.searchData.SmokeGroupList = response2.content;
       })
       .catch(error => {});
-    this.searchData.orgId = this.$store.state.user.organization.organizationId;
+    this.searchData.orgId = this.userOrgId;
     this.onSearchButtonClick();
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.orgId = undefined;
-        return undefined;
-      } else {
-        this.searchData.orgId = this.$store.state.user.organization.organizationId;
-        return this.$store.state.user.organization.organizationId;
-      }
-    },
-    userDistrictId() {
-      if (this.$store.state.user.detail.districtId === undefined) {
-        return "0";
-      } else {
-        return this.$store.state.user.detail.districtId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     "add-form": AddForm,
@@ -616,15 +601,6 @@ export default {
       this.childForm.showCondition = false;
     },
     getOrganizationId() {
-      /* if (this.searchData2.mark === 0) {
-           this.searchData2.organizationId = this.$store.state.user.organization.organizationId;
-         } else {
-           if (this.$store.state.user.detail.districtId) {
-             this.searchData2.organizationId = this.$store.state.user.detail.districtId;
-           } else {
-             this.searchData2.organizationId = '0';//中国
-           }
-         }*/
       console.log(1);
     },
     onExpandClick() {

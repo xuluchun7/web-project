@@ -89,13 +89,7 @@ export default {
     };
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+       ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   // 获取页面初始化的数据
   created() {},

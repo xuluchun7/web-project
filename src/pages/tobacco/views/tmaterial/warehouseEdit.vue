@@ -94,11 +94,11 @@ export default {
         currentYearMonth: "",
         control: 0,
         desc: "",
-        organizationId: this.$store.state.user.organization.organizationId,
-        organizationIds: [this.$store.state.user.organization.organizationId],
+        organizationId: this.userOrgId,
+        organizationIds: [this.userOrgId],
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId
+        organizationCode: this.userOrgId
       },
       ruleValidate: {
         code: [{ required: true, message: "编码不能为空", trigger: "blur" }],
@@ -121,13 +121,7 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     organizationOnchange(label, value, labels, values) {

@@ -61,14 +61,14 @@
   const varietySelect = () => import('@/components/Tobacco/varietySelect');
   const typeVarietyGradeSelect = () => import('@/components/Tobacco/typeVarietyGradeSelect');
   const statusSelect = () => import('../components/statusSelect');
-
+  import { mapGetters } from "vuex";
   export default {
     props: ['item', 'isEdit', 'visible'],
     data() {
       return {
         formItem: {
           'annual': 0,
-          'organizationid': this.$store.state.user.organization.organizationId,
+          'organizationid': this.userOrgId,
           'organizationame': this.$store.state.user.organization.organizationName,
           'pay': '',
           'area': '',
@@ -114,13 +114,7 @@
       typeVarietyGradeSelect
     },
     computed: {
-      userOrgId() {
-        if (this.$store.state.user.organization === undefined) {
-          return undefined;
-        } else {
-          return this.$store.state.user.organization.organizationId;
-        }
-      }
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
     },
     methods: {
       organizationOnchange(label, value, values) {

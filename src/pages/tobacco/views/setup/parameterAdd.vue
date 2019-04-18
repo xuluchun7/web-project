@@ -181,7 +181,7 @@ export default {
       },
       balanceList: [],
       searchData: {
-        orgId: this.$store.state.user.organization.organizationId,
+        orgId: this.userOrgId,
         categoryId: "",
         annual: "",
         balanceId: "",
@@ -231,13 +231,7 @@ export default {
       .catch(error => {});
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     "add-form": AddForm,

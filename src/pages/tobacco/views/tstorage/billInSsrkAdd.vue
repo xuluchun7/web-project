@@ -285,10 +285,10 @@ export default {
       formItem: {
         bookId: "",
         billNumber: "",
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         region: "",
         warehouse: "",
         stack: "",
@@ -354,7 +354,7 @@ export default {
       if (this.$store.state.user.organization === undefined) {
         return undefined;
       } else {
-        return this.$store.state.user.organization.organizationId.slice(0, 6);
+        return this.userOrgId.slice(0, 6);
       }
     }
   },
@@ -471,7 +471,7 @@ export default {
           sort: "name",
           size: 500,
           search: "organization.organizationId:rlike:{orgid};".format({
-            orgid: this.$store.state.user.organization.organizationId
+            orgid: this.userOrgId
           })
         })
       ])

@@ -526,7 +526,7 @@ export default {
         transfer: "",
         destBillId: "",
         desc: "",
-        organizationId: this.$store.state.user.organization.organizationId
+        organizationId: this.userOrgId
       },
       sumColumnNames: [
         { column: "totalAmount", unit: "件" },
@@ -577,13 +577,7 @@ export default {
     "inventory-form": InventoryForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     checkEdit2(item) {

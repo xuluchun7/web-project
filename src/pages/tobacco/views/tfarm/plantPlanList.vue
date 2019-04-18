@@ -240,6 +240,7 @@
 const AddForm = () => import("./plantPlanAdd.vue");
 const EditForm = () => import("./plantPlanEdit.vue");
 import plantPlanApi from "../../api/tfarm/api_plantPlan";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -337,22 +338,7 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.orgId = undefined;
-        return undefined;
-      } else {
-        this.searchData.orgId = this.$store.state.user.organization.organizationId;
-        return this.$store.state.user.organization.organizationId;
-      }
-    },
-    userDistrictId() {
-      if (this.$store.state.user.detail.districtId === undefined) {
-        return "0";
-      } else {
-        return this.$store.state.user.detail.districtId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     editButtonClick(selectRow, isEdit) {

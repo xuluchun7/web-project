@@ -97,8 +97,8 @@ export default {
     return {
       formItem: {
         serial: "", //数据后台生成
-        organizationId: this.$store.state.user.organization.organizationId,
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
+        organizationCode: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         author: this.$store.state.user.userName,
         date: "",
@@ -151,13 +151,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     getNowFormatDate() {

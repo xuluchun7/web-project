@@ -132,10 +132,10 @@ export default {
         picture: "",
         control: "",
         desc: "",
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId
+        organizationCode: this.userOrgId
       },
       formData: {
         whouseList: []
@@ -162,13 +162,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   created() {
     Promise.all([categoryApi.getAll({ search: "lead:EQ:ST_RG" })])

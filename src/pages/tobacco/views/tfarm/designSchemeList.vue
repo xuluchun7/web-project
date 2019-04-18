@@ -188,6 +188,7 @@ import levelApi from "@/api/xbasic/apiLevel";
 import organizationApi from "@/api/xbasic//apiOrganization";
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 import constant from "../../lang/zh/constant";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -306,13 +307,7 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     "add-form": AddForm,

@@ -27,17 +27,18 @@
     <el-form-item :label="$t('tobacco.tmaterial.material.title')">
       <el-input v-bind:placeholder="$t('base.pleaseInput')"
                 v-model="formItem.title" />
-    </el-form-item>    
+    </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.material.manufacturer')">
-      <el-autocomplete class="inline-input" style="width:100%"
+      <el-autocomplete class="inline-input"
+                       style="width:100%"
                        v-model="formItem.manufacturer"
                        :fetch-suggestions="querySearch"
                        placeholder="请输入供货商名称"
                        :trigger-on-focus="false"
                        @select="handleSelect">
-          <template slot-scope="{ item }">
-              <div class="name">{{ item.name }}</div>
-          </template>
+        <template slot-scope="{ item }">
+          <div class="name">{{ item.name }}</div>
+        </template>
       </el-autocomplete>
     </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.material.measure')">
@@ -121,19 +122,15 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     querySearch(queryString, cb) {
       var manufacturers = this.formData.manufacturerList;
       console.log(manufacturers);
-      var results = queryString ? manufacturers.filter(this.createFilter(queryString)): manufacturers;
+      var results = queryString
+        ? manufacturers.filter(this.createFilter(queryString))
+        : manufacturers;
       // 调用 callback 返回建议列表的数据
       cb(results);
     },
@@ -149,7 +146,7 @@ export default {
     handleSelect(item) {
       this.formItem.manufacturerId = item.id;
       this.formItem.manufacturer = item.name;
-    },    
+    },
     onSubmitClick(name) {
       this.$refs[name].validate(valid => {
         if (valid) {

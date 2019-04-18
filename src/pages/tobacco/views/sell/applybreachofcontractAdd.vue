@@ -85,17 +85,17 @@ const OrganizationForm = () => import("@/components/Organization");
 import seContractApi from "../../api/tsell/api_seContract";
 import categoryApi from "../../api/basic/api_category";
 import applybreachofcontractApi from "../../api/tsell/api_applybreachofcontract";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       loading: false,
       controllist: [],
       formItem: {
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         applyPerson: this.$store.state.user.userName,
         applyDate: "",
         contractNumber: "",
@@ -131,13 +131,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   created() {
     this.formItem.applyDate = this.dateFormat(new Date(), "YYYY-MM-DD ");

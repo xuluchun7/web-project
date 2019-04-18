@@ -211,10 +211,10 @@ export default {
         buttonDisabled: true
       },
       formItem: {
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         number: "",
         title: "",
         name: "",
@@ -268,13 +268,7 @@ export default {
     this.formItem.birth = this.dateFormat(new Date(), "YYYY-MM-DD ");
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     OrganizationForm

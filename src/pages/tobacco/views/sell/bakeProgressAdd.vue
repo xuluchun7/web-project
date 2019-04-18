@@ -63,8 +63,8 @@ export default {
   created() {
     this.formItem.level = this.level;
     if (this.$store.state.user.organization !== undefined) {
-      this.formItem.organizationId = this.$store.state.user.organization.organizationId;
-      this.formItem.organizationCode = this.$store.state.user.organization.organizationId;
+      this.formItem.organizationId = this.userOrgId;
+      this.formItem.organizationCode = this.userOrgId;
       this.formItem.organizationName = this.$store.state.user.organization.organizationName;
     } else {
       this.formItem.organizationId = this.$store.state.user.loginName;

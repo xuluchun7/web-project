@@ -198,10 +198,10 @@ export default {
     return {
       loading: false,
       formItem: {
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         annual: "",
         serial: "",
         number: "",
@@ -265,18 +265,15 @@ export default {
     statusSelect
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    },
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId"
+    }),
     userOrgId2() {
       if (this.$store.state.user.organization === undefined) {
         return undefined;
       } else {
-        return this.$store.state.user.organization.organizationId.slice(0, 4);
+        return this.userOrgId.slice(0, 4);
       }
     }
   },

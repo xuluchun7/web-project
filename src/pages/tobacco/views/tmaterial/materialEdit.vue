@@ -123,13 +123,7 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     load() {
@@ -137,7 +131,7 @@ export default {
       console.log(JSON.stringify(this.item));
     },
     querySearch(queryString, cb) {
-      var manufacturers = this.formData.manufacturerList;      
+      var manufacturers = this.formData.manufacturerList;
       var results = queryString
         ? manufacturers.filter(this.createFilter(queryString))
         : manufacturers;

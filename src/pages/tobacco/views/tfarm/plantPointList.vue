@@ -357,6 +357,7 @@ const AddForm = () => import("./plantPointAdd.vue");
 const EditForm = () => import("./plantPointEdit.vue");
 import plantPointApi from "../../api/tfarm/apiPlantPoint";
 import constant from "../../lang/zh/constant";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -453,22 +454,7 @@ export default {
     }
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.orgId = undefined;
-        return undefined;
-      } else {
-        this.searchData.orgId = this.$store.state.user.organization.organizationId;
-        return this.$store.state.user.organization.organizationId;
-      }
-    },
-    userDistrictId() {
-      if (this.$store.state.user.detail.districtId === undefined) {
-        return "0";
-      } else {
-        return this.$store.state.user.detail.districtId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     "add-form": AddForm,

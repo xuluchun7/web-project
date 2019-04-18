@@ -61,7 +61,7 @@
   </el-form>
 </template>
 <script>
-const OrganizationForm = () => import('@/components/Organization');
+const OrganizationForm = () => import("@/components/Organization");
 import packApi from "../../api/tmaterial/apiPack";
 import moment from "moment";
 export default {
@@ -69,10 +69,10 @@ export default {
   data() {
     return {
       formItem: {
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         serial: "",
         barcode: "",
         code: "",
@@ -103,16 +103,10 @@ export default {
     this.load();
   },
   components: {
-      OrganizationForm
-    },
+    OrganizationForm
+  },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     organizationOnchange(label, value, values) {
@@ -126,8 +120,12 @@ export default {
     },
     onSubmitClick(name) {
       this.formItem.date = moment().format("YYYY-MM-DD");
-      this.formItem.tempBegin = moment(this.formItem.tempBegin).format("YYYY-MM-DD");
-      this.formItem.tempEnd = moment(this.formItem.tempBegin).format("YYYY-MM-DD");
+      this.formItem.tempBegin = moment(this.formItem.tempBegin).format(
+        "YYYY-MM-DD"
+      );
+      this.formItem.tempEnd = moment(this.formItem.tempBegin).format(
+        "YYYY-MM-DD"
+      );
       this.$refs[name].validate(valid => {
         //进行前端检验
         if (valid) {

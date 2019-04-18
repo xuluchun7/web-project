@@ -245,7 +245,7 @@ export default {
         organizationId: "",
         desc: "",
         organization: {
-          organizationId: this.$store.state.user.organization.organizationId,
+          organizationId: this.userOrgId,
           organizationCode: this.$store.state.user.organization
             .organizationCode,
           organizationName: this.$store.state.user.organization.organizationName
@@ -290,13 +290,7 @@ export default {
     this.load();
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     OrganizationForm,

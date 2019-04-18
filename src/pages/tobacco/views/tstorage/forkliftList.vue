@@ -184,7 +184,7 @@ export default {
         date: "",
         available: true,
         desc: "",
-        organizationId: this.$store.state.user.organization.organizationId
+        organizationId: this.userOrgId
       },
       formData: {
         forkliftList: [],
@@ -210,13 +210,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     organizationOnchange(label, value, values) {

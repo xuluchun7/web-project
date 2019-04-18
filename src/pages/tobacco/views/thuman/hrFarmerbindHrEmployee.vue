@@ -154,18 +154,15 @@ export default {
   },
   computed: {
     userOrgId() {
-      if (
-        this.organizeId !== undefined ||
-        this.organizeId !== this.$store.state.user.organization.organizationId
-      ) {
+      if (this.organizeId !== undefined || this.organizeId !== this.userOrgId) {
         return this.organizeId;
       } else {
         if (this.$store.state.user.organization === undefined) {
           this.searchData.orgId = undefined;
           return undefined;
         } else {
-          this.searchData.orgId = this.$store.state.user.organization.organizationId;
-          return this.$store.state.user.organization.organizationId;
+          this.searchData.orgId = this.userOrgId;
+          return this.userOrgId;
         }
       }
     }

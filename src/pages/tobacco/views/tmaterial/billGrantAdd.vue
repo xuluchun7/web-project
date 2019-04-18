@@ -243,6 +243,7 @@ import packApi from "../../api/tmaterial/apiPack";
 import packItemApi from "../../api/tmaterial/apiPackItem";
 import plantPlanApi from "../../api/tfarm/api_plantPlan";
 import UUID from "es6-uuid";
+import { mapGetters } from "vuex";
 export default {
   props: ["operation", "visible"],
   data() {
@@ -339,20 +340,7 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    },
-    userDistrictId() {
-      if (this.$store.state.user.detail.districtId === undefined) {
-        return "51";
-      } else {
-        return this.$store.state.user.detail.districtId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   watch: {
     operation(curl, old) {
@@ -526,11 +514,11 @@ export default {
         desc: "",
         warehouse: "",
         books: "",
-        organizationId: this.$store.state.user.organization.organizationId,
-        organizationIds: [this.$store.state.user.organization.organizationId],
+        organizationId: this.userOrgId,
+        organizationIds: [this.userOrgId],
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         packId: "",
         packCode: "",
         packName: "",

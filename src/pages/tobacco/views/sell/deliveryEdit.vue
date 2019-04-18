@@ -683,8 +683,8 @@ export default {
         this.dataItem.organizationId = undefined;
         return undefined;
       } else {
-        this.dataItem.organizationId = this.$store.state.user.organization.organizationId;
-        return this.$store.state.user.organization.organizationId;
+        this.dataItem.organizationId = this.userOrgId;
+        return this.userOrgId;
       }
     }
   },
@@ -842,7 +842,7 @@ export default {
       if (this.$store.state.user.organization === undefined) {
         this.dataItem.orgId = undefined;
       } else {
-        this.dataItem.orgId = this.$store.state.user.organization.organizationId;
+        this.dataItem.orgId = this.userOrgId;
       }
       if (query !== "") {
         this.loading2 = true;

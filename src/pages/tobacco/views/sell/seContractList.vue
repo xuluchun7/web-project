@@ -397,7 +397,7 @@ export default {
         statusId: "",
         planId: "",
         ttypeId: "",
-        orgId: this.$store.state.user.organization.organizationId,
+        orgId: this.userOrgId,
         districtId: "",
         signId: "",
         tareaId: "",
@@ -440,13 +440,7 @@ export default {
     }
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   // 组件
   components: {

@@ -272,7 +272,7 @@ export default {
       this.acceptData = JSON.parse(JSON.stringify(this.item));
       this.formItem.id = this.acceptData.id;
       this.formItem.organizationId = this.acceptData.organization.organizationId;
-      this.formItem.organizationId_user = this.$store.state.user.organization.organizationId;
+      this.formItem.organizationId_user = this.userOrgId;
       this.formItem.peopleId = "";
       this.tableData = [
         {

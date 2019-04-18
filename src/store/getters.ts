@@ -1,3 +1,4 @@
+import util from '@/utils/util';
 
 const getters = {
   sidebar: state => state.app.sidebar,
@@ -17,5 +18,21 @@ const getters = {
   property: state => state.user.user.property, //用户的额外属性
   addRouters: state => state.permission.addRouters,
   errorLogs: state => state.errorLog.logs,
+  districtId: (state) => {
+    if (state.user === undefined || state.user === null || state.user.detail === undefined || state.user.detail === null || util.isNullOrEmpty(state.user.detail.districtId)) {
+      return '51';
+    }
+    else {
+      return state.user.detail.districtId;
+    }
+  },
+  organizationId: (state) => {
+    if (state.user === undefined || state.user === null || state.user.detail === undefined || state.user.detail === null || util.isNullOrEmpty(state.user.detail.organizationId)) {
+      return '51';
+    }
+    else {
+      return state.user.detail.organizationId;
+    }
+  }
 };
 export default getters;

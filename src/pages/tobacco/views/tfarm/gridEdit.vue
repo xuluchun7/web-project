@@ -80,7 +80,7 @@
 </template>
 <script>
 import gridApi from "../../api/tfarm/api_grid";
-
+import { mapGetters } from "vuex";
 import { parseDate } from "@/filters/index.ts";
 import userApi from "@/api/base/apiUser";
 const status = [
@@ -116,13 +116,7 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     load() {

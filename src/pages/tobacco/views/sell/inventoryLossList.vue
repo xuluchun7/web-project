@@ -239,10 +239,7 @@ export default {
         paymentNumber: "",
         control: "",
         desc: "",
-        organizationId: this.$store.state.user.organization.organizationId.slice(
-          0,
-          4
-        ),
+        organizationId: this.userOrgId.slice(0, 4),
         orgId: ""
       },
       formData: {
@@ -266,13 +263,7 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     "add-form": AddForm,

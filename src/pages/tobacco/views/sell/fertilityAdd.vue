@@ -124,7 +124,7 @@ export default {
         control: "SG_CF01"
       },
       searchData: {
-        organizationId: this.$store.state.user.organization.organizationId
+        organizationId: this.userOrgId
       },
       formData: {
         seContractList: [],

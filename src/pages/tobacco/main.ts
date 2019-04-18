@@ -34,9 +34,8 @@ import BaiduMap from 'vue-baidu-map';
 import fullscreen from '@/directive/el-fullscreenDialog';
 import ECharts from 'vue-echarts';
 import echarts from 'echarts';
-import { loadLang } from './utils/langUtils';
 Vue.component('v-chart', ECharts);
-
+Vue.prototype.$echarts = echarts;
 Vue.use(BaiduMap, {
   // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
   ak: process.env.VUE_APP_BAIDU_KEY

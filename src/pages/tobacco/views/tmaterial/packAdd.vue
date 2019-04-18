@@ -63,17 +63,17 @@
   </el-form>
 </template>
 <script>
-const OrganizationForm = () => import('@/components/Organization');
+const OrganizationForm = () => import("@/components/Organization");
 import packApi from "../../api/tmaterial/apiPack";
 import moment from "moment";
-export default { 
+export default {
   data() {
     return {
       formItem: {
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         serial: moment().format("YYYYMMDDHHmmss"),
         barcode: "",
         code: "",
@@ -105,16 +105,10 @@ export default {
   },
   created() {},
   components: {
-      OrganizationForm
-    },
+    OrganizationForm
+  },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     organizationOnchange(label, value, values) {

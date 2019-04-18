@@ -533,7 +533,7 @@ export default {
     if (this.$store.state.user.organization === undefined) {
       this.dataItem.orgId = undefined;
     } else {
-      this.dataItem.orgId = this.$store.state.user.organization.organizationId;
+      this.dataItem.orgId = this.userOrgId;
     }
     // this.dataItem.uid = JSON.parse(JSON.stringify(this.item)).uid;
     Promise.all([
@@ -695,7 +695,7 @@ export default {
         if (this.$store.state.user.organization === undefined) {
           this.dataItem.orgId = undefined;
         } else {
-          this.dataItem.orgId = this.$store.state.user.organization.organizationId;
+          this.dataItem.orgId = this.userOrgId;
         }
         this.loading2 = true;
         Promise.all([

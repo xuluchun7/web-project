@@ -362,7 +362,7 @@ export default {
         begindate: "",
         enddate: "",
         control: "",
-        organizationId: this.$store.state.user.organization.organizationId
+        organizationId: this.userOrgId
       },
       formData: {
         deliveryList: [],
@@ -390,8 +390,8 @@ export default {
         this.searchData.orgId = undefined;
         return undefined;
       } else {
-        this.searchData.orgId = this.$store.state.user.organization.organizationId;
-        return this.$store.state.user.organization.organizationId;
+        this.searchData.orgId = this.userOrgId;
+        return this.userOrgId;
       }
     }
   },

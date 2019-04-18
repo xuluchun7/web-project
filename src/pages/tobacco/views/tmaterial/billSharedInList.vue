@@ -527,8 +527,8 @@ export default {
         this.searchData.organizationId = undefined;
         return undefined;
       } else {
-        this.searchData.organizationId = this.$store.state.user.organization.organizationId;
-        return this.$store.state.user.organization.organizationId;
+        this.searchData.organizationId = this.userOrgId;
+        return this.userOrgId;
       }
     }
   },

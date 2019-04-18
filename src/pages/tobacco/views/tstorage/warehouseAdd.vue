@@ -203,10 +203,10 @@ export default {
         active: true,
         initialized: true,
         desc: "",
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId
+        organizationCode: this.userOrgId
       },
       formData: {
         warehouseList: []
@@ -247,13 +247,7 @@ export default {
     this.formItem.month = new Date().getMonth() + 1;
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     OrganizationForm

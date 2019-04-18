@@ -203,16 +203,16 @@ import partApi from "../../api/basic/api_part";
 
 const OrganizationForm = () => import("@/components/Organization");
 const typeSelect = () => import("@/components/Tobacco/typeSelect");
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       fisrtLoad: false,
       formItem: {
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: 0,
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         annual: "",
         serial: "",
         barcode: "",
@@ -254,13 +254,7 @@ export default {
     typeSelect
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   created() {
     this.formItem.annual = new Date().getFullYear().toString();

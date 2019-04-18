@@ -414,8 +414,8 @@ export default {
         this.searchData.orgId = undefined;
         return undefined;
       } else {
-        this.searchData.orgId = this.$store.state.user.organization.organizationId;
-        return this.$store.state.user.organization.organizationId;
+        this.searchData.orgId = this.userOrgId;
+        return this.userOrgId;
       }
     }
   },

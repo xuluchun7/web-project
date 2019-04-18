@@ -442,9 +442,9 @@ export default {
         this.searchData.deliveryOrganizationId = undefined;
         return undefined;
       } else {
-        this.searchData.organizationId = this.$store.state.user.organization.organizationId;
-        this.searchData.deliveryOrganizationId = this.$store.state.user.organization.organizationId;
-        return this.$store.state.user.organization.organizationId;
+        this.searchData.organizationId = this.userOrgId;
+        this.searchData.deliveryOrganizationId = this.userOrgId;
+        return this.userOrgId;
       }
     }
   },

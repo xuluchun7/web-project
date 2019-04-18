@@ -70,7 +70,7 @@
 const OrganizationForm = () => import("@/components/Organization");
 
 import cardApi from "../../api/basic/api_card";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -86,10 +86,10 @@ export default {
         usage: "",
         valid: true,
         desc: "",
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId
+        organizationCode: this.userOrgId
       },
       ruleValidate: {
         code: [{ required: true, message: "二维码不能为空", trigger: "blur" }],
@@ -104,13 +104,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     organizationOnchange(label, value, values) {

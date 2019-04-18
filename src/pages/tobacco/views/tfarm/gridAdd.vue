@@ -81,6 +81,7 @@
 import gridApi from "../../api/tfarm/api_grid";
 import { parseDate } from "@/filters/index.ts";
 import userApi from "@/api/base/apiUser";
+import { mapGetters } from "vuex";
 const status = [
   { value: 0, label: "编辑" },
   { value: 5, label: "启用" }
@@ -100,11 +101,11 @@ export default {
         techName: "",
         date: parseDate(new Date(), "YYYY-MM-DD"),
         status: 5,
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
-        organizationIds: [this.$store.state.user.organization.organizationId],
+        organizationIds: [this.userOrgId],
         organizationOrder: "",
-        organizationCode: this.$store.state.user.organization.organizationId
+        organizationCode: this.userOrgId
       },
       ruleValidate: {
         code: [{ required: true, message: "编码不能为空", trigger: "blur" }],
@@ -122,13 +123,7 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   methods: {
     onSubmitClick(name) {

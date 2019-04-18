@@ -73,9 +73,9 @@ export default {
       tempObj.organization.organizationId === "" ||
       tempObj.organization.organizationId === undefined
     ) {
-      this.formItem.orgId = this.$store.state.user.organization.organizationId;
+      this.formItem.orgId = this.userOrgId;
     } else {
-      this.formItem.orgId = this.$store.state.user.organization.organizationId;
+      this.formItem.orgId = this.userOrgId;
     }
     //console.log(JSON.parse(JSON.stringify(this.item)));
     Promise.all([receiptApi.getMaxFeeNo(this.formItem.orgId, "R2")])
@@ -93,8 +93,8 @@ export default {
         this.formItem.orgId = undefined;
         return undefined;
       } else {
-        this.formItem.orgId = this.$store.state.user.organization.organizationId;
-        return this.$store.state.user.organization.organizationId;
+        this.formItem.orgId = this.userOrgId;
+        return this.userOrgId;
       }
     }
   }, */

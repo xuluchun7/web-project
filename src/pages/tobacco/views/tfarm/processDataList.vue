@@ -283,6 +283,7 @@ import processDataApi from "../../api/tfarm/apiProcessData";
 import processDataItemApi from "../../api/tfarm/apiProcessDataItem";
 import processAttrApi from "../../api/tfarm/apiProcessAttr";
 const path = require("path");
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -382,22 +383,7 @@ export default {
     "cas-image": () => import("../../components/carouselImage")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.orgId = undefined;
-        return undefined;
-      } else {
-        this.searchData.orgId = this.$store.state.user.organization.organizationId;
-        return this.$store.state.user.organization.organizationId;
-      }
-    },
-    userDistrictId() {
-      if (this.$store.state.user.detail.districtId === undefined) {
-        return "0";
-      } else {
-        return this.$store.state.user.detail.districtId;
-      }
-    }
+     ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   watch: {
     $route(to, from) {

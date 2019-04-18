@@ -326,15 +326,15 @@ export default {
         facilities: "",
         team: "",
         jobTypeId: "",
-        organizationId: this.$store.state.user.organization.organizationId,
+        organizationId: this.userOrgId,
         organizationName: this.$store.state.user.organization.organizationName,
         organizationOrder: 0,
-        organizationCode: this.$store.state.user.organization.organizationId,
+        organizationCode: this.userOrgId,
         districtId: "",
         for: "",
         districtName: "",
         districtOrder: 0,
-        districtCode: this.$store.state.user.organization.organizationId,
+        districtCode: this.userOrgId,
         positionList: []
       },
       ruleValidate: {
@@ -390,13 +390,7 @@ export default {
       .catch(error => {});
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   components: {
     OrganizationForm

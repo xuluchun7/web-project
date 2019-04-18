@@ -40,7 +40,7 @@
 const OrganizationForm = () => import("@/components/Organization");
 
 import applybreachofcontractApi from "../../api/tsell/api_applybreachofcontract";
-
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
   data() {
@@ -64,13 +64,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+   ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   created() {
     this.formItem.examineDate = new Date();

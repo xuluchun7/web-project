@@ -159,7 +159,7 @@ export default {
       },
       url: "", //存放解析后的文件路径
       searchData: {
-        organizationid: this.$store.state.user.organization.organizationId,
+        organizationid: this.userOrgId,
         organizationname: this.$store.state.user.organization.organizationName,
         depart: [
           this.dateFormat(new Date(), "YYYY-MM-DD"),
@@ -189,13 +189,7 @@ export default {
     };
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   created() {
     this.searchData.annual = new Date().getFullYear().toString();

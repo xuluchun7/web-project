@@ -96,7 +96,7 @@ const path = require("path");
 
 import statisticApi from "../../api/online/apiStatistic";
 import statisticParamApi from "../../api/online/apiStatisticParam";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -139,13 +139,7 @@ export default {
     };
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.$store.state.user.organization.organizationId;
-      }
-    }
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   created() {
     this.initComponent();
@@ -233,7 +227,7 @@ export default {
                         organizationId:
                           this.$store.state.user.organization === undefined
                             ? "1151"
-                            : this.$store.state.user.organization.organizationId
+                            :this.userOrgId
                       }),
                       {}
                     )
@@ -330,7 +324,7 @@ export default {
               this.$set(
                 this.searchData,
                 item.name,
-                this.$store.state.user.organization.organizationId
+               this.userOrgId
               ); //脚本命名必须是organizationId
               this.$set(
                 this.templateData,

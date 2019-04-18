@@ -120,6 +120,7 @@
 <script>
 const OrganizationForm = () => import("@/components/Organization");
 import districtApi from "@/api/xbasic/apiDistrict";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -156,13 +157,8 @@ export default {
     OrganizationForm
   },
   computed: {
-    userDistrictId() {
-      if (this.$store.state.user.detail.districtId === undefined) {
-        return "0";
-      } else {
-        return this.$store.state.user.detail.districtId;
-      }
-    },
+    ...mapGetters({ userDistrictId:'districtId' }),
+   
     annual() {
       return this.$store.state.system.annual;
     }
