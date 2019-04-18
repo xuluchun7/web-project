@@ -244,7 +244,6 @@ import billInApi from "../../api/tmaterial/apiBillIn";
 import billOutApi from "../../api/tmaterial/apiBillOut";
 import warehouseApi from "../../api/tmaterial/apiWarehouse";
 import stockApi from "../../api/tmaterial/apiStock";
-import { convertToObject } from "typescript";
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui
 import moment from "moment";
 import UUID from "es6-uuid";

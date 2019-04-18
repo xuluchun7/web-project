@@ -58,7 +58,6 @@
 import materialUnitApi from "../../api/tmaterial/apiMaterialUnit";
 import measureApi from "../../api/tmaterial/apiMeasure";
 import materialApi from "../../api/tmaterial/apiMaterial";
-import { convertToObject } from "typescript";
 export default {
   data() {
     return {
@@ -84,7 +83,7 @@ export default {
   created() {
     Promise.all([
       measureApi.getAll({ search: "leaf:eq:true", size: 100 }),
-      materialApi.getAll({ size: 500 ,sort:'code'})
+      materialApi.getAll({ size: 500, sort: "code" })
     ])
       .then(([measureResponse, materialResponse]) => {
         this.formData.measureList = measureResponse.content;

@@ -132,7 +132,6 @@ const AddForm = () => import("./materialUnitAdd.vue");
 const EditForm = () => import("./materialUnitEdit.vue");
 import materialUnitApi from "../../api/tmaterial/apiMaterialUnit";
 import materialApi from "../../api/tmaterial/apiMaterial";
-import { convertToObject } from 'typescript';
 export default {
   data() {
     return {
@@ -177,8 +176,8 @@ export default {
       },
       searchData: {
         material: {
-          id:"",
-          name:""
+          id: "",
+          name: ""
         },
         desc: "",
         materialList: []
@@ -294,13 +293,13 @@ export default {
         this.search = "material.id:eq:{material};".format({
           material: this.searchData.material.id
         });
-      }      
+      }
       console.log(this.search);
       Promise.all([
         materialUnitApi.getAll({
           size: this.formData.pagination.pageSize,
           page: this.formData.pagination.currentPage - 1,
-          search:this.search,
+          search: this.search,
           contains: "measureName,material.name,convert,divider,visible,desc,:{keyword}:true".format(
             { keyword: this.formData.pagination.keyword }
           )

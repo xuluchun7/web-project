@@ -90,7 +90,6 @@ import designSchemeApi from '../../api/tfarm/apiDesignScheme';
 import levelApi from '@/api/xbasic/apiLevel';
 import processAttrApi from '../../api/tfarm/apiProcessAttr';
 import processComponentsApi from '../../api/tfarm/apiProcessComponents';
-import { createLogicalAnd } from 'typescript';
 import reportApi from '../../api/tfarm/apiProcessReport';
 import apiProcessReport from '../../api/tfarm/apiProcessReport';
 export default {

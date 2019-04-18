@@ -103,7 +103,6 @@
 const AddForm = () => import("./designSchemeClassifyAdd.vue");
 const EditForm = () => import("./designSchemeClassifyEdit.vue");
 import designSchemeClassifyApi from "../../api/tfarm/apiDesignSchemeClassify";
-import { convertToObject, convertCompilerOptionsFromJson } from "typescript";
 export default {
   data() {
     return {

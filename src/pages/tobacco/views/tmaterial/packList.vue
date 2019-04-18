@@ -180,7 +180,6 @@ const ItemsForm = () => import("./packItemList.vue");
 import packApi from "../../api/tmaterial/apiPack";
 import packItemApi from "../../api/tmaterial/apiPackItem";
 import moment from "moment";
-import { convertToObject } from "typescript";
 export default {
   data() {
     return {
