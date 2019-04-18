@@ -331,6 +331,7 @@ export default {
   },
   created() {
     this.searchData.organizationId = this.userOrgId;
+    console.log(this.userOrgId);
   },
   components: {
     "add-form": AddForm,

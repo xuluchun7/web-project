@@ -19,19 +19,20 @@ const getters = {
   addRouters: state => state.permission.addRouters,
   errorLogs: state => state.errorLog.logs,
   districtId: (state) => {
-    if (state.user === undefined || state.user === null || state.user.detail === undefined || state.user.detail === null || util.isNullOrEmpty(state.user.detail.districtId)) {
+    if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.districtId)) {
       return '51';
     }
     else {
-      return state.user.detail.districtId;
+      return state.user.user.detail.districtId;
     }
   },
   organizationId: (state) => {
-    if (state.user === undefined || state.user === null || state.user.detail === undefined || state.user.detail === null || util.isNullOrEmpty(state.user.detail.organizationId)) {
-      return '51';
+    console.log(state.user.user.detail.organizationId);
+    if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.organizationId)) {
+      return '0';
     }
     else {
-      return state.user.detail.organizationId;
+      return state.user.user.detail.organizationId;
     }
   }
 };
