@@ -184,7 +184,7 @@ export default {
         annual: "",
         serial: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         operation: "",
         countryId: "86",
@@ -233,7 +233,7 @@ export default {
     typeVarietyGradeSelect
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName" , userName: "userName"})
   },
   methods: {
     organizationOnchange(label, value, values) {

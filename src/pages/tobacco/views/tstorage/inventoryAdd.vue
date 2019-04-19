@@ -168,7 +168,7 @@ export default {
         barcode: "",
         number: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         countryId: "86",
         countryName: "中国",
@@ -204,7 +204,12 @@ export default {
     this.formItem.year = new Date().getFullYear().toString();
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+     ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   components: {
     OrganizationForm,

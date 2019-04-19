@@ -148,7 +148,7 @@ export default {
         annual: "",
         serial: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         countryId: "86",
         countryName: "中国",
@@ -177,8 +177,8 @@ export default {
         desc: "",
         organizationId: this.userOrgId,
         organizationOrder: 0,
-        organizationCode: this.$store.state.user.organization.organizationCode,
-        organizationName: this.rganizationName
+        organizationCode: this.userOrgId,
+        organizationName: this.organizationName
       },
       formData: {
         stateList: [
@@ -228,7 +228,12 @@ export default {
     this.formItem.date = this.getNowFormatDate();
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   components: {
     OrganizationForm,

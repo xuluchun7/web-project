@@ -101,7 +101,7 @@ export default {
         organizationId: this.userOrgId,
         organizationCode: this.userOrgId,
         organizationName: this.organizationName,
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         alias: "",
         host: "",
@@ -152,7 +152,7 @@ export default {
     OrganizationForm
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName",  userName:"userName"})
   },
   methods: {
     getNowFormatDate() {

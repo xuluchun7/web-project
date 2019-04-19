@@ -306,7 +306,7 @@ export default {
         identity: "",
         sex: "SC_S00",
         birth: this.dateFormat(new Date(), "YYYY-MM-DD"),
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: this.dateFormat(new Date(), "YYYY-MM-DD"),
         countryId: "",
         facility: "",
@@ -391,7 +391,12 @@ export default {
       .catch(error => {});
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   components: {
     OrganizationForm

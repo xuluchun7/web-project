@@ -153,7 +153,7 @@ export default {
         organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode:this.userOrgId,
-        applyPerson: this.$store.state.user.userName,
+        applyPerson: this.userName,
         applyDate: "",
         contractNumber: "",
         contractyNo: "",
@@ -175,7 +175,7 @@ export default {
     OrganizationForm
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName",  userName:"userName"})
   },
   created() {
     this.load();

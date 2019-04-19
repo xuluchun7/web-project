@@ -275,7 +275,6 @@ import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 import { mapGetters } from "vuex";
 const typeSelect = () => import("@/components/Tobacco/typeSelect");
 const OrganizationForm = () => import("@/components/Organization");
-
 export default {
   props: ["item", "isEdit", "visible"],
   data() {
@@ -301,7 +300,7 @@ export default {
         serial: "",
         number: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         countryId: "",
         countryName: "",
@@ -372,13 +371,12 @@ export default {
     this.load();
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   components: {
     typeSelect,

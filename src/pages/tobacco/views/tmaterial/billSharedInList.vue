@@ -439,6 +439,7 @@ import billItemApi from "../../api/tmaterial/apiBillItem";
 import warehouseApi from "../../api/tmaterial/apiWarehouse";
 import moment from "moment";
 import UUID from "es6-uuid";
+import { mapGetters } from "vuex";
 const status = [
   { value: 0, label: "未确认到货" },
   { value: 1, label: "确认未记账" },
@@ -522,15 +523,12 @@ export default {
     billItemAdd: () => import("./billItemAdd.vue")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.organizationId = undefined;
-        return undefined;
-      } else {
-        this.searchData.organizationId = this.userOrgId;
-        return this.userOrgId;
-      }
-    }
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   watch: {
     $route(to, from) {
@@ -572,8 +570,8 @@ export default {
             this.formData.billIn.organization
           );
 
-          this.formData.billIn.author = this.$store.state.user.userName;
-          this.formData.billIn.arriveInfo = this.$store.state.user.userName;
+          this.formData.billIn.author = this.userName;
+          this.formData.billIn.arriveInfo = this.userName;
           this.formData.billIn.date = moment().format("YYYY-MM-DD");
           this.formData.billIn.title = "调剂入库";
           this.formData.billIn.control = 1; //已确认未记账
@@ -910,6 +908,7 @@ export default {
       this.formData.operation = this.$route.query.operation;
       this.formData.title = this.$route.query.title;
       this.formData.balance = this.$route.query.balance;
+      this.searchData.organizationId = this.userOrgId;
     },
     createFormData() {
       return {

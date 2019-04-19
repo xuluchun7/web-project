@@ -252,7 +252,7 @@ export default {
         number: "",
         title: "",
         authorId: "",
-        p_author: this.$store.state.user.userName,
+        p_author: this.userName,
         date: "",
         contractId: "",
         contractArea: 0,
@@ -324,7 +324,12 @@ export default {
     typeVarietyGradeSelect
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   created() {
     this.formItem.date = new Date();

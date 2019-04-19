@@ -212,7 +212,7 @@ export default {
         number: "",
         card: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         leader: "",
         members: "",
@@ -410,13 +410,12 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   }
 };
 </script>

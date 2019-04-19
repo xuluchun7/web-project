@@ -188,7 +188,7 @@ export default {
         number: "",
         barcode: "",
         title: this.$t("tobacco.tstorage.transport.temp1"),
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         destinationId: "",
         destinationCode: "",
@@ -250,7 +250,7 @@ export default {
     ...mapGetters({
       userDistrictId: "districtId",
       userOrgId: "organizationId",
-      organizationName: "organizationName"
+      organizationName: "organizationName",  userName: "userName"
     }),
     userOrgId2() {
       if (this.$store.state.user.organization === undefined) {

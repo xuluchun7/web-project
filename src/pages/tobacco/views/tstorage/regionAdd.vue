@@ -113,7 +113,7 @@ export default {
         number: "",
         warehouse: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         totalSpace: "",
         totalCapacity: "",
@@ -146,7 +146,12 @@ export default {
     OrganizationForm
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   created() {
     this.formItem.date = new Date();

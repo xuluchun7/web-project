@@ -81,7 +81,7 @@ export default {
         name: "",
         alphabet: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: moment().format("YYYY-MM-DD"),
         content: "",
         money: 0,
@@ -109,7 +109,12 @@ export default {
     OrganizationForm
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   methods: {
     organizationOnchange(label, value, values) {

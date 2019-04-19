@@ -99,7 +99,7 @@
 <script>
 import fertilityApi from "../../api/tsell/api_fertility";
 import seContractApi from "../../api/tsell/api_seContract";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -120,7 +120,7 @@ export default {
         restWeight: "",
         date: "",
         annual: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         control: "SG_CF01"
       },
       searchData: {
@@ -243,6 +243,9 @@ export default {
     formReset(name) {
       this.$refs[name].resetFields();
     }
+  },
+  computed: {
+    ...mapGetters({ userName: "userName" })
   }
 };
 </script>

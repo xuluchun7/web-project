@@ -89,7 +89,7 @@ export default {
         name: "",
         alphabet: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: moment().format("YYYY-MM-DD"),
         brand: "",
         manufacturerId: "",
@@ -123,7 +123,12 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   methods: {
     querySearch(queryString, cb) {

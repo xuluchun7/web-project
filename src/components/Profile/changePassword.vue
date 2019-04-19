@@ -34,7 +34,7 @@
 </template>
 <script>
 import { default as userApi } from "@/api/base/apiUser";
-
+import { mapGetters } from "vuex";
 export default {
   props: ["visible"],
   data() {
@@ -73,6 +73,11 @@ export default {
     };
   },
   created() {},
+  computed: {
+    ...mapGetters({
+      loginName: "loginName",
+    })
+  },
   methods: {
     onSubmitClick(name) {
       if (
@@ -88,7 +93,7 @@ export default {
         // 进行前端检验
         if (valid) {
           Promise.all([
-            userApi.changePass(this.$store.state.user.loginName, this.formItem)
+            userApi.changePass(this.loginName, this.formItem)
           ])
             .then(([response]) => {
               this.$message({

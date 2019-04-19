@@ -147,7 +147,7 @@ export default {
         code: "",
         name: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         zone: "",
         stock: "",
@@ -186,7 +186,12 @@ export default {
     OrganizationForm
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   methods: {
     organizationOnchange(label, value, values) {

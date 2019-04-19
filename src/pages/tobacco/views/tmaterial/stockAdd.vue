@@ -263,7 +263,7 @@ export default {
     }
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName", userName: "userName"})
   },
   methods: {
     onButtonCreate() {
@@ -408,7 +408,7 @@ export default {
         barcode: "",
         annual: this.$store.state.system.annual,
         accountPeriod: this.warehouse.currentYearMonth,
-        author: this.$store.state.user.userName,
+        author: this.userName,
         title: "库存初始化",
         date: moment().format("YYYY-MM-DD"),
         operation: "I000", //库存初始化

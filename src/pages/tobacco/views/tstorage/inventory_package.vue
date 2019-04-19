@@ -82,7 +82,7 @@ export default {
         organizationId: this.userOrgId,
         organizationName: this.organizationName,
         barcode: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         typeId: "",
         typeName: "",
         gradeId: "",
@@ -102,13 +102,12 @@ export default {
   },
   created() {},
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
+     ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   components: {
     OrganizationForm,

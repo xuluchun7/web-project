@@ -340,7 +340,7 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName" ,userName: "userName"})
   },
   watch: {
     operation(curl, old) {
@@ -490,7 +490,7 @@ export default {
         annual: this.$store.state.system.annual,
         accountPeriod: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: parseDate(new Date(), "YYYY-MM-DD"),
         operation: this.operation,
         deliveryOrganizationId: "",
@@ -499,7 +499,7 @@ export default {
         arriveOrganizationId: "",
         arriveOrganizationName: "",
         arriveInfo: "",
-        deliver: this.$store.state.user.userName,
+        deliver: this.userName,
         itemCount: 0,
         itemMoneys: 0,
         itemTaxs: 0,

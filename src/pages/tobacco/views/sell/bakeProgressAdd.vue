@@ -68,13 +68,19 @@ export default {
       this.formItem.organizationCode = this.userOrgId;
       this.formItem.organizationName = this.organizationName;
     } else {
-      this.formItem.organizationId = this.$store.state.user.loginName;
+      this.formItem.organizationId = this.loginName;
     }
 
     this.formItem.operator = "[{loginId}]{userName}".format({
-      loginId: this.$store.state.user.loginName,
-      userName: this.$store.state.user.userName
+      loginId: this.loginName,
+      userName: this.userName
     });
+  },
+  computed: {
+    ...mapGetters({
+      loginName: "loginName",
+      userName:"userName"
+    })
   },
   methods: {
     onSubmitClick(name) {

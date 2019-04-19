@@ -255,7 +255,7 @@ export default {
         year: "",
         month: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         operation: "", //这里的operation存的是别名
         operationId: "", //用于获取收发管理下库房
@@ -295,7 +295,12 @@ export default {
     organizationSelect
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   created() {
     this.load();

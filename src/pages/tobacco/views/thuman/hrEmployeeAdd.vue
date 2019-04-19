@@ -221,7 +221,7 @@ export default {
         name: "",
         identity: "",
         birth: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         address: "",
         phone: "",
@@ -269,7 +269,12 @@ export default {
     this.formItem.birth = this.dateFormat(new Date(), "YYYY-MM-DD ");
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   components: {
     OrganizationForm
