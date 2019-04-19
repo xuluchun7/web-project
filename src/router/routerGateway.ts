@@ -33,7 +33,6 @@ router.beforeEach((to, from, next: any) => {
       next({ path: '/' });
     } else if (util.isNullOrEmpty(user.user.loginName)) {
       // 判断当前用户是否已拉取完user_info信息，注意用户信息是放置在store里，如果刷新浏览器后，会重新执行下列操作
-
       store
         .dispatch('loadEnv')
         .then((response: any) => {

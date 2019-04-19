@@ -263,11 +263,14 @@ export default {
     };
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   created() {
     this.onSearchButtonClick();
-    console.log(this.$store.state.user);
   },
   components: {
     "add-form": AddForm,
