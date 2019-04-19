@@ -87,6 +87,7 @@ import designSchemeApi from "../../api/tfarm/apiDesignScheme";
 import designSchemeClassifyApi from "../../api/tfarm/apiDesignSchemeClassify";
 import levelApi from "@/api/xbasic/apiLevel";
 import constant from "../../lang/zh/constant";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -116,13 +117,18 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
+  },
   created() {
-    if (this.$store.getters.user.organization !== undefined) {
-      let item = this.$store.getters.user.organization;
-      this.formItem.organizationId = item.organizationId;
-      this.formItem.organizationCode = item.organizationCode;
-      this.formItem.organizationName = item.organizationName;
-    }
+    this.formItem.organizationId = this.userOrgId;
+    this.formItem.organizationCode =  this.userOrgId;
+    this.formItem.organizationName =  this.organizationName;
     Promise.all([
       designSchemeClassifyApi.getAll({
         size: 500,

@@ -70,6 +70,7 @@ i18n.mergeLocaleMessage('zh', {
 i18n.mergeLocaleMessage('zh', {
   constant: require('./lang/zh/constant').default
 });
+
 new Vue({
   router,
   store,

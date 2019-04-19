@@ -242,6 +242,7 @@
 import processApi from "../../api/tfarm/apiProcess";
 import designSchemeApi from "../../api/tfarm/apiDesignScheme";
 import designSchemeClassifyApi from "../../api/tfarm/apiDesignSchemeClassify";
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "visible"],
   data() {
@@ -312,14 +313,19 @@ export default {
       this.formItem.begin = this.formItem.begin.toString();
     }
 
-    if (this.$store.getters.user.organization !== undefined) {
-      let item = this.$store.getters.user.organization;
-      this.formItem.organizationId = item.organizationId;
-      this.formItem.organizationCode = item.organizationCode;
-      this.formItem.organizationName = item.organizationName;
-    }
+    this.formItem.organizationId = this.userOrgId;
+    this.formItem.organizationCode = this.userOrgId;
+    this.formItem.organizationName = this.organizationName;
     this.formItem.lead = this.item === undefined ? undefined : this.item.lead;
     this.load();
+  },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   watch: {
     item(curVal, oldVal) {
