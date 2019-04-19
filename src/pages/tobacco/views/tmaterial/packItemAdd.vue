@@ -1,21 +1,20 @@
 <template>
-  <el-form :model="formItem" label-width="80px" :rules="ruleValidate" ref="formValidate">
+  <el-form :model="formItem"
+           label-width="80px"
+           :rules="ruleValidate"
+           ref="formValidate">
     <el-form-item :label="$t('tobacco.tmaterial.packItem.pack')">
-      <el-input
-        v-bind:placeholder="$t('base.pleaseInput')"
-        :disabled="true"
-        v-model="formItem.pack.name"
-      />
+      <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                :disabled="true"
+                v-model="formItem.pack.name" />
     </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.packItem.material')">
-      <el-autocomplete
-        class="inline-input"
-        style="width:100%"
-        :value="formItem.material.name"
-        :fetch-suggestions="querySearch"
-        placeholder="请输入物资名称过滤"
-        @select="handleSelect"
-      >
+      <el-autocomplete class="inline-input"
+                       style="width:100%"
+                       :value="formItem.material.name"
+                       :fetch-suggestions="querySearch"
+                       placeholder="请输入物资名称过滤"
+                       @select="handleSelect">
         <template slot-scope="{ item }">
           <span style="float: left;width:20%; color: #8492a6; font-size: 13px">{{ item.code }}</span>
           <span style="float: left;">{{ item.name }}</span>
@@ -25,31 +24,32 @@
       </el-autocomplete>
     </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.packItem.materialUnit')">
-      <el-select v-model="formItem.materialUnit.id" @change="unitSelectChange" style="width:100%">
-        <el-option
-          v-for="unit in  formData.unitList"
-          :key="unit.id"
-          :label="unit.measureName"
-          :value="unit.id"
-        ></el-option>
+      <el-select v-model="formItem.materialUnit.id"
+                 @change="unitSelectChange"
+                 style="width:100%">
+        <el-option v-for="unit in  formData.unitList"
+                   :key="unit.id"
+                   :label="unit.measureName"
+                   :value="unit.id"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.packItem.amount')">
-      <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.amount"/>
+      <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                v-model="formItem.amount" />
     </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.packItem.money')">
-      <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.money"/>
+      <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                v-model="formItem.money" />
     </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.packItem.desc')">
-      <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.desc"/>
+      <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                v-model="formItem.desc" />
     </el-form-item>
 
     <el-form-item>
-      <el-button
-        type="primary"
-        style="float: right"
-        @click="onSubmitClick('formValidate')"
-      >{{ $t('base.buttonSave') }}</el-button>
+      <el-button type="primary"
+                 style="float: right"
+                 @click="onSubmitClick('formValidate')">{{ $t('base.buttonSave') }}</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -62,7 +62,7 @@ import moment from "moment";
 import UUID from "es6-uuid";
 export default {
   props: ["parentForm"],
-  data() {
+  data () {
     return {
       formData: {
         materialList: [],
@@ -70,7 +70,9 @@ export default {
       },
       formItem: {
         pack: "",
-        material: "",
+        material: {
+          id: "", name: ""
+        },
         materialUnit: {
           id: "",
           measureName: ""
@@ -84,25 +86,25 @@ export default {
       }
     };
   },
-  created() {
+  created () {
     this.load();
     Promise.all([materialApi.getAll({ size: 500, sort: "code" })])
       .then(([materialResponse]) => {
         this.formData.materialList = materialResponse.content;
       })
-      .catch(error => {});
+      .catch(error => { });
   },
   methods: {
-    load() {
+    load () {
       this.formItem.pack = JSON.parse(JSON.stringify(this.parentForm));
     },
-    unitSelectChange(value) {
+    unitSelectChange (value) {
       var name = this.formData.unitList.find(item => {
         return item.id === value;
       }).measureName;
       this.formItem.materialUnit.measureName = name;
     },
-    querySearch(queryString, cb) {
+    querySearch (queryString, cb) {
       var materials = this.formData.materialList;
       var results = queryString
         ? materials.filter(this.createFilter(queryString))
@@ -110,14 +112,14 @@ export default {
       // 调用 callback 返回建议列表的数据
       cb(results);
     },
-    createFilter(queryString) {
+    createFilter (queryString) {
       return material => {
         return (
           material.name.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
         );
       };
     },
-    handleSelect(item) {
+    handleSelect (item) {
       this.formItem.material = JSON.parse(JSON.stringify(item));
       this.formData.unitList = [];
       this.formItem.materialUnit = {};
@@ -130,9 +132,9 @@ export default {
         .then(([unitResponse]) => {
           this.formData.unitList = unitResponse.content;
         })
-        .catch(error => {});
+        .catch(error => { });
     },
-    onSubmitClick(name) {
+    onSubmitClick (name) {
       var price =
         this.formItem.amount === 0
           ? 0
@@ -193,7 +195,7 @@ export default {
       });
     },
 
-    formReset(name) {
+    formReset (name) {
       this.$refs[name].resetFields();
     }
   }
