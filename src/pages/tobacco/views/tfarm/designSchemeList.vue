@@ -266,17 +266,14 @@ export default {
     };
   },
   created() {
-    let orgId = undefined;
-    if (this.$store.getters.user.organization !== undefined) {
-      orgId = this.$store.getters.user.organization.organizationId;
-      this.formData.distributeOptions = [
-        {
-          id: this.$store.getters.user.organization.organizationId,
-          name: this.$store.getters.user.organization.organizationName,
-          children: []
-        }
-      ];
-    }
+    let orgId = this.userOrgId;
+    this.formData.distributeOptions = [
+      {
+        id: this.userOrgId,
+        name: this.organizationName,
+        children: []
+      }
+    ];
     this.searchData.annual = this.$store.state.system.annual + "";
     Promise.all([
       designSchemeClassifyApi.getAll({
@@ -492,8 +489,8 @@ export default {
       if (node.level === 0) {
         return resolve([
           {
-            id: this.$store.getters.user.organization.organizationId,
-            name: this.$store.getters.user.organization.organizationName,
+            id: this.userOrgId,
+            name: this.organizationName,
             children: []
           }
         ]);
@@ -590,7 +587,7 @@ export default {
       let keys = this.$refs.tree.getCheckedKeys();
       console.info(keys);
       if (this.$store.getters.user.organization !== undefined) {
-        let orgId = this.$store.getters.user.organization.organizationId;
+        let orgId = this.userOrgId;
         let index = keys.indexOf(orgId);
         if (index !== -1) {
           keys.splice(index, 1);

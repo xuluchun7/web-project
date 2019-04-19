@@ -150,6 +150,7 @@ import designSchemeClassifyApi from "../../api/tfarm/apiDesignSchemeClassify";
 import designSchemeApi from "../../api/tfarm/apiDesignScheme";
 import levelApi from "@/api/xbasic/apiLevel";
 import reportApi from "../../api/tfarm/apiProcessReport";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -409,6 +410,13 @@ export default {
       this.onSearchButtonClick();
       done();
     }
+  },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   }
 };
 </script>
