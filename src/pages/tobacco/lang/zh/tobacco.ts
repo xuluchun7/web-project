@@ -2118,6 +2118,15 @@ export default {
       convertAmount: '换算数量',
       units: '计量单位',
       salePrice: '销售单价'
+    },
+    quota: {
+      year: '年度',
+      title: '描述',
+      author: '登记人',
+      date: '登记日期',
+      amount: '数量',
+      control: '状态',
+      desc: '备注',
     }
   }
 };
