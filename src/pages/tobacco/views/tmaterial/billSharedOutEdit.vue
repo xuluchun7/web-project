@@ -104,6 +104,7 @@ import billApi from "../../api/tmaterial/apiBillOut";
 import warehouseApi from "../../api/tmaterial/apiWarehouse";
 import { parseDate } from "@/filters/index.ts";
 import booksApi from "../../api/tmaterial/apiBooks";
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "operation", "isEdit", "visible"],
   data() {
@@ -233,7 +234,11 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   watch: {
     item(curVal, oldVal) {
