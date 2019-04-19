@@ -522,6 +522,8 @@ export default {
     this.formData.title = this.$route.query.title;
     this.formData.balance = this.$route.query.balance;
     this.formData.grantObject = this.$route.query.grant;
+    this.searchData.organizationId = this.userOrgId;
+    this.searchData.deliveryOrganizationId = this.userOrgId;
   },
   components: {
     OrganizationForm: () => import("@/components/Organization"),
@@ -530,19 +532,13 @@ export default {
     billItemAdd: () => import("./billSharedOutItemAdd.vue")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.organizationId = undefined;
-        this.searchData.deliveryOrganizationId = undefined;
-        return undefined;
-      } else {
-        this.searchData.organizationId = this.userOrgId;
-        this.searchData.deliveryOrganizationId = this.userOrgId;
-        return this.userOrgId;
-      }
-    }
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
-
   methods: {
     onAuditClick(billId) {
       this.$confirm(

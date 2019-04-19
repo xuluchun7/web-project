@@ -19,7 +19,7 @@
                                :oId.sync="formItem.operationId"
                                @onchange="sourceOrganizationOnchange"
                                v-if="haveorg" />
-          <organization-form :root="sourceOrgId"
+          <organization-form :root="userOrgId.slice(0, 4)"
                              @onchange="sourceOrganizationOnchange"
                              style="width:100%"
                              v-if="!haveorg"
@@ -310,13 +310,6 @@ export default {
       userOrgId: "organizationId",
       organizationName: "organizationName", userName: "userName"
     }),
-    sourceOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId.slice(0, 4);
-      }
-    }
   },
   created() {
     this.load();

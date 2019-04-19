@@ -832,11 +832,7 @@ export default {
       }
     },
     remoteFarmerMethod(query) {
-      if (this.$store.state.user.organization === undefined) {
-        this.dataItem.orgId = undefined;
-      } else {
         this.dataItem.orgId = this.userOrgId;
-      }
       if (query !== "") {
         this.loading2 = true;
         Promise.all([

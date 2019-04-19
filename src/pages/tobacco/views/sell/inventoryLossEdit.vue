@@ -246,8 +246,7 @@ export default {
         desc: "",
         organization: {
           organizationId: this.userOrgId,
-          organizationCode: this.$store.state.user.organization
-            .organizationCode,
+          organizationCode: this.userOrgId,
           organizationName: this.organizationName
         }
       },

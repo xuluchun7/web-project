@@ -182,7 +182,7 @@
 <script>
 import menuApi from "@/api/base/apiMenu";
 import iconList from "@/components/Icon";
-
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
   components: {
@@ -251,8 +251,8 @@ export default {
     };
   },
   created() {
-    this.formItem.systemId = this.$store.state.user.system.id;
-    this.formItem.systemName = this.$store.state.user.system.name;
+    this.formItem.systemId = this.system.id;
+    this.formItem.systemName = this.system.name;
     this.formData.prefixCode = this.formItem.systemId;
     Promise.all([
       menuApi.getMenuTree(this.formItem.systemId, {
@@ -267,11 +267,6 @@ export default {
       })
       .catch(error => {});
     this.load();
-    /*Promise.all([systemApi.getAll()])
-        .then(([systems]) => {
-          this.formData.systemList = systems.content;
-        })
-        .catch(error => {});*/
   },
   methods: {
     load() {
@@ -437,6 +432,9 @@ export default {
       this.acceptData = JSON.parse(JSON.stringify(curVal));
       this.load();
     }
+  },
+  computed: {
+    ...mapGetters({ system: "system" })
   }
 };
 </script>

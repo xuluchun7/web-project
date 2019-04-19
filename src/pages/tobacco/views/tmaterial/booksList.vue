@@ -131,6 +131,7 @@
 const AddForm = () => import("./booksAdd.vue");
 const EditForm = () => import("./booksEdit.vue");
 import booksApi from "../../api/tmaterial/apiBooks";
+import { mapGetters } from "vuex";
 const status = [
   { value: 0, label: "编辑" },
   { value: 5, label: "启用" },
@@ -200,15 +201,7 @@ export default {
   },
   created() {},
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.organizationId = undefined;
-        return undefined;
-      } else {
-        this.searchData.organizationId = this.userOrgId;
-        return this.userOrgId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   components: {
     OrganizationForm: () => import("@/components/Organization"),

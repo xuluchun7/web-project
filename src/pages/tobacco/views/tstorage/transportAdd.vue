@@ -13,7 +13,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item :label="$t('tobacco.tstorage.transport.destinationName')">
-          <organization-form :root="userOrgId2"
+          <organization-form :root="userOrgId.slice(0, 4)"
                              @onchange="organizationOnchange2"
                              :showRoot="false"
                              style="width:100%" />
@@ -250,15 +250,9 @@ export default {
     ...mapGetters({
       userDistrictId: "districtId",
       userOrgId: "organizationId",
-      organizationName: "organizationName",  userName: "userName"
-    }),
-    userOrgId2() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId.slice(0, 4);
-      }
-    }
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   created() {
     this.formItem.annual = new Date().getFullYear().toString();

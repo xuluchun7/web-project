@@ -86,7 +86,7 @@
 <script>
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 import hrEmployeeRelation from "../../api/thuman/api_hrEmployeeRelation";
-
+import { mapGetters } from "vuex";
 const OrganizationForm = () => import("@/components/Organization");
 export default {
   props: ["item", "visible", "organizeId"],
@@ -126,26 +126,12 @@ export default {
     };
   },
   created() {
-    if (!(this.userOrgId === undefined)) {
-      this.searchData.orgId = this.userOrgId;
-    }
+    this.searchData.orgId = this.userOrgId;
     this.load();
   },
   computed: {
-    userOrgId() {
-      if (this.organizeId !== undefined || this.organizeId !== this.userOrgId) {
-        return this.organizeId;
-      } else {
-        if (this.$store.state.user.organization === undefined) {
-          this.searchData.orgId = undefined;
-          return undefined;
-        } else {
-          this.searchData.orgId = this.userOrgId;
-          return this.userOrgId;
-        }
-      }
-    }
-  },
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    },
   components: { OrganizationForm },
   methods: {
     load() {

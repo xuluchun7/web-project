@@ -299,7 +299,7 @@ export default {
         serial: "",
         number: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         operation: "", //这里的operation存的是别名
         tobaccoYear: "",
@@ -357,7 +357,7 @@ export default {
     statusSelect
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName",userName:'userName'})
   },
   created() {
     this.load();

@@ -14,7 +14,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item :label="$t('tobacco.tstorage.transport.destinationName')">
-          <organization-form :root="userOrgId2"
+          <organization-form :root="userOrgId.slice(0, 4)"
                              :orgId='formItem.destinationId'
                              @onchange="organizationOnchange2"
                              :showRoot="false"
@@ -270,14 +270,7 @@ export default {
       userDistrictId: "districtId",
       userOrgId: "organizationId",
       organizationName: "organizationName"
-    }),
-    userOrgId2() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId.slice(0, 4);
-      }
-    }
+    })
   },
   created() {
     this.load();
