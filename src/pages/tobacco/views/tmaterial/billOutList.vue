@@ -340,7 +340,6 @@
 <script>
 const AddForm = () => import("./billSharedOutAdd.vue");
 const EditForm = () => import("./billSharedOutEdit.vue");
-import animate from "animate.css";
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui
 import billApi from "../../api/tmaterial/apiBillOut";
 import billItemApi from "../../api/tmaterial/apiBillItem";
