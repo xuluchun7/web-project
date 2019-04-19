@@ -379,6 +379,7 @@ import balanceApi from "../../api/setup/api_balance";
 import invoiceApi from "../../api/tsell/api_invoice";
 import seContractApi from "../../api/tsell/api_seContract";
 import receiptApi from "../../api/tsell/api_receipt";
+import { mapGetters } from "vuex";
 export default {
   props: ["item"],
   data() {
@@ -528,13 +529,17 @@ export default {
     OrganizationForm
   },
 
-  computed: {},
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      loginName: "loginName",
+      userName: "userName"
+    })
+  },
   created() {
-    if (this.$store.state.user.organization === undefined) {
-      this.dataItem.orgId = undefined;
-    } else {
-      this.dataItem.orgId = this.userOrgId;
-    }
+     this.dataItem.orgId = this.userOrgId;
     // this.dataItem.uid = JSON.parse(JSON.stringify(this.item)).uid;
     Promise.all([
       balanceApi.getAll({
@@ -692,11 +697,7 @@ export default {
     },
     remoteFarmerMethod(query) {
       if (query !== "") {
-        if (this.$store.state.user.organization === undefined) {
-          this.dataItem.orgId = undefined;
-        } else {
-          this.dataItem.orgId = this.userOrgId;
-        }
+       this.dataItem.orgId = this.userOrgId;
         this.loading2 = true;
         Promise.all([
           seContractApi.getAll({

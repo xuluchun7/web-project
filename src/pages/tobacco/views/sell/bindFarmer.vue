@@ -47,8 +47,7 @@
 <script>
 import receiptApi from "../../api/tsell/api_receipt";
 import feePrint from "../../utils/support_fee_print_lodop_nomal.js";
-
-//import contractPint from '@/uitls/temp_contract_print_lodop_nomal.js';
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "visible"],
   data() {
@@ -63,9 +62,15 @@ export default {
       }
     };
   },
-  /* load() {
-    this.formItem = JSON.parse(JSON.stringify(this.item));
-  }, */
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      loginName: "loginName",
+      userName: "userName"
+    })
+  },
   created() {
     var tempObj = JSON.parse(JSON.stringify(this.item));
     if (
@@ -87,17 +92,7 @@ export default {
       .catch(error => {});
     console.log(JSON.parse(JSON.stringify(this.item)));
   },
-  /* computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.formItem.orgId = undefined;
-        return undefined;
-      } else {
-        this.formItem.orgId = this.userOrgId;
-        return this.userOrgId;
-      }
-    }
-  }, */
+
   methods: {
     selectChange(id) {
       let obj = {};

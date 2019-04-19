@@ -63,13 +63,9 @@ export default {
   },
   created() {
     this.formItem.level = this.level;
-    if (this.$store.state.user.organization !== undefined) {
-      this.formItem.organizationId = this.userOrgId;
-      this.formItem.organizationCode = this.userOrgId;
-      this.formItem.organizationName = this.organizationName;
-    } else {
-      this.formItem.organizationId = this.loginName;
-    }
+    this.formItem.organizationId = this.userOrgId;
+    this.formItem.organizationCode = this.userOrgId;
+    this.formItem.organizationName = this.organizationName;
 
     this.formItem.operator = "[{loginId}]{userName}".format({
       loginId: this.loginName,
@@ -78,8 +74,11 @@ export default {
   },
   computed: {
     ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
       loginName: "loginName",
-      userName:"userName"
+      userName: "userName"
     })
   },
   methods: {

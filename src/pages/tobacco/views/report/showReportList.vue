@@ -139,7 +139,11 @@ export default {
     };
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   created() {
     this.initComponent();
@@ -224,10 +228,7 @@ export default {
                   promiseList.push(
                     statisticParamApi.getParamData(
                       url.format({
-                        organizationId:
-                          this.$store.state.user.organization === undefined
-                            ? "1151"
-                            :this.userOrgId
+                        organizationId: this.userOrgId
                       }),
                       {}
                     )
@@ -321,11 +322,7 @@ export default {
             //对需要初始化值的字段进行处理(这些字段必须约定好)
             if (item.type === "organization") {
               //组织单位
-              this.$set(
-                this.searchData,
-                item.name,
-               this.userOrgId
-              ); //脚本命名必须是organizationId
+              this.$set(this.searchData, item.name, this.userOrgId); //脚本命名必须是organizationId
               this.$set(
                 this.templateData,
                 item.templateName,

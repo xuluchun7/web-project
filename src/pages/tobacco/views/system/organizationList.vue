@@ -131,6 +131,7 @@
 <script>
 import organizationApi from "@/api/xbasic/apiOrganization";
 const OrganizationForm = () => import("@/components/Organization");
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -164,14 +165,12 @@ export default {
     this.searchData.annual = this.$store.state.system.annual + "";
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.orgId = undefined;
-        return undefined;
-      } else {
-        this.searchData.orgId = this.userOrgId;
-        return this.userOrgId;
-      }
+    computed: {
+      ...mapGetters({
+        userDistrictId: "districtId",
+        userOrgId: "organizationId",
+        organizationName: "organizationName"
+      })
     },
     annual() {
       return this.$store.state.system.annual;

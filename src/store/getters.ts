@@ -29,7 +29,7 @@ const getters = {
   },
   districtName: (state) => {
     if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.districtName)) {
-      return '51';
+      return '四川省';
     }
     else {
       return state.user.user.detail.districtName;
@@ -37,7 +37,7 @@ const getters = {
   },
   organizationId: (state) => {
     if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.organizationId)) {
-      return '0';
+      return '1151';
     }
     else {
       return state.user.user.detail.organizationId;
@@ -45,7 +45,7 @@ const getters = {
   },
   organizationName: (state) => {
     if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.organizationName)) {
-      return '0';
+      return '四川省烟草公司';
     }
     else {
       return state.user.user.detail.organizationName;

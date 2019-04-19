@@ -371,13 +371,7 @@ export default {
       organizationName: "organizationName",
       userName: "userName"
     }),
-    userOrgId2() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId.slice(0, 6); //获取市一级的组织单位
-      }
-    }
+    
   },
   created() {
     this.load();

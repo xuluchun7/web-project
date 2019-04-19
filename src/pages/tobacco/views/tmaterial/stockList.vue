@@ -153,6 +153,7 @@ const InitForm = () => import("./stockInit.vue");
 const EditForm = () => import("./stockEdit.vue");
 import stockApi from "../../api/tmaterial/apiStock";
 import warehouseApi from "../../api/tmaterial/apiWarehouse";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -223,7 +224,9 @@ export default {
     };
   },
 
-  created() {},
+  created() {
+    this.searchData.organizationId = this.userOrgId;
+  },
   components: {
     "add-form": AddForm,
     "edit-form": EditForm,
@@ -366,15 +369,12 @@ export default {
     }
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.organizationId = undefined;
-        return undefined;
-      } else {
-        this.searchData.organizationId = this.userOrgId;
-        return this.userOrgId;
-      }
-    }
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   }
 };
 </script>
