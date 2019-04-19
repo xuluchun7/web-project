@@ -135,7 +135,6 @@
         <report-form :item.sync=formData.viewSelect
                      :visible.sync="childForm.reportForm" />
 
-       
       </el-dialog>
     </template>
   </div>
@@ -150,7 +149,7 @@ import categoryApi from "../../api/basic/api_category";
 import designSchemeClassifyApi from "../../api/tfarm/apiDesignSchemeClassify";
 import designSchemeApi from "../../api/tfarm/apiDesignScheme";
 import levelApi from "@/api/xbasic/apiLevel";
-import reportApi from '../../api/tfarm/apiProcessReport'
+import reportApi from "../../api/tfarm/apiProcessReport";
 export default {
   data() {
     return {
@@ -347,7 +346,6 @@ export default {
     showReport(row) {
       this.formData.viewSelect = row;
       this.childForm.reportForm = true;
-     
     },
     deleteButtonClick(row) {
       Promise.all([processApi.deleteProcess(row.id)])
@@ -390,9 +388,7 @@ export default {
           this.searchData.annual,
           this.searchData.designScheme,
           this.searchData.classify,
-          this.$store.getters.user.organization !== undefined
-            ? this.$store.getters.user.organization.organizationId
-            : ""
+          this.userOrgId
         )
       ])
         .then(([response]) => {

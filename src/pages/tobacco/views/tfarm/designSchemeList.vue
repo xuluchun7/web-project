@@ -307,7 +307,11 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   components: {
     "add-form": AddForm,
@@ -456,12 +460,8 @@ export default {
       let search = "startAnnual:eq:{annual};".format({
         annual: this.searchData.annual
       });
-      let orgId = "";
-      if (this.$store.getters.user.organization !== undefined) {
-        orgId = this.$store.getters.user.organization.organizationId;
-      }
       search = "organization.organizationId:eq:{organizationId};".format({
-        organizationId: orgId
+        organizationId: this.userOrgId
       });
       if (this.searchData.classify !== "-") {
         search += "classify.id:eq:" + this.searchData.classify;
