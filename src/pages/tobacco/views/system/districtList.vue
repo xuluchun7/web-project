@@ -157,7 +157,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    ...mapGetters({ userDistrictId:'districtId' }),
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"}),
    
     annual() {
       return this.$store.state.system.annual;

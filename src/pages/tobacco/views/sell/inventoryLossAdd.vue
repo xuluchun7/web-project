@@ -140,7 +140,7 @@ const typeGradeSelect = () => import("@/components/Tobacco/typeGradeSelect");
 const typeVarietyGradeSelect = () =>
   import("@/components/Tobacco/typeVarietyGradeSelect");
 import inventoryLossApi from "../../api/tsell/api_inventoryLoss";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -178,7 +178,7 @@ export default {
         organizationId: this.userOrgId,
         organizationOrder: 0,
         organizationCode: this.$store.state.user.organization.organizationCode,
-        organizationName: this.$store.state.user.organization.organizationName
+        organizationName: this.rganizationName
       },
       formData: {
         stateList: [
@@ -228,7 +228,7 @@ export default {
     this.formItem.date = this.getNowFormatDate();
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   components: {
     OrganizationForm,

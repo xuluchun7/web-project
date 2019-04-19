@@ -102,7 +102,7 @@ export default {
         date: parseDate(new Date(), "YYYY-MM-DD"),
         status: 5,
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationIds: [this.userOrgId],
         organizationOrder: "",
         organizationCode: this.userOrgId
@@ -123,7 +123,7 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     onSubmitClick(name) {

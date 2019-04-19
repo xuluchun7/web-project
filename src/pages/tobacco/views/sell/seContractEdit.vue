@@ -272,7 +272,7 @@ import tareaApi from "@/api/tobacco/apiArea";
 import categoryApi from "../../api/basic/api_category";
 import hrFarmerApi from "../../api/thuman/api_hrFarmer";
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
-
+import { mapGetters } from "vuex";
 const typeSelect = () => import("@/components/Tobacco/typeSelect");
 const OrganizationForm = () => import("@/components/Organization");
 
@@ -337,7 +337,7 @@ export default {
         control: "",
         desc: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: 0,
         organizationCode: this.userOrgId,
         districtId: "",

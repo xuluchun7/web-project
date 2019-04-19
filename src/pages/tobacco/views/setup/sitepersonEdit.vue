@@ -92,6 +92,7 @@
 </template>
 <script>
 import sitepersonApi from "../../api/setup/api_siteperson";
+import { mapGetters } from "vuex";
 
 const OrganizationForm = () => import("@/components/Organization");
 
@@ -101,7 +102,7 @@ export default {
     return {
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         webmaster: "",

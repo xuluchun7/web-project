@@ -526,7 +526,7 @@ export default {
     "edit-form2": EditForm2
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     onExpandClick() {

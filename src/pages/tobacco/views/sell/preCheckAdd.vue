@@ -236,14 +236,14 @@ import preCheckApi from "../../api/tsell/api_preCheck";
 import seContractApi from "../../api/tsell/api_seContract";
 import partApi from "../../api/basic/api_part";
 import colorApi from "../../api/basic/api_color";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       loading: false,
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: 0,
         organizationCode: this.userOrgId,
         annual: "",
@@ -324,7 +324,7 @@ export default {
     typeVarietyGradeSelect
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   created() {
     this.formItem.date = new Date();

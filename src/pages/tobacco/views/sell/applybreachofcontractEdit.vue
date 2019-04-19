@@ -150,7 +150,7 @@ export default {
       controllist: [],
       formItem: {
         organizationId:this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode:this.userOrgId,
         applyPerson: this.$store.state.user.userName,
@@ -175,7 +175,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   created() {
     this.load();

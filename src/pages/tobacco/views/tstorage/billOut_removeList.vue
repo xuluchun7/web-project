@@ -577,7 +577,7 @@ export default {
     "inventory-form": InventoryForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     checkEdit2(item) {

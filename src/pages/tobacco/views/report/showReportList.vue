@@ -139,7 +139,7 @@ export default {
     };
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   created() {
     this.initComponent();
@@ -329,7 +329,7 @@ export default {
               this.$set(
                 this.templateData,
                 item.templateName,
-                this.$store.state.user.organization.organizationName
+                this.organizationName
               ); //脚本命名必须是organizationName
             } else if (item.type === "annual") {
               //年度组件

@@ -45,6 +45,7 @@
 <script>
 import inventoryLifecycleApi from "../../api/setup/api_inventoryLifecycle";
 import categoryApi from "../../api/basic/api_category";
+import { mapGetters } from "vuex";
 
 const OrganizationForm = () => import("@/components/Organization");
 
@@ -56,7 +57,7 @@ export default {
         sort: "",
         title: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         type: ""

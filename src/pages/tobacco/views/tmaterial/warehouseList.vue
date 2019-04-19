@@ -347,7 +347,7 @@ export default {
     AddStock: () => import("./stockAdd")
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   filters: {
     capitalizeState: function(value) {

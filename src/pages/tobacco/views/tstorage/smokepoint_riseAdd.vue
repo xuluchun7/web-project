@@ -148,6 +148,7 @@ const typeVarietyGradeSelect = () =>
 
 import smokepointApi from "../../api/tstorage/api_smokepoint";
 import categoryApi from "../../api/basic/api_category";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -155,7 +156,7 @@ export default {
       controllist: [],
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "0",
         organizationCode: this.userOrgId,
         annual: "",
@@ -212,7 +213,7 @@ export default {
     typeVarietyGradeSelect
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     organizationOnchange(label, value, values) {

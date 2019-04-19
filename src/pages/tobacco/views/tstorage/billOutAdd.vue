@@ -235,6 +235,7 @@ import stackApi from "../../api/tstorage/api_stack";
 import operationApi from "../../api/tstorage/api_operation";
 import booksApi from "../../api/tstorage/api_books";
 import categoryApi from "../../api/basic/api_category";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -246,7 +247,7 @@ export default {
         warehouse: "",
         stack: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "0",
         organizationCode: this.userOrgId,
         serial: "",
@@ -294,7 +295,7 @@ export default {
     organizationSelect
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   created() {
     this.load();

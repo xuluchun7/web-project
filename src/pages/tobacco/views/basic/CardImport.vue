@@ -85,7 +85,7 @@ export default {
         usage: "",
         sheetName: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId
       },
@@ -106,8 +106,8 @@ export default {
     OrganizationForm
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
-  },
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   methods: {
     getRootPath() {
       let isProduction = process.env.NODE_ENV === "production";

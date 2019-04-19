@@ -159,6 +159,7 @@
 </template>
 <script>
 import operationApi from "../../api/tstorage/api_operation";
+import { mapGetters } from "vuex";
 
 const OrganizationForm = () => import("@/components/Organization");
 
@@ -184,7 +185,7 @@ export default {
         constraint: true,
         desc: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "0",
         organizationCode: this.userOrgId,
         districtOrder: "0"
@@ -262,7 +263,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     getRelation() {

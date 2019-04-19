@@ -37,6 +37,7 @@
 </template>
 <script>
 import bakeProgressApi from "../../api/tsell/api_bakeProgress";
+import { mapGetters } from "vuex";
 export default {
   props: ["level"],
   data() {
@@ -65,7 +66,7 @@ export default {
     if (this.$store.state.user.organization !== undefined) {
       this.formItem.organizationId = this.userOrgId;
       this.formItem.organizationCode = this.userOrgId;
-      this.formItem.organizationName = this.$store.state.user.organization.organizationName;
+      this.formItem.organizationName = this.organizationName;
     } else {
       this.formItem.organizationId = this.$store.state.user.loginName;
     }

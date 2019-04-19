@@ -69,6 +69,7 @@
 </template>
 <script>
 import stationApi from "../../api/setup/api_station";
+import { mapGetters } from "vuex";
 
 const OrganizationForm = () => import("@/components/Organization");
 
@@ -99,7 +100,7 @@ export default {
         serial: "", //数据后台生成
         organizationId: this.userOrgId,
         organizationCode: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         author: this.$store.state.user.userName,
         date: "",
         alias: "",
@@ -151,7 +152,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     getNowFormatDate() {

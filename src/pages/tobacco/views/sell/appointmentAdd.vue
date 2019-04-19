@@ -200,17 +200,17 @@
 <script>
 import appointmentApi from "../../api/tsell/api_appointment";
 import partApi from "../../api/basic/api_part";
-
+import { mapGetters } from "vuex";
 const OrganizationForm = () => import("@/components/Organization");
 const typeSelect = () => import("@/components/Tobacco/typeSelect");
-import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
       fisrtLoad: false,
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: 0,
         organizationCode: this.userOrgId,
         annual: "",
@@ -254,7 +254,7 @@ export default {
     typeSelect
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   created() {
     this.formItem.annual = new Date().getFullYear().toString();

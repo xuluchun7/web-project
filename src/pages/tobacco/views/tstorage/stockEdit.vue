@@ -217,6 +217,7 @@ import stockApi from "../../api/tstorage/api_stock";
 import warehouseApi from "../../api/tstorage/api_warehouse";
 import regionApi from "../../api/tstorage/api_region";
 import booksApi from "../../api/tstorage/api_books";
+import { mapGetters } from "vuex";
 
 export default {
   props: ["item", "isEdit", "visible"],
@@ -227,7 +228,7 @@ export default {
       allData: {},
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         annual: 0,

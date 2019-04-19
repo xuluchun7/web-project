@@ -132,8 +132,9 @@ const AddForm = () => import("./parameterAdd.vue");
 const EditForm = () => import("./parameterEdit.vue");
 const OrganizationForm = () => import("@/components/Organization");
 import parameterApi from "../../api/setup/api_parameter";
-
+import { mapGetters } from "vuex";
 import balanceApi from "../../api/setup/api_balance";
+
 export default {
   data() {
     return {
@@ -185,7 +186,7 @@ export default {
         categoryId: "",
         annual: "",
         balanceId: "",
-        organizationName: this.$store.state.user.organization.organizationName
+        organizationName: this.organizationName
       },
       formData: {
         parameterList: [],
@@ -231,7 +232,7 @@ export default {
       .catch(error => {});
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   components: {
     "add-form": AddForm,

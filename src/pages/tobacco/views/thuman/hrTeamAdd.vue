@@ -156,6 +156,7 @@
 </template>
 <script>
 import hrTeamApi from "../../api/thuman/api_hrTeam";
+import { mapGetters } from "vuex";
 
 const OrganizationForm = () => import("@/components/Organization");
 
@@ -230,7 +231,7 @@ export default {
         options: [],
         organizationId: this.userOrgId,
         organizationCode: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: ""
       },
       isDisabled: true,

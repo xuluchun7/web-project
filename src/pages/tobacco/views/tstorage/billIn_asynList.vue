@@ -650,7 +650,8 @@ export default {
   computed: {
     ...mapGetters({
       userDistrictId: "districtId",
-      userOrgId: "organizationId"
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
     }),
     rowClass: function(row, index) {
       return { height: "45px !important" };

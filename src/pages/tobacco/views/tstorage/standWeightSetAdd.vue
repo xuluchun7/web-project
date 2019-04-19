@@ -90,13 +90,14 @@ const typeVarietyGradeSelect = () =>
   import("@/components/Tobacco/typeVarietyGradeSelect");
 
 import standWeightSetApi from "../../api/tstorage/api_standWeightSet";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         tobaccoYear: "",

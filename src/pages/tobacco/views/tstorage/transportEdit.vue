@@ -191,6 +191,7 @@ const statusSelect = () => import("../components/statusSelect");
 import transportApi from "../../api/tstorage/api_transport";
 import categoryApi from "../../api/basic/api_category";
 import vehicleApi from "../../api/tstorage/api_vehicle";
+import { mapGetters } from "vuex";
 
 export default {
   props: ["item", "isEdit", "visible"],
@@ -199,7 +200,7 @@ export default {
       loading: false,
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         annual: "",
@@ -267,7 +268,8 @@ export default {
   computed: {
     ...mapGetters({
       userDistrictId: "districtId",
-      userOrgId: "organizationId"
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
     }),
     userOrgId2() {
       if (this.$store.state.user.organization === undefined) {

@@ -183,6 +183,7 @@ import { parseDate } from "@/filters/index.ts";
 import booksApi from "../../api/tmaterial/apiBooks";
 import warehouseApi from "../../api/tmaterial/apiWarehouse";
 import UUID from "es6-uuid";
+import { mapGetters } from "vuex";
 export default {
   props: ["operation", "visible"],
   data() {
@@ -260,7 +261,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   watch: {
     operation(curl, old) {
@@ -322,7 +323,7 @@ export default {
         books: "",
         organizationId: this.userOrgId,
         organizationIds: [this.userOrgId],
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId
       };

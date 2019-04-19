@@ -242,7 +242,7 @@ export default {
         control: 1,
         desc: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: 0,
         organizationCode: this.userOrgId,
         districtId: "",
@@ -281,7 +281,7 @@ export default {
       .catch(error => {});
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   components: {
     OrganizationForm: () => import("@/components/Organization")

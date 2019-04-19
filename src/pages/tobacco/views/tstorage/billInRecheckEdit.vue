@@ -119,6 +119,7 @@ const typeVarietyGradeSelect = () =>
   import("@/components/Tobacco/typeVarietyGradeSelect");
 
 import billCheckApi from "../../api/tstorage/api_billCheck";
+import { mapGetters } from "vuex";
 
 export default {
   props: ["item", "isEdit", "visible"],
@@ -126,7 +127,7 @@ export default {
     return {
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: 0,
         organizationCode: this.userOrgId,
         countryId: "",

@@ -233,7 +233,7 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   watch: {
     item(curVal, oldVal) {
