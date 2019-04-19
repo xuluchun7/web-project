@@ -78,6 +78,7 @@
 <script>
 import warehouseApi from "../../api/tmaterial/apiWarehouse";
 import UUID from "es6-uuid";
+import { mapGetters } from "vuex";
 export default {
   props: ["visible"],
   data() {
@@ -96,7 +97,8 @@ export default {
         desc: "",
         organizationId: this.userOrgId,
         organizationIds: [this.userOrgId],
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.$store.state.user.user.organization
+          .organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId
       },

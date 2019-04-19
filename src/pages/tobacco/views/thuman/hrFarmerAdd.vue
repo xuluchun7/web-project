@@ -244,6 +244,7 @@
 const OrganizationForm = () => import("@/components/Organization");
 import hrFarmerApi from "../../api/thuman/api_hrFarmer";
 import categoryApi from "../../api/basic/api_category";
+import { mapGetters } from "vuex";
 export default {
   data() {
     //验证手机号

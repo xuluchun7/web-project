@@ -85,7 +85,8 @@ export default {
     bindLine: '绑定流水线',
     bindFarmer: '绑定烟农',
     printPoor: '扶持费打印',
-    annual: '年度'
+    annual: '年度',
+    index: '序号'
   },
   unit: {
     area: '面积',

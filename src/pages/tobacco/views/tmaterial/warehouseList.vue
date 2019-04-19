@@ -247,6 +247,7 @@ import stockApi from "../../api/tmaterial/apiStock";
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui
 import moment from "moment";
 import UUID from "es6-uuid";
+import { mapGetters } from "vuex";
 const status = [
   { value: 1, label: "初始化" },
   { value: 3, label: "盘点状态" },
@@ -346,15 +347,7 @@ export default {
     AddStock: () => import("./stockAdd")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.organizationId = undefined;
-        return undefined;
-      } else {
-        this.searchData.organizationId = this.userOrgId;
-        return this.userOrgId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
   },
   filters: {
     capitalizeState: function(value) {

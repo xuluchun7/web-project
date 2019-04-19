@@ -79,6 +79,7 @@
 </template>
 <script>
 import warehouseApi from "../../api/tmaterial/apiWarehouse";
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
   data() {
@@ -96,7 +97,8 @@ export default {
         desc: "",
         organizationId: this.userOrgId,
         organizationIds: [this.userOrgId],
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.$store.state.user.user.organization
+          .organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId
       },

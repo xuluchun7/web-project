@@ -26,13 +26,28 @@ const getters = {
       return state.user.user.detail.districtId;
     }
   },
+  districtName: (state) => {
+    if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.districtName)) {
+      return '51';
+    }
+    else {
+      return state.user.user.detail.districtName;
+    }
+  },
   organizationId: (state) => {
-    console.log(state.user.user.detail.organizationId);
     if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.organizationId)) {
       return '0';
     }
     else {
       return state.user.user.detail.organizationId;
+    }
+  },
+  organizationName: (state) => {
+    if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.organizationName)) {
+      return '0';
+    }
+    else {
+      return state.user.user.detail.organizationName;
     }
   }
 };

@@ -72,6 +72,7 @@ import categoryApi from "../../api/tmaterial/apiCategory";
 import measureApi from "../../api/tmaterial/apiMeasure";
 import organizationApi from "@/api/xbasic/apiOrganization";
 import moment from "moment";
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
   data() {
