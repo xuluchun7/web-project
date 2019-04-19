@@ -9,9 +9,8 @@
                 v-model="formItem.pack.name" />
     </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.packItem.material')">
-      <el-autocomplete class="inline-input"
-                       style="width:100%"
-                       :value="formItem.material.name"
+      <el-autocomplete style="width:100%"
+                       v-model="formItem.material.name"
                        :fetch-suggestions="querySearch"
                        placeholder="请输入物资名称过滤"
                        @select="handleSelect">
@@ -71,7 +70,8 @@ export default {
       formItem: {
         pack: "",
         material: {
-          id: "", name: ""
+          id: "",
+          name: ""
         },
         materialUnit: {
           id: "",

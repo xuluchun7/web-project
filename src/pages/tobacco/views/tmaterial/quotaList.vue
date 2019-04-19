@@ -36,16 +36,40 @@
         </el-table-column>
         <el-table-column prop="year"
                          :label="this.$t('tobacco.tmaterial.quota.year')" />
-        <el-table-column prop="title"
-                         :label="this.$t('tobacco.tmaterial.quota.title')" />
+        <el-table-column prop="organization"
+                         show-overflow-tooltip
+                         min-width="150px"
+                         label="所属单位">
+          <template slot-scope="scope">
+            {{scope.row.organization?scope.row.organization.organizationName:''}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="material.name"
+                         min-width="100px"
+                         label="物资名称" />
+        <el-table-column prop="unit.measureName"
+                         label="计量单位" />
+        <el-table-column prop="amount"
+                         :label="this.$t('tobacco.tmaterial.quota.amount')" />
         <el-table-column prop="author"
                          :label="this.$t('tobacco.tmaterial.quota.author')" />
         <el-table-column prop="date"
-                         :label="this.$t('tobacco.tmaterial.quota.date')" />
-        <el-table-column prop="amount"
-                         :label="this.$t('tobacco.tmaterial.quota.amount')" />
+                         :label="this.$t('tobacco.tmaterial.quota.date')">
+          <template slot-scope="scope">
+            <span v-if=" scope.row.date">
+              {{ scope.row.date|parseDate('YYYY-MM-DD') }}
+            </span>
+            <span v-else>
+              未设置
+            </span>
+          </template>
+        </el-table-column>
         <el-table-column prop="control"
-                         :label="this.$t('tobacco.tmaterial.quota.control')" />
+                         :label="this.$t('tobacco.tmaterial.quota.control')">
+          <template slot-scope="scope">
+            {{scope.row.control|capitalizeState}}
+          </template>
+        </el-table-column>
         <el-table-column prop="desc"
                          :label="this.$t('tobacco.tmaterial.quota.desc')" />
         <el-table-column fixed="right"
@@ -102,6 +126,10 @@
 const AddForm = () => import('./quotaAdd.vue');
 const EditForm = () => import('./quotaEdit.vue');
 import quotaApi from '../../api/tmaterial/apiQuota';
+const control = [
+  { value: 1, label: "启用" },
+  { value: 0, label: "停用" }
+];
 export default {
   data () {
     return {
@@ -173,6 +201,14 @@ export default {
     'add-form': AddForm,
     'edit-form': EditForm
   },
+  filters: {
+    capitalizeState: function (value) {
+      let item = control.find(it => {
+        return it.value === value;
+      });
+      return item ? item.label : "";
+    }
+  },
   methods: {
     editButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
@@ -228,8 +264,7 @@ export default {
       Promise.all([quotaApi.getAll({
         size: this.formData.pagination.pageSize,
         page: this.formData.pagination.currentPage - 1,
-        contains: 'year,title,author,date,amount,control,desc,:{keyword}:true'.format({ keyword: this.formData.pagination.keyword }),
-        search: 'year:EQ:{year};title:EQ:{title};author:EQ:{author};date:EQ:{date};amount:EQ:{amount};control:EQ:{control};desc:EQ:{desc};'.format({ year: this.searchData.year, title: this.searchData.title, author: this.searchData.author, date: this.searchData.date, amount: this.searchData.amount, control: this.searchData.control, desc: this.searchData.desc, })
+        contains: 'title,material.name,author,desc,:{keyword}:true'.format({ keyword: this.formData.pagination.keyword })
       })])
         .then(([response]) => {
           this.formData.quotaList = response.content;
