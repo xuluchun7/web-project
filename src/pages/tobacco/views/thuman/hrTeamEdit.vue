@@ -162,7 +162,7 @@
 </template>
 <script>
 import hrTeamApi from "../../api/thuman/api_hrTeam";
-
+import { mapGetters } from "vuex";
 const OrganizationForm = () => import("@/components/Organization");
 export default {
   data() {
@@ -361,15 +361,9 @@ export default {
   components: {
     OrganizationForm
   },
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  }
+   computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
 };
 </script>
 <style scoped>

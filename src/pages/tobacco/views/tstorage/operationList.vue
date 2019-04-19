@@ -286,7 +286,7 @@ const OrganizationForm = () => import("@/components/Organization");
 
 import operationApi from "../../api/tstorage/api_operation";
 import operationFromToApi from "../../api/tstorage/api_operationFromTo";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -373,15 +373,9 @@ export default {
     "menu-form": AddMenuForm,
     OrganizationForm
   },
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+   computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   methods: {
     // 行展开事件
     showFromTo(row, expandedRows) {

@@ -207,7 +207,7 @@ const statusSelect = () => import("../components/statusSelect");
 const rankSelect = () => import("../components/rankSelect");
 
 import smokepointApi from "../../api/tstorage/api_smokepoint";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -306,15 +306,9 @@ export default {
     OrganizationForm,
     rankSelect
   },
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+   computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   methods: {
     organizationOnchange(label, value, values) {
       this.searchData.organizationId = value;

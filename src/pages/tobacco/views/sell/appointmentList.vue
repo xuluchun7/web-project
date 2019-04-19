@@ -204,7 +204,7 @@ const ViewForm = () => import("./appointmentView.vue");
 const OrganizationForm = () => import("@/components/Organization");
 const typeSelect = () => import("@/components/Tobacco/typeSelect");
 import appointmentApi from "../../api/tsell/api_appointment";
-
+import { mapGetters } from "vuex";
 const path = require("path");
 
 export default {

@@ -263,7 +263,7 @@ const famerForm = () => import("./hrEmployee_showFarmer.vue");
 
 import categoryApi from "../../api/basic/api_category";
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {

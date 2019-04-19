@@ -165,7 +165,7 @@ const EditForm = () => import("./inventoryLossEdit.vue");
 const OrganizationForm = () => import("@/components/Organization");
 
 import inventoryLossApi from "../../api/tsell/api_inventoryLoss";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {

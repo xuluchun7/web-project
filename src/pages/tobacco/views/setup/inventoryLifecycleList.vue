@@ -109,7 +109,7 @@ const EditForm = () => import("./inventoryLifecycleEdit.vue");
 const OrganizationForm = () => import("@/components/Organization");
 
 import inventoryLifecycleApi from "../../api/setup/api_inventoryLifecycle";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -180,15 +180,9 @@ export default {
     "add-form": AddForm,
     "edit-form": EditForm
   },
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+   computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   methods: {
     organizationOnchange(label, value, values) {
       this.searchData.organizationId = value;

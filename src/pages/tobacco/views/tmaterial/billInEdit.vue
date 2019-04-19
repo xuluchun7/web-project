@@ -120,6 +120,7 @@ import billApi from "../../api/tmaterial/apiBillIn";
 import { parseDate } from "@/filters/index.ts";
 import booksApi from "../../api/tmaterial/apiBooks";
 import warehouseApi from "../../api/tmaterial/apiWarehouse";
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "operation", "isEdit", "visible"],
   data() {

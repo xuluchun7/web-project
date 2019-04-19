@@ -195,7 +195,7 @@ const EditForm = () => import("./hrTeamEdit.vue");
 const OrganizationForm = () => import("@/components/Organization");
 import hrTeamApi from "../../api/thuman/api_hrTeam";
 import categoryApi from "../../api/basic/api_category";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {

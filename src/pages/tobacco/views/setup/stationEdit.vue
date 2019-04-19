@@ -78,6 +78,7 @@
 </template>
 <script>
 import stationApi from "../../api/setup/api_station";
+import { mapGetters } from "vuex";
 const OrganizationForm = () => import("@/components/Organization");
 export default {
   props: ["item", "isEdit", "visible"],

@@ -224,7 +224,7 @@ const ExportForm = () => import("./paymentExport.vue");
 const OrganizationForm = () => import("@/components/Organization");
 
 import paymentApi from "../../api/tsell/api_payment";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {

@@ -407,7 +407,7 @@ const path = require("path");
 
 import transportApi from "../../api/tstorage/api_transport";
 import transportItemApi from "../../api/tstorage/api_transportItem";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {

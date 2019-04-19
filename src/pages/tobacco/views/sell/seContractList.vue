@@ -335,6 +335,8 @@ const OrganizationForm = () => import("@/components/Organization");
 import seContractApi from "../../api/tsell/api_seContract";
 import tareaApi from "@/api/tobacco/apiArea";
 import categoryApi from "../../api/basic/api_category";
+import { mapGetters } from "vuex";
+
 // 导出变量
 export default {
   data() {

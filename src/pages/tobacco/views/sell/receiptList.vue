@@ -273,7 +273,7 @@
 const AddForm = () => import("./receiptAdd.vue");
 const EditForm = () => import("./receiptEdit.vue");
 import receiptApi from "../../api/tsell/api_receipt";
-
+import { mapGetters } from "vuex";
 const OrganizationForm = () => import("@/components/Organization");
 
 export default {
@@ -393,16 +393,8 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.orgId = undefined;
-        return undefined;
-      } else {
-        this.searchData.orgId = this.userOrgId;
-        return this.userOrgId;
-      }
-    }
-  },
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   components: {
     "add-form": AddForm,
     "edit-form": EditForm,

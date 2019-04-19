@@ -478,6 +478,7 @@ import balanceApi from "../../api/setup/api_balance";
 import invoiceApi from "../../api/tsell/api_invoice";
 import seContractApi from "../../api/tsell/api_seContract";
 import receiptApi from "../../api/tsell/api_receipt";
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
   data() {
@@ -678,15 +679,7 @@ export default {
     this.load();
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.dataItem.organizationId = undefined;
-        return undefined;
-      } else {
-        this.dataItem.organizationId = this.userOrgId;
-        return this.userOrgId;
-      }
-    }
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     //获取图片路径

@@ -156,7 +156,7 @@ const EditForm = () => import("./stationEdit.vue");
 const OrganizationForm = () => import("@/components/Organization");
 
 import stationApi from "../../api/setup/api_station";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {

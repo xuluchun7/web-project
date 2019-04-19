@@ -134,7 +134,7 @@ const EditForm = () => import("./forkliftEdit.vue");
 const OrganizationForm = () => import("@/components/Organization");
 
 import forkliftApi from "../../api/tstorage/api_forklift";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {

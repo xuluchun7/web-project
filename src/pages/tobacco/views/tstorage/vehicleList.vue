@@ -133,7 +133,7 @@ const AddForm = () => import("./vehicleAdd.vue");
 const EditForm = () => import("./vehicleEdit.vue");
 const OrganizationForm = () => import("@/components/Organization");
 import vehicleApi from "../../api/tstorage/api_vehicle";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -201,15 +201,9 @@ export default {
     "edit-form": EditForm,
     OrganizationForm
   },
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+ computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   methods: {
     organizationOnchange(label, value, values) {
       this.searchData.organizationId = value;

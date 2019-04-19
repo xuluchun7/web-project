@@ -129,7 +129,7 @@
 <script>
 import balanceApi from "../../api/setup/api_balance";
 import lineApi from "../../api/setup/api_line";
-
+import { mapGetters } from "vuex";
 const OrganizationForm = () => import("@/components/Organization");
 
 export default {

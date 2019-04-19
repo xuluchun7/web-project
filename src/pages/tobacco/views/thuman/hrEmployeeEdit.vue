@@ -158,7 +158,7 @@
 const OrganizationForm = () => import("@/components/Organization");
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 import categoryApi from "../../api/basic/api_category";
-
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
   data() {
@@ -243,14 +243,8 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   methods: {
     organizationOnchange(label, value, values) {
       this.formItem.organizationId = value;
