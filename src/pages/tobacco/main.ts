@@ -13,7 +13,7 @@ import './styles/css/global.css'; // 引入针对elementui的自定义修改
 
 import Avue from '@smallwei/avue';
 import '@smallwei/avue/lib/theme-chalk/index.css';
-import animate from "animate.css";
+import animate from "animate.css/index.js";
 import App from '@/App.vue';
 import router from '@/router/index';
 import store from '@/store/index';
