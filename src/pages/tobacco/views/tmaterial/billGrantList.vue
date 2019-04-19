@@ -403,6 +403,7 @@
 
 </template>
 <script>
+import animate from "animate.css";
 const AddForm = () => import("./billGrantAdd.vue");
 const EditForm = () => import("./billSharedOutEdit.vue");
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui

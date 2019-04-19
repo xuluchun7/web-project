@@ -354,6 +354,7 @@
   </div>
 </template>
 <script>
+import animate from "animate.css";
 const AddForm = () => import("./billSharedOutAdd.vue");
 const EditForm = () => import("./billSharedOutEdit.vue");
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui

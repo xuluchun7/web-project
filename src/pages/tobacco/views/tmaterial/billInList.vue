@@ -353,6 +353,7 @@
   </div>
 </template>
 <script>
+import animate from "animate.css";
 const AddForm = () => import("./billInAdd.vue");
 const EditForm = () => import("./billInEdit.vue");
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui
