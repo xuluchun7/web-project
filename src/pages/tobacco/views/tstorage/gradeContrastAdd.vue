@@ -49,13 +49,14 @@ const OrganizationForm = () => import("@/components/Organization");
 const typeGradeSelect = () => import("@/components/Tobacco/typeGradeSelect2");
 
 import gradeContrastApi from "../../api/tstorage/api_gradeContrast";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         typeId: "",
@@ -82,15 +83,9 @@ export default {
     typeGradeSelect
   },
 
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+   computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   methods: {
     organizationOnchange(label, value, values) {
       this.formItem.organizationId = value;

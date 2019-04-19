@@ -213,6 +213,9 @@ const AddForm = () => import("./preCheckAdd.vue");
 const EditForm = () => import("./preCheckEdit.vue");
 
 import preCheckApi from "../../api/tsell/api_preCheck";
+import { mapGetters } from "vuex";
+
+
 const path = require("path");
 
 export default {
@@ -293,7 +296,7 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   components: {
     "add-form": AddForm,

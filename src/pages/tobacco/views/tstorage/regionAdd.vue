@@ -98,6 +98,7 @@
 const OrganizationForm = () => import("@/components/Organization");
 import regionApi from "../../api/tstorage/api_region";
 import warehouseApi from "../../api/tstorage/api_warehouse";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -106,13 +107,13 @@ export default {
       fileList: [],
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         number: "",
         warehouse: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         totalSpace: "",
         totalCapacity: "",
@@ -145,7 +146,12 @@ export default {
     OrganizationForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   created() {
     this.formItem.date = new Date();

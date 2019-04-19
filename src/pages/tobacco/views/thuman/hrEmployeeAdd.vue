@@ -186,6 +186,7 @@ const OrganizationForm = () => import("@/components/Organization");
 
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 import categoryApi from "../../api/basic/api_category";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -212,7 +213,7 @@ export default {
       },
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         number: "",
@@ -220,7 +221,7 @@ export default {
         name: "",
         identity: "",
         birth: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         address: "",
         phone: "",
@@ -268,7 +269,12 @@ export default {
     this.formItem.birth = this.dateFormat(new Date(), "YYYY-MM-DD ");
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   components: {
     OrganizationForm

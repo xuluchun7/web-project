@@ -206,7 +206,7 @@ const typeVarietyGradeSelect = () =>
   import("@/components/Tobacco/typeVarietyGradeSelect");
 
 import inventoryLossApi from "../../api/tsell/api_inventoryLoss";
-
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
   data() {
@@ -248,7 +248,7 @@ export default {
           organizationId: this.userOrgId,
           organizationCode: this.$store.state.user.organization
             .organizationCode,
-          organizationName: this.$store.state.user.organization.organizationName
+          organizationName: this.organizationName
         }
       },
       formData: {
@@ -290,7 +290,7 @@ export default {
     this.load();
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   components: {
     OrganizationForm,

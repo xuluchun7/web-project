@@ -168,7 +168,7 @@ const AddForm = () => import("./booksAdd.vue");
 const OrganizationForm = () => import("@/components/Organization");
 const EditForm = () => import("./booksEdit.vue");
 import booksApi from "../../api/tstorage/api_books";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -250,13 +250,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     //切换账套启用和停用

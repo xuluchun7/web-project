@@ -198,6 +198,7 @@ import warehouseApi from "../../api/tstorage/api_warehouse";
 import regionApi from "../../api/tstorage/api_region";
 import booksApi from "../../api/tstorage/api_books";
 import stackApi from "../../api/tstorage/api_stack";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -207,7 +208,7 @@ export default {
       amountDisable: false, //数量能否编辑
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         warehouse: "",
@@ -315,15 +316,9 @@ export default {
     "type-grade-select": typeGradeSelect,
     typeVarietyGradeSelect
   },
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+ computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   created() {
     //获取账套数据
     Promise.all([

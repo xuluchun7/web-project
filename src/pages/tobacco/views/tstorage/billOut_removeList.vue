@@ -439,7 +439,7 @@ import categoryApi from "../../api/basic/api_category";
 import operationApi from "../../api/tstorage/api_operation";
 import billItemApi from "../../api/tstorage/api_billItem";
 import billInApi from "../../api/tstorage/api_billIn";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -577,7 +577,7 @@ export default {
     "inventory-form": InventoryForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     checkEdit2(item) {

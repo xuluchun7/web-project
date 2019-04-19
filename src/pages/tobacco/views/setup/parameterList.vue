@@ -151,7 +151,7 @@ const AddForm = () => import("./parameterAdd.vue");
 const EditForm = () => import("./parameterEdit.vue");
 const OrganizationForm = () => import("@/components/Organization");
 import parameterApi from "../../api/setup/api_parameter";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -235,14 +235,8 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   components: {
     "add-form": AddForm,
     "edit-form": EditForm,

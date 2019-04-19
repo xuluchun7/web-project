@@ -88,7 +88,7 @@ const OrganizationForm = () => import("@/components/Organization");
 const path = require("path");
 
 import deliveryApi from "../../api/tsell/api_delivery";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -162,7 +162,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   created() {
     this.searchData.annual = new Date().getFullYear().toString();

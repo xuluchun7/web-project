@@ -156,6 +156,7 @@
 </template>
 <script>
 import hrTeamApi from "../../api/thuman/api_hrTeam";
+import { mapGetters } from "vuex";
 
 const OrganizationForm = () => import("@/components/Organization");
 
@@ -211,7 +212,7 @@ export default {
         number: "",
         card: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         leader: "",
         members: "",
@@ -230,7 +231,7 @@ export default {
         options: [],
         organizationId: this.userOrgId,
         organizationCode: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: ""
       },
       isDisabled: true,
@@ -409,13 +410,12 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   }
 };
 </script>

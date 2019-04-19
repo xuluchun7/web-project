@@ -407,7 +407,7 @@ const path = require("path");
 
 import transportApi from "../../api/tstorage/api_transport";
 import transportItemApi from "../../api/tstorage/api_transportItem";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -526,7 +526,7 @@ export default {
     "edit-form2": EditForm2
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     onExpandClick() {

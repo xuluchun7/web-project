@@ -55,7 +55,7 @@
 </template>
 <script>
 import parameterApi from "../../api/setup/api_parameter";
-
+import { mapGetters } from "vuex";
 const OrganizationForm = () => import("@/components/Organization");
 export default {
   props: ["item", "isEdit", "visible"],
@@ -140,15 +140,9 @@ export default {
       this.load();
     }
   },
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+ computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   components: {
     OrganizationForm
   }

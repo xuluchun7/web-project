@@ -56,12 +56,11 @@
 <script>
   import priceApi from '../../api/basic/api_price';
   import areaApi from '@/api/tobacco/apiArea';
-
+  import { mapGetters } from "vuex";
   const OrganizationForm = () => import('@/components/Organization');
   const varietySelect = () => import('@/components/Tobacco/varietySelect');
   const typeVarietyGradeSelect = () => import('@/components/Tobacco/typeVarietyGradeSelect');
   const statusSelect = () => import('../components/statusSelect');
-  import { mapGetters } from "vuex";
   export default {
     props: ['item', 'isEdit', 'visible'],
     data() {
@@ -69,7 +68,7 @@
         formItem: {
           'annual': 0,
           'organizationid': this.userOrgId,
-          'organizationame': this.$store.state.user.organization.organizationName,
+          'organizationame': this.organizationName,
           'pay': '',
           'area': '',
           'typeId': '',
@@ -114,7 +113,7 @@
       typeVarietyGradeSelect
     },
     computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
     },
     methods: {
       organizationOnchange(label, value, values) {

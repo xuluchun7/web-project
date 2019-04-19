@@ -331,7 +331,7 @@ const typeGradeSelect = () => import("@/components/Tobacco/typeGradeSelect");
 
 import billCheckApi from "../../api/tstorage/api_billCheck";
 import billCheckItemApi from "../../api/tstorage/api_billCheckItem";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -444,13 +444,7 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
+     ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   components: {
     OrganizationForm,

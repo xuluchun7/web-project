@@ -142,6 +142,7 @@ const EditForm = () => import("./bakeProgressEdit.vue");
 import organizationApi from "@/api/xbasic/apiOrganization";
 import bakeProgressApi from "../../api/tsell/api_bakeProgress";
 import bakeProgressTraceApi from "../../api/tsell/api_bakeProgressTrace";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -203,7 +204,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName",
+      loginName: "loginName",userName:"userName"})
   },
   created() {
     this.searchData.organizationId = this.userOrgId;
@@ -256,8 +258,8 @@ export default {
         .then(({ value }) => {
           var data = {
             bakeProgressId: row.id,
-            auditor: this.$store.state.user.userName,
-            auditId: this.$store.state.user.loginName,
+            auditor: this.userName,
+            auditId: this.loginName,
             auditOpinion: value,
             level: this.searchData.orgLevel,
             date: this.dateFormat(new Date(), "YYYY-MM-DD"),
@@ -289,8 +291,8 @@ export default {
         .then(({ value }) => {
           var data = {
             bakeProgressId: row.id,
-            auditor: this.$store.state.user.userName,
-            auditId: this.$store.state.user.loginName,
+            auditor: this.userName,
+            auditId: this.loginName,
             auditOpinion: value,
             level: this.searchData.orgLevel,
             date: this.dateFormat(new Date(), "YYYY-MM-DD"),

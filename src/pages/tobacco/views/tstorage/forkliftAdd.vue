@@ -54,18 +54,18 @@
 const OrganizationForm = () => import("@/components/Organization");
 
 import forkliftApi from "../../api/tstorage/api_forklift";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         number: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         available: true,
         desc: ""
@@ -88,7 +88,12 @@ export default {
     OrganizationForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+     ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   methods: {
     organizationOnchange(label, value, values) {

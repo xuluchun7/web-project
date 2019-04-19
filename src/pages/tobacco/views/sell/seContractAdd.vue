@@ -302,6 +302,7 @@ import tareaApi from "@/api/tobacco/apiArea";
 import categoryApi from "../../api/basic/api_category";
 import hrFarmerApi from "../../api/thuman/api_hrFarmer";
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
+import { mapGetters } from "vuex";
 const typeSelect = () => import("@/components/Tobacco/typeSelect");
 const OrganizationForm = () => import("@/components/Organization");
 export default {
@@ -358,7 +359,7 @@ export default {
         serial: "",
         number: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         countryId: "",
         countryName: "",
@@ -397,7 +398,7 @@ export default {
         control: "SC_ST01",
         desc: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: 0,
         organizationCode: this.userOrgId,
         districtId: "",
@@ -438,7 +439,12 @@ export default {
     OrganizationForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   methods: {
     getNowFormatDate() {

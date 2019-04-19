@@ -48,7 +48,7 @@ export default {
       acceptData: "",
       formItem: {
         id: "",
-        examinePerson: this.$store.state.user.userName,
+        examinePerson: this.userName,
         examineDate: "",
         examineSuggestion: "无",
         flag: true
@@ -64,7 +64,7 @@ export default {
     OrganizationForm
   },
   computed: {
-   ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName",  userName:"userName"})
   },
   created() {
     this.formItem.examineDate = new Date();

@@ -278,6 +278,7 @@ import stackApi from "../../api/tstorage/api_stack";
 import operationApi from "../../api/tstorage/api_operation";
 import booksApi from "../../api/tstorage/api_books";
 import categoryApi from "../../api/basic/api_category";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -286,7 +287,7 @@ export default {
         bookId: "",
         billNumber: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         region: "",
@@ -350,13 +351,7 @@ export default {
     whouseSelect
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId.slice(0, 6);
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   created() {
     this.load();

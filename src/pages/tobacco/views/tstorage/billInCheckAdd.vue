@@ -130,13 +130,14 @@ const typeVarietyGradeSelect = () =>
   import("@/components/Tobacco/typeVarietyGradeSelect");
 
 import billCheckApi from "../../api/tstorage/api_billCheck";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: 0,
         organizationCode: this.userOrgId,
         bid: "",
@@ -178,15 +179,9 @@ export default {
     "type-grade-select": typeGradeSelect,
     typeVarietyGradeSelect
   },
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+   computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   created() {
     this.formItem.tyear = new Date().getFullYear().toString();
   },

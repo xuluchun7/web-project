@@ -51,6 +51,7 @@
 </template>
 <script>
 import { getToken } from "@/utils/cookieUtils";
+import { mapGetters } from "vuex";
 export default {
   props: ["visible"],
   components: {
@@ -89,7 +90,7 @@ export default {
     };
   },
   computed: {
-       ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   // 获取页面初始化的数据
   created() {},

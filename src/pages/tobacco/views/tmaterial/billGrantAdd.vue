@@ -295,7 +295,7 @@ export default {
     this.formItem.operation = this.operation;
     this.loading = true;
     this.formItem.deliveryOrganizationId = this.userOrgId;
-    this.formItem.deliveryOrganizationName = this.$store.state.user.organization.organizationName;
+    this.formItem.deliveryOrganizationName = this.organizationName;
     this.onDeliveryChanged("", this.formItem.deliveryOrganizationId);
     this.formData.districtId = this.userDistrictId;
     //获取组织单位信息
@@ -340,7 +340,7 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName" ,userName: "userName"})
   },
   watch: {
     operation(curl, old) {
@@ -490,7 +490,7 @@ export default {
         annual: this.$store.state.system.annual,
         accountPeriod: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: parseDate(new Date(), "YYYY-MM-DD"),
         operation: this.operation,
         deliveryOrganizationId: "",
@@ -499,7 +499,7 @@ export default {
         arriveOrganizationId: "",
         arriveOrganizationName: "",
         arriveInfo: "",
-        deliver: this.$store.state.user.userName,
+        deliver: this.userName,
         itemCount: 0,
         itemMoneys: 0,
         itemTaxs: 0,
@@ -516,7 +516,7 @@ export default {
         books: "",
         organizationId: this.userOrgId,
         organizationIds: [this.userOrgId],
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         packId: "",

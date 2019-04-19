@@ -280,6 +280,7 @@ import booksApi from "../../api/tstorage/api_books";
 import categoryApi from "../../api/basic/api_category";
 import operationApi from "../../api/tstorage/api_operation";
 import transportApi from "../../api/tstorage/api_transport";
+import { mapGetters } from "vuex";
 
 export default {
   props: ["item", "isEdit", "visible"],
@@ -288,7 +289,7 @@ export default {
       formItem: {
         bookId: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         region: "",
@@ -356,13 +357,7 @@ export default {
     statusSelect
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId.slice(0, 6);
-      }
-    }
+    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   created() {
     this.load();

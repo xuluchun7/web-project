@@ -383,7 +383,7 @@ export default {
     "cas-image": () => import("../../components/carouselImage")
   },
   computed: {
-     ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   watch: {
     $route(to, from) {

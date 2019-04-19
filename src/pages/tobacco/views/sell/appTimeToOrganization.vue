@@ -44,6 +44,7 @@
 const OrganizationForm = () => import("@/components/Organization");
 import appointmentTimeApi from "../../api/tsell/api_appointmentTime";
 import organizationApi from "@/api/xbasic/apiOrganization";
+import { mapGetters } from "vuex";
 export default {
   props: ["item"],
   data() {
@@ -59,7 +60,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   watch: {
     item(curVal, oldVal) {

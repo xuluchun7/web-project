@@ -360,6 +360,7 @@ import animate from "animate.css";
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui
 import billApi from "../../api/tmaterial/apiBillOut";
 import billItemApi from "../../api/tmaterial/apiBillItem";
+import { mapGetters } from "vuex";
 const status = [
   { value: 0, label: "编辑" },
   { value: 5, label: "记账" },
@@ -436,17 +437,11 @@ export default {
     billItemAdd: () => import("./billSharedOutItemAdd.vue")
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.organizationId = undefined;
-        this.searchData.deliveryOrganizationId = undefined;
-        return undefined;
-      } else {
-        this.searchData.organizationId = this.userOrgId;
-        this.searchData.deliveryOrganizationId = this.userOrgId;
-        return this.userOrgId;
-      }
-    }
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   watch: {
     $route(to, from) {

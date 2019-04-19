@@ -61,6 +61,7 @@
 const OrganizationForm = () => import("@/components/Organization");
 
 import vehicleApi from "../../api/tstorage/api_vehicle";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -74,7 +75,7 @@ export default {
         capacity: "",
         listingDate: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "0",
         organizationCode: this.userOrgId
       },
@@ -87,7 +88,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   created() {
     this.formItem.listingDate = new Date();

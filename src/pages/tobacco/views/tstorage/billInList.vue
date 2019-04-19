@@ -407,6 +407,7 @@ import categoryApi from "../../api/basic/api_category";
 import billInApi from "../../api/tstorage/api_billIn";
 import operationApi from "../../api/tstorage/api_operation";
 import billItemApi from "../../api/tstorage/api_billItem";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -537,7 +538,7 @@ export default {
     this.load();
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   components: {
     "add-form": AddForm,

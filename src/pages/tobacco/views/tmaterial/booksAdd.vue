@@ -70,6 +70,7 @@
 <script>
 import booksApi from "../../api/tmaterial/apiBooks";
 import UUID from "es6-uuid";
+import { mapGetters } from "vuex";
 const status = [
   { value: 0, label: "编辑" },
   { value: 5, label: "启用" },
@@ -96,7 +97,7 @@ export default {
         telphone: "",
         organizationId: this.userOrgId,
         organizationIds: [this.userOrgId],
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId
       },

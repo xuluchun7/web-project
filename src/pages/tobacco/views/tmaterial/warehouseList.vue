@@ -347,7 +347,7 @@ export default {
     AddStock: () => import("./stockAdd")
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName", userName: "userName"})
   },
   filters: {
     capitalizeState: function(value) {
@@ -371,7 +371,7 @@ export default {
         barcode: "CO001" + now, //盘点出库CO001
         annual: this.$store.state.system.annual,
         accountPeriod: this.formData.warehouse.currentYearMonth,
-        author: this.$store.state.user.userName,
+        author: this.userName,
         title: "库存盘点出库",
         date: moment().format("YYYY-MM-DD"),
         operation: "CO001", //库存盘点出库
@@ -414,7 +414,7 @@ export default {
         barcode: "CI001" + now, //库存盘点入库
         annual: this.$store.state.system.annual,
         accountPeriod: this.formData.warehouse.currentYearMonth,
-        author: this.$store.state.user.userName,
+        author: this.userName,
         title: "库存盘点入库",
         date: moment().format("YYYY-MM-DD"),
         operation: "CI001", //库存盘点出库

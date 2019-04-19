@@ -290,7 +290,7 @@ import balanceAssignApi from "../../api/setup/api_balanceAssign";
 import balanceAssignAliasApi from "../../api/setup/api_balanceAssignAlias";
 import categoryApi from "../../api/basic/api_category";
 import lineRoleAliasApi from "../../api/setup/api_lineRoleAlias";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -417,7 +417,7 @@ export default {
     OrganizationForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     handleCurrentChange(val) {

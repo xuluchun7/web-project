@@ -42,6 +42,7 @@ const OrganizationForm = () => import("@/components/Organization");
 const whouseSelect = () => import("../components/whouseSelect");
 
 import operationFromToApi from "../../api/tstorage/api_operationFromTo";
+import { mapGetters } from "vuex";
 
 export default {
   props: ["item", "isEdit", "visible"],
@@ -51,7 +52,7 @@ export default {
       threeOrgId: "",
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         warehouseId: "",
         warehouseName: "",
         threeOrganizationId: "",
@@ -150,7 +151,7 @@ export default {
         //移库操作
         this.threeOrgId = this.userOrgId;
         this.formItem.threeOrganizationId = this.threeOrgId;
-        this.formItem.threeOrganizationName = this.$store.state.user.organization.organizationName;
+        this.formItem.threeOrganizationName = this.organizationName;
       } else {
         this.threeOrgId = "11";
         this.formItem.threeOrganizationId = this.threeOrgId;

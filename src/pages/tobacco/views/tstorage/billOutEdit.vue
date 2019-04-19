@@ -259,7 +259,7 @@ import stackApi from "../../api/tstorage/api_stack";
 import booksApi from "../../api/tstorage/api_books";
 import categoryApi from "../../api/basic/api_category";
 import operationApi from "../../api/tstorage/api_operation";
-
+import { mapGetters } from "vuex";
 // import operationApi from '../../api/tstorage/api_operation';
 
 export default {
@@ -272,7 +272,7 @@ export default {
         warehouse: "",
         stack: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         serial: "",
@@ -280,7 +280,7 @@ export default {
         year: "",
         month: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         operation: "", //这里的operation存的是别名
         operationId: "", //用于获取收发管理下库房
@@ -322,7 +322,12 @@ export default {
     organizationSelect
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   created() {
     this.load();

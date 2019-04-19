@@ -215,6 +215,7 @@ import materialApi from "../../api/tmaterial/apiMaterial";
 import materialUnitApi from "../../api/tmaterial/apiMaterialUnit";
 import moment from "moment";
 import UUID from "es6-uuid";
+import { mapGetters } from "vuex";
 export default {
   props: ["master", "isEdit", "visible"],
   data() {
@@ -357,7 +358,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   methods: {
     unitSelectChange(value) {
@@ -544,7 +545,7 @@ export default {
         control: 0,
         organizationId: this.userOrgId,
         organizationIds: [this.userOrgId],
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: 0,
         organizationCode: this.userOrgId,
         desc: "",

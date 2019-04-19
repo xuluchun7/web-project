@@ -182,6 +182,7 @@ const AddForm = () => import("./forecastAdd.vue");
 const EditForm = () => import("./forecastEdit.vue");
 import forecastApi from "../../api/tsell/api_forecast";
 import forecastItemApi from "../../api/tsell/api_forecastItem";
+import { mapGetters } from "vuex";
 const path = require("path");
 
 export default {
@@ -257,7 +258,7 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   components: {
     "add-form": AddForm,

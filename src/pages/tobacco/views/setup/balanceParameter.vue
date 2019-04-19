@@ -55,7 +55,7 @@ import balanceAssignApi from "../../api/setup/api_balanceAssign";
 import cardApi from "../../api/basic/api_card";
 import stationApi from "../../api/setup/api_station";
 import seContractApi from "../../api/tsell/api_seContract";
-
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
   data() {
@@ -83,15 +83,9 @@ export default {
       message: ""
     };
   },
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+   computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   components: {
     OrganizationForm
   },
@@ -107,7 +101,7 @@ export default {
     },
     load() {
       this.formItem.organizationId = this.userOrgId;
-      this.formItem.organizationName = this.$store.state.user.organization.organizationName;
+      this.formItem.organizationName = this.organizationName;
       console.log(this.formItem.organizationId);
       this.formItem.year = new Date().getFullYear().toString();
       this.getStation();

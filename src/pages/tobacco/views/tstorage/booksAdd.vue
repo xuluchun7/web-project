@@ -136,6 +136,7 @@
 const OrganizationForm = () => import("@/components/Organization");
 
 import booksApi from "../../api/tstorage/api_books";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -146,7 +147,7 @@ export default {
         code: "",
         name: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         zone: "",
         stock: "",
@@ -159,7 +160,7 @@ export default {
         createYearAndMonth: "",
         currentYearAndMonth: "",
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId
       },
@@ -185,7 +186,12 @@ export default {
     OrganizationForm
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   methods: {
     organizationOnchange(label, value, values) {

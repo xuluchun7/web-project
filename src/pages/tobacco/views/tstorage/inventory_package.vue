@@ -66,6 +66,7 @@ const OrganizationForm = () => import("@/components/Organization");
 const typeVarietyGradeSelect = () =>
   import("@/components/Tobacco/typeVarietyGradeSelect");
 import inventoryApi from "../../api/tstorage/api_inventory";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -79,9 +80,9 @@ export default {
       isOverflow: false, //当前打包量是否超出可打包量
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         barcode: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         typeId: "",
         typeName: "",
         gradeId: "",
@@ -101,13 +102,12 @@ export default {
   },
   created() {},
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
+     ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   components: {
     OrganizationForm,

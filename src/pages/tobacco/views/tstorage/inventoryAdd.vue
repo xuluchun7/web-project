@@ -153,13 +153,14 @@ const typeVarietyGradeSelect = () =>
   import("@/components/Tobacco/typeVarietyGradeSelect");
 
 import inventoryApi from "../../api/tstorage/api_inventory";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         annual: "",
@@ -167,7 +168,7 @@ export default {
         barcode: "",
         number: "",
         title: "",
-        author: this.$store.state.user.userName,
+        author: this.userName,
         date: "",
         countryId: "86",
         countryName: "中国",
@@ -203,7 +204,12 @@ export default {
     this.formItem.year = new Date().getFullYear().toString();
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+     ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   components: {
     OrganizationForm,

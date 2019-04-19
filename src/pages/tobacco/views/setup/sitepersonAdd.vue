@@ -91,6 +91,7 @@
 </template>
 <script>
 import sitepersonApi from "../../api/setup/api_siteperson";
+import { mapGetters } from "vuex";
 
 const OrganizationForm = () => import("@/components/Organization");
 
@@ -100,7 +101,7 @@ export default {
       cantSave: true,
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         webmaster: "",
@@ -130,14 +131,8 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   methods: {
     //判断能否进行保存
     checkSave() {

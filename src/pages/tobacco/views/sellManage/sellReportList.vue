@@ -97,7 +97,7 @@ const typeGradeSelect = () => import("@/components/Tobacco/typeGradeSelect");
 const path = require("path");
 
 import deliveryApi from "../../api/tsell/api_delivery";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -145,7 +145,7 @@ export default {
       url: "", //存放解析后的文件路径
       searchData: {
         organizationid: this.userOrgId,
-        organizationname: this.$store.state.user.organization.organizationName,
+        organizationname: this.organizationName,
         time: "",
         depart: [
           this.dateFormat(new Date(), "YYYY-MM-DD"),
@@ -176,7 +176,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId" })
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   created() {
     this.onSearchButtonClick();

@@ -89,6 +89,7 @@ const typeVarietyGradeSelect = () =>
   import("@/components/Tobacco/typeVarietyGradeSelect");
 
 import standWeightSetApi from "../../api/tstorage/api_standWeightSet";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -96,7 +97,7 @@ export default {
       allData: {}, //存放烟叶类型等数据，用于回显
       formItem: {
         organizationId: this.userOrgId,
-        organizationName: this.$store.state.user.organization.organizationName,
+        organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
         tobaccoYear: "",
@@ -137,15 +138,9 @@ export default {
     typeVarietyGradeSelect,
     OrganizationForm
   },
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+ computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
 
   methods: {
     organizationOnchange(label, value, values) {
