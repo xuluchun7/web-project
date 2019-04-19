@@ -430,9 +430,9 @@
   </div>
 </template>
 <script>
+import animate from "animate.css";
 const AddForm = () => import("./billSharedInAdd.vue");
 const EditForm = () => import("./billInEdit.vue");
-import animate from "animate.css";
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui
 import billApi from "../../api/tmaterial/apiBillIn";
 import billItemApi from "../../api/tmaterial/apiBillItem";

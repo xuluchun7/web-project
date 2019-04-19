@@ -1,6 +1,3 @@
-<style scoped>
-@import "~@/styles/css/main-list.css";
-</style>
 <template>
   <div class='mainPanel'>
     <div class="wscn-http404">
@@ -60,6 +57,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+@import "~@/styles/css/main-list.css";
 .wscn-http404 {
   position: relative;
   width: 1200px;
