@@ -316,15 +316,9 @@ export default {
     "type-grade-select": typeGradeSelect,
     typeVarietyGradeSelect
   },
-  computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+ computed: {
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   created() {
     //获取账套数据
     Promise.all([

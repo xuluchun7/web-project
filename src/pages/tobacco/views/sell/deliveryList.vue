@@ -306,6 +306,7 @@ const path = require("path");
 
 import deliveryApi from "../../api/tsell/api_delivery";
 import receiptApi from "../../api/tsell/api_receipt";
+import { mapGetters } from "vuex";
 // import util from '@/utils/util';
 
 export default {
@@ -385,15 +386,7 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.orgId = undefined;
-        return undefined;
-      } else {
-        this.searchData.orgId = this.userOrgId;
-        return this.userOrgId;
-      }
-    }
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
   },
   components: {
     "add-form": AddForm,

@@ -299,7 +299,7 @@ const typeVarietySelect = () =>
 const typeGradeSelect = () => import("@/components/Tobacco/typeGradeSelect");
 import categoryApi from "../../api/basic/api_category";
 import invoiceApi from "../../api/tsell/api_invoice";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -409,16 +409,8 @@ export default {
       .catch(error => {});
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        this.searchData.orgId = undefined;
-        return undefined;
-      } else {
-        this.searchData.orgId = this.userOrgId;
-        return this.userOrgId;
-      }
-    }
-  },
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   components: {
     "add-form": AddForm,
     "edit-form": EditForm,

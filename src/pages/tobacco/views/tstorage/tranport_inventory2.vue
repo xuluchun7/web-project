@@ -178,7 +178,7 @@ const typeVarietyGradeSelect = () =>
 const path = require("path");
 
 import inventoryApi from "../../api/tstorage/api_inventory";
-
+import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
   data() {

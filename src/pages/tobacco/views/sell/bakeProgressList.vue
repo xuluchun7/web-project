@@ -142,6 +142,7 @@ const EditForm = () => import("./bakeProgressEdit.vue");
 import organizationApi from "@/api/xbasic/apiOrganization";
 import bakeProgressApi from "../../api/tsell/api_bakeProgress";
 import bakeProgressTraceApi from "../../api/tsell/api_bakeProgressTrace";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {

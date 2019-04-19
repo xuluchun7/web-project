@@ -51,6 +51,7 @@
 </template>
 <script>
 import { getToken } from "@/utils/cookieUtils";
+import { mapGetters } from "vuex";
 export default {
   props: ["visible"],
   components: {

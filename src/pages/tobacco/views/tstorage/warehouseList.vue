@@ -184,7 +184,7 @@ const OrganizationForm = () => import("@/components/Organization");
 
 const EditForm = () => import("./warehouseEdit.vue");
 import warehouseApi from "../../api/tstorage/api_warehouse";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {

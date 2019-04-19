@@ -122,7 +122,7 @@ const EditForm = () => import("./sitepersonEdit.vue");
 const OrganizationForm = () => import("@/components/Organization");
 
 import sitepersonApi from "../../api/setup/api_siteperson";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -199,14 +199,8 @@ export default {
     OrganizationForm
   },
   computed: {
-    userOrgId() {
-      if (this.$store.state.user.organization === undefined) {
-        return undefined;
-      } else {
-        return this.userOrgId;
-      }
-    }
-  },
+      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+        },
   methods: {
     organizationOnchange(label, value, values) {
       this.searchData.organizationId = value;

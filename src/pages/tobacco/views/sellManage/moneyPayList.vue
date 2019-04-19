@@ -88,7 +88,7 @@ const OrganizationForm = () => import("@/components/Organization");
 const path = require("path");
 
 import deliveryApi from "../../api/tsell/api_delivery";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
