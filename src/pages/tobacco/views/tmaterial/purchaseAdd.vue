@@ -1,69 +1,69 @@
 <template>
     <el-form :model="formItem"  label-width="80px" :rules="ruleValidate" ref="formValidate">
-                    <el-form-item   :label="$t('material.tmaterial.purchase.serial')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.serial')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.serial"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.barcode')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.barcode')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.barcode"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.yearMOnth')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.yearMOnth')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.yearMOnth"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.title')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.title')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.title"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.author')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.author')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.author"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.date')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.date')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.date"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.supplierId')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.supplierId')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.supplierId"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.supplierName')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.supplierName')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.supplierName"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.receiverId')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.receiverId')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.receiverId"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.receiverName')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.receiverName')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.receiverName"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.price')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.price')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.price"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.priceUnit')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.priceUnit')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.priceUnit"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.amount')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.amount')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.amount"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.amountUnit')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.amountUnit')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.amountUnit"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.money')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.money')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.money"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.tax')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.tax')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.tax"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.freight')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.freight')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.freight"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.total')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.total')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.total"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.control')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.control')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.control"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.begin')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.begin')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.begin"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.end')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.end')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.end"/>
                     </el-form-item>
-                    <el-form-item   :label="$t('material.tmaterial.purchase.desc')" >
+                    <el-form-item   :label="$t('tobacco.tmaterial.purchase.desc')" >
                         <el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="formItem.desc"/>
                     </el-form-item>
 

@@ -6,91 +6,91 @@
     <div class='toolPanel'>
       <div class='queryCriteria'>
         <el-form  inline>
-          <el-form-item    :label="$t('material.tmaterial.purchase.serial')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.serial')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.serial"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.barcode')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.barcode')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.barcode"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.yearMOnth')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.yearMOnth')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.yearMOnth"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.title')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.title')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.title"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.author')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.author')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.author"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.date')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.date')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.date"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.supplierId')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.supplierId')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.supplierId"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.supplierName')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.supplierName')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.supplierName"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.receiverId')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.receiverId')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.receiverId"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.receiverName')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.receiverName')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.receiverName"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.price')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.price')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.price"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.priceUnit')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.priceUnit')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.priceUnit"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.amount')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.amount')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.amount"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.amountUnit')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.amountUnit')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.amountUnit"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.money')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.money')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.money"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.tax')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.tax')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.tax"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.freight')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.freight')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.freight"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.total')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.total')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.total"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.control')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.control')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.control"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.begin')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.begin')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.begin"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.end')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.end')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.end"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
-          <el-form-item    :label="$t('material.tmaterial.purchase.desc')" >
+          <el-form-item    :label="$t('tobacco.tmaterial.purchase.desc')" >
 			<el-input v-bind:placeholder="$t('base.pleaseInput')" v-model="searchData.desc"
                                                   @keyup.enter.native="onSearchButtonClick"/>
 		  </el-form-item >
@@ -118,28 +118,28 @@
 			:row-class-name="tableRowClassName">
 		  <el-table-column type="index">
 			</el-table-column>
-			    <el-table-column prop="serial" :label="this.$t('material.tmaterial.purchase.serial')" />
-			    <el-table-column prop="barcode" :label="this.$t('material.tmaterial.purchase.barcode')" />
-			    <el-table-column prop="yearMOnth" :label="this.$t('material.tmaterial.purchase.yearMOnth')" />
-			    <el-table-column prop="title" :label="this.$t('material.tmaterial.purchase.title')" />
-			    <el-table-column prop="author" :label="this.$t('material.tmaterial.purchase.author')" />
-			    <el-table-column prop="date" :label="this.$t('material.tmaterial.purchase.date')" />
-			    <el-table-column prop="supplierId" :label="this.$t('material.tmaterial.purchase.supplierId')" />
-			    <el-table-column prop="supplierName" :label="this.$t('material.tmaterial.purchase.supplierName')" />
-			    <el-table-column prop="receiverId" :label="this.$t('material.tmaterial.purchase.receiverId')" />
-			    <el-table-column prop="receiverName" :label="this.$t('material.tmaterial.purchase.receiverName')" />
-			    <el-table-column prop="price" :label="this.$t('material.tmaterial.purchase.price')" />
-			    <el-table-column prop="priceUnit" :label="this.$t('material.tmaterial.purchase.priceUnit')" />
-			    <el-table-column prop="amount" :label="this.$t('material.tmaterial.purchase.amount')" />
-			    <el-table-column prop="amountUnit" :label="this.$t('material.tmaterial.purchase.amountUnit')" />
-			    <el-table-column prop="money" :label="this.$t('material.tmaterial.purchase.money')" />
-			    <el-table-column prop="tax" :label="this.$t('material.tmaterial.purchase.tax')" />
-			    <el-table-column prop="freight" :label="this.$t('material.tmaterial.purchase.freight')" />
-			    <el-table-column prop="total" :label="this.$t('material.tmaterial.purchase.total')" />
-			    <el-table-column prop="control" :label="this.$t('material.tmaterial.purchase.control')" />
-			    <el-table-column prop="begin" :label="this.$t('material.tmaterial.purchase.begin')" />
-			    <el-table-column prop="end" :label="this.$t('material.tmaterial.purchase.end')" />
-			    <el-table-column prop="desc" :label="this.$t('material.tmaterial.purchase.desc')" />
+			    <el-table-column prop="serial" :label="this.$t('tobacco.tmaterial.purchase.serial')" />
+			    <el-table-column prop="barcode" :label="this.$t('tobacco.tmaterial.purchase.barcode')" />
+			    <el-table-column prop="yearMOnth" :label="this.$t('tobacco.tmaterial.purchase.yearMOnth')" />
+			    <el-table-column prop="title" :label="this.$t('tobacco.tmaterial.purchase.title')" />
+			    <el-table-column prop="author" :label="this.$t('tobacco.tmaterial.purchase.author')" />
+			    <el-table-column prop="date" :label="this.$t('tobacco.tmaterial.purchase.date')" />
+			    <el-table-column prop="supplierId" :label="this.$t('tobacco.tmaterial.purchase.supplierId')" />
+			    <el-table-column prop="supplierName" :label="this.$t('tobacco.tmaterial.purchase.supplierName')" />
+			    <el-table-column prop="receiverId" :label="this.$t('tobacco.tmaterial.purchase.receiverId')" />
+			    <el-table-column prop="receiverName" :label="this.$t('tobacco.tmaterial.purchase.receiverName')" />
+			    <el-table-column prop="price" :label="this.$t('tobacco.tmaterial.purchase.price')" />
+			    <el-table-column prop="priceUnit" :label="this.$t('tobacco.tmaterial.purchase.priceUnit')" />
+			    <el-table-column prop="amount" :label="this.$t('tobacco.tmaterial.purchase.amount')" />
+			    <el-table-column prop="amountUnit" :label="this.$t('tobacco.tmaterial.purchase.amountUnit')" />
+			    <el-table-column prop="money" :label="this.$t('tobacco.tmaterial.purchase.money')" />
+			    <el-table-column prop="tax" :label="this.$t('tobacco.tmaterial.purchase.tax')" />
+			    <el-table-column prop="freight" :label="this.$t('tobacco.tmaterial.purchase.freight')" />
+			    <el-table-column prop="total" :label="this.$t('tobacco.tmaterial.purchase.total')" />
+			    <el-table-column prop="control" :label="this.$t('tobacco.tmaterial.purchase.control')" />
+			    <el-table-column prop="begin" :label="this.$t('tobacco.tmaterial.purchase.begin')" />
+			    <el-table-column prop="end" :label="this.$t('tobacco.tmaterial.purchase.end')" />
+			    <el-table-column prop="desc" :label="this.$t('tobacco.tmaterial.purchase.desc')" />
 		<el-table-column
 		fixed="right"
 		:label="$t('base.titleOperation')"
