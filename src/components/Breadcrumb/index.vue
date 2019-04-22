@@ -3,7 +3,8 @@
                  separator="/">
     <transition-group name="breadcrumb">
       <el-breadcrumb-item :to="{ path: '/dashboard' }"
-                          key="1000">首页</el-breadcrumb-item>
+                          key="1000">
+        <span>首页</span></el-breadcrumb-item>
       <el-breadcrumb-item v-for="(item,index)  in levelList"
                           :key="item+index">
         <span>{{item}}</span>

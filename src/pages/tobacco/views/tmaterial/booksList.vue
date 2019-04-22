@@ -201,7 +201,11 @@ export default {
   },
   created() {},
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   components: {
     OrganizationForm: () => import("@/components/Organization"),

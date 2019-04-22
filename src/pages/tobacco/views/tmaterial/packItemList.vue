@@ -94,7 +94,7 @@ const EditForm = () => import("./packItemEdit.vue");
 import packItemApi from "../../api/tmaterial/apiPackItem";
 export default {
   props: ["item"],
-  data () {
+  data() {
     return {
       childForm: {
         addItemForm: false,
@@ -117,7 +117,7 @@ export default {
           {
             text: this.$t("base.yesterday"),
 
-            onClick (picker) {
+            onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
@@ -126,7 +126,7 @@ export default {
           },
           {
             text: this.$t("base.threeMonth"),
-            onClick (picker) {
+            onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
@@ -157,7 +157,7 @@ export default {
       }
     };
   },
-  created () {
+  created() {
     this.load();
     this.onSearchButtonClick();
   },
@@ -166,19 +166,19 @@ export default {
     "edit-form": EditForm
   },
   watch: {
-    item (curVal, oldVal) {
+    item(curVal, oldVal) {
       this.load();
     }
   },
   methods: {
-    load () {
+    load() {
       if (this.item) this.parentForm = JSON.parse(JSON.stringify(this.item));
       else {
         this.parentForm = this.item;
       }
       this.formData.packItemList = [];
     },
-    editButtonClick (selectRow, isEdit) {
+    editButtonClick(selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -187,7 +187,7 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    deleteButtonClick () {
+    deleteButtonClick() {
       if (
         this.formData.selectRow === null ||
         this.formData.selectRow === undefined
@@ -208,9 +208,9 @@ export default {
           this.formData.selectRow = null;
           this.onSearchButtonClick();
         })
-        .catch(error => { });
+        .catch(error => {});
     },
-    deleteButtonConfirm () {
+    deleteButtonConfirm() {
       this.$confirm(
         this.$t("message.deleteConfirm"),
         this.$t("base.titleTip"),
@@ -230,10 +230,10 @@ export default {
           });
         });
     },
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.formData.selectRow = val;
     },
-    onSearchButtonClick () {
+    onSearchButtonClick() {
       Promise.all([
         packItemApi.getAll({
           size: this.formData.pagination.pageSize,
@@ -256,29 +256,29 @@ export default {
             position: "bottom-right"
           });
         })
-        .catch(error => { });
+        .catch(error => {});
     },
 
-    onPageChange (index) {
+    onPageChange(index) {
       if (this.formData.pagination.currentPage !== index) {
         this.formData.pagination.currentPage = index;
         this.onSearchButtonClick();
       }
     },
-    onPageSizeChange (size) {
+    onPageSizeChange(size) {
       if (this.formData.pagination.pageSize !== size) {
         this.formData.pagination.pageSize = size;
         this.onSearchButtonClick();
       }
     },
-    tableRowClassName ({ row, rowIndex }) {
+    tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
         return "warning-row";
       } else {
         return "success-row";
       }
     },
-    handleClose (done) {
+    handleClose(done) {
       this.childForm.addForm = false;
       this.childForm.editForm = false;
       this.onSearchButtonClick();

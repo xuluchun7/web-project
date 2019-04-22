@@ -216,7 +216,7 @@ export default {
         ]
       },
       searchData: {
-        organizationId:this.userOrgId
+        organizationId: this.userOrgId
       },
       formData: {
         applybreachofcontractList: [],
@@ -242,7 +242,11 @@ export default {
     OrganizationForm
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   methods: {
     checkDisable(row) {

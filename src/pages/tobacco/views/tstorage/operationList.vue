@@ -373,9 +373,13 @@ export default {
     "menu-form": AddMenuForm,
     OrganizationForm
   },
-   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   methods: {
     // 行展开事件
     showFromTo(row, expandedRows) {

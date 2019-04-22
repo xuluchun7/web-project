@@ -180,9 +180,13 @@ export default {
     "add-form": AddForm,
     "edit-form": EditForm
   },
-   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   methods: {
     organizationOnchange(label, value, values) {
       this.searchData.organizationId = value;

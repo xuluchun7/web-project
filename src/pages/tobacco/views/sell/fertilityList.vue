@@ -227,9 +227,13 @@ export default {
     "edit-form": EditForm,
     OrganizationForm
   },
- computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   methods: {
     //判断能否编辑
     checkEdit(row) {

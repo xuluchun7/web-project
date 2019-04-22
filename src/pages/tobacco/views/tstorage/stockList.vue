@@ -381,9 +381,13 @@ export default {
     "type-grade-select": typeGradeSelect,
     typeVarietyGradeSelect
   },
-   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   methods: {
     //格式化账套显示
     formatBooksId(id) {

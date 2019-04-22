@@ -539,7 +539,7 @@ export default {
     })
   },
   created() {
-     this.dataItem.orgId = this.userOrgId;
+    this.dataItem.orgId = this.userOrgId;
     // this.dataItem.uid = JSON.parse(JSON.stringify(this.item)).uid;
     Promise.all([
       balanceApi.getAll({
@@ -697,7 +697,7 @@ export default {
     },
     remoteFarmerMethod(query) {
       if (query !== "") {
-       this.dataItem.orgId = this.userOrgId;
+        this.dataItem.orgId = this.userOrgId;
         this.loading2 = true;
         Promise.all([
           seContractApi.getAll({

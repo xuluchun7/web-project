@@ -257,9 +257,13 @@ export default {
     statusSelect,
     OrganizationForm
   },
- computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   methods: {
     organizationOnchange(label, value, values) {
       this.searchData.organizationId = value;

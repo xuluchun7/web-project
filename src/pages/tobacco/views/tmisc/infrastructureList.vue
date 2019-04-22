@@ -7,194 +7,134 @@
       <div class='queryCriteria'>
         <el-form inline>
           <el-form-item :label="$t('tobacco.tmisc.infrastructure.type')">
-            <el-select
-              v-bind:placeholder="$t('base.pleaseInput')"
-              v-model="searchData.type"
-              @keyup.enter.native="onSearchButtonClick"
-            >
-              <el-option
-                v-for="item in typeList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              >
+            <el-select v-bind:placeholder="$t('base.pleaseInput')"
+                       v-model="searchData.type"
+                       @keyup.enter.native="onSearchButtonClick">
+              <el-option v-for="item in typeList"
+                         :key="item.id"
+                         :label="item.name"
+                         :value="item.id">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('tobacco.tmisc.infrastructure.control')">
-            <el-select
-              v-bind:placeholder="$t('base.pleaseInput')"
-              v-model="searchData.control"
-              @keyup.enter.native="onSearchButtonClick"
-            >
-              <el-option
-                v-for="item in controloptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+            <el-select v-bind:placeholder="$t('base.pleaseInput')"
+                       v-model="searchData.control"
+                       @keyup.enter.native="onSearchButtonClick">
+              <el-option v-for="item in controloptions"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value" />
             </el-select>
           </el-form-item>
 
           <el-form-item :label="$t('base.keywords')">
-            <el-input
-              v-bind:placeholder="$t('base.ipKeywords')"
-              v-model="formData.pagination.keyword"
-              @keyup.enter.native="onSearchButtonClick"
-            />
+            <el-input v-bind:placeholder="$t('base.ipKeywords')"
+                      v-model="formData.pagination.keyword"
+                      @keyup.enter.native="onSearchButtonClick" />
           </el-form-item>
         </el-form>
       </div>
-      <div
-        class='toolButton'
-        style="min-width: 340px"
-      >
+      <div class='toolButton'
+           style="min-width: 340px">
         <el-button-group>
 
-          <el-button
-            type='primary'
-            @click='onSearchButtonClick'
-          >{{ $t('base.buttonSearch') }} </el-button>
-          <el-button
-            type='primary'
-            @click='childForm.addForm=true'
-          >{{ $t('base.buttonAdd') }} </el-button>
-          <el-button
-            type='primary'
-            @click='deleteButtonConfirm'
-          >{{ $t('base.buttonDelete') }} </el-button>
+          <el-button type='primary'
+                     @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
+          <el-button type='primary'
+                     @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
+          <el-button type='primary'
+                     @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>
         </el-button-group>
       </div>
     </div>
     <main class='contentPanel'>
-      <el-table
-        highlight-current-row
-        border
-        @current-change="handleCurrentChange"
-        :data="formData.infrastructureList"
-        style="width: 100%"
-        :row-class-name="tableRowClassName"
-      >
+      <el-table highlight-current-row
+                border
+                @current-change="handleCurrentChange"
+                :data="formData.infrastructureList"
+                style="width: 100%"
+                :row-class-name="tableRowClassName">
         <el-table-column type="index">
         </el-table-column>
 
-        <el-table-column
-          prop="number"
-          :label="this.$t('tobacco.tmisc.infrastructure.number')"
-        />
-        <el-table-column
-          prop="type"
-          :label="this.$t('tobacco.tmisc.infrastructure.type')"
-        />
-        <el-table-column
-          prop="title"
-          :label="this.$t('tobacco.tmisc.infrastructure.title')"
-        />
-        <el-table-column
-          prop="date"
-          :label="this.$t('tobacco.tmisc.infrastructure.date')"
-        />
-        <el-table-column
-          prop="support"
-          :label="this.$t('tobacco.tmisc.infrastructure.support')"
-        />
-        <el-table-column
-          prop="own"
-          :label="this.$t('tobacco.tmisc.infrastructure.own')"
-        />
-        <el-table-column
-          prop="ownerName"
-          :label="this.$t('tobacco.tmisc.infrastructure.ownerName')"
-        />
-        <el-table-column
-          prop="cooperatorName"
-          :label="this.$t('tobacco.tmisc.infrastructure.cooperatorName')"
-        />
-        <el-table-column
-          prop="control"
-          :label="this.$t('tobacco.tmisc.infrastructure.control')"
-        />
-        <el-table-column
-          prop="summary"
-          :label="this.$t('tobacco.tmisc.infrastructure.summary')"
-        />
-        <el-table-column
-          prop="desc"
-          :label="this.$t('tobacco.tmisc.infrastructure.desc')"
-        />
-        <el-table-column
-          fixed="right"
-          :label="$t('base.titleOperation')"
-          width="100"
-        >
+        <el-table-column prop="number"
+                         :label="this.$t('tobacco.tmisc.infrastructure.number')" />
+        <el-table-column prop="type"
+                         :label="this.$t('tobacco.tmisc.infrastructure.type')" />
+        <el-table-column prop="title"
+                         :label="this.$t('tobacco.tmisc.infrastructure.title')" />
+        <el-table-column prop="date"
+                         :label="this.$t('tobacco.tmisc.infrastructure.date')" />
+        <el-table-column prop="support"
+                         :label="this.$t('tobacco.tmisc.infrastructure.support')" />
+        <el-table-column prop="own"
+                         :label="this.$t('tobacco.tmisc.infrastructure.own')" />
+        <el-table-column prop="ownerName"
+                         :label="this.$t('tobacco.tmisc.infrastructure.ownerName')" />
+        <el-table-column prop="cooperatorName"
+                         :label="this.$t('tobacco.tmisc.infrastructure.cooperatorName')" />
+        <el-table-column prop="control"
+                         :label="this.$t('tobacco.tmisc.infrastructure.control')" />
+        <el-table-column prop="summary"
+                         :label="this.$t('tobacco.tmisc.infrastructure.summary')" />
+        <el-table-column prop="desc"
+                         :label="this.$t('tobacco.tmisc.infrastructure.desc')" />
+        <el-table-column fixed="right"
+                         :label="$t('base.titleOperation')"
+                         width="100">
           <template slot-scope="scope">
-            <el-button
-              @click="editButtonClick(scope.row,false)"
-              type="text"
-              plain
-            >{{$t('base.buttonView')}}</el-button>
-            <el-button
-              type="text"
-              plain
-              @click="editButtonClick(scope.row,true)"
-            >{{$t('base.buttonEdit')}}</el-button>
+            <el-button @click="editButtonClick(scope.row,false)"
+                       type="text"
+                       plain>{{$t('base.buttonView')}}</el-button>
+            <el-button type="text"
+                       plain
+                       @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
     </main>
     <div class='footerPanel'>
-      <el-pagination
-        :page-size='formData.pagination.pageSize'
-        :total='formData.pagination.total'
-        :current-page='formData.pagination.currentPage'
-        @current-change='onPageChange'
-        :page-sizes='formData.pagination.pageSizeOpts'
-        @size-change='onPageSizeChange'
-        layout="total, sizes, prev, pager, next, jumper"
-        placement='top'
-      ></el-pagination>
+      <el-pagination :page-size='formData.pagination.pageSize'
+                     :total='formData.pagination.total'
+                     :current-page='formData.pagination.currentPage'
+                     @current-change='onPageChange'
+                     :page-sizes='formData.pagination.pageSizeOpts'
+                     @size-change='onPageSizeChange'
+                     layout="total, sizes, prev, pager, next, jumper"
+                     placement='top'></el-pagination>
     </div>
     <template>
-      <el-dialog
-        :title="$t('base.buttonAdd')"
-        :visible.sync="childForm.addForm"
-        top="10px"
-        :before-close="handleClose"
-      >
+      <el-dialog :title="$t('base.buttonAdd')"
+                 :visible.sync="childForm.addForm"
+                 top="10px"
+                 :before-close="handleClose">
         <add-form />
       </el-dialog>
-      <el-dialog
-        :title="$t('base.buttonEdit')"
-        :visible.sync="childForm.editForm"
-        top="10px"
-        :before-close="handleClose"
-      >
-        <edit-form
-          :item.sync=formData.viewSelect
-          :isEdit=childForm.isEdit
-          :visible.sync="childForm.editForm"
-        />
+      <el-dialog :title="$t('base.buttonEdit')"
+                 :visible.sync="childForm.editForm"
+                 top="10px"
+                 :before-close="handleClose">
+        <edit-form :item.sync=formData.viewSelect
+                   :isEdit=childForm.isEdit
+                   :visible.sync="childForm.editForm" />
       </el-dialog>
-      <el-dialog
-        :title="$t('base.buttonView')"
-        :visible.sync="childForm.viewForm"
-        top="10px"
-        :before-close="handleClose"
-      >
-        <edit-form
-          :item=formData.viewSelect
-          :isEdit=childForm.isEdit
-          :visible.sync="childForm.viewForm"
-        />
+      <el-dialog :title="$t('base.buttonView')"
+                 :visible.sync="childForm.viewForm"
+                 top="10px"
+                 :before-close="handleClose">
+        <edit-form :item=formData.viewSelect
+                   :isEdit=childForm.isEdit
+                   :visible.sync="childForm.viewForm" />
       </el-dialog>
     </template>
   </div>
 </template>
 <script>
-const AddForm = () => import('./infrastructureAdd.vue');
-const EditForm = () => import('./infrastructureEdit.vue');
-import infrastructureApi from '../../api/tmisc/api_infrastructure';
-import infrastructureTypeApi from '../../api/tmisc/api_infrastructureType';
+const AddForm = () => import("./infrastructureAdd.vue");
+const EditForm = () => import("./infrastructureEdit.vue");
+import infrastructureApi from "../../api/tmisc/api_infrastructure";
+import infrastructureTypeApi from "../../api/tmisc/api_infrastructureType";
 export default {
   data() {
     return {
@@ -202,19 +142,19 @@ export default {
       controloptions: [
         {
           value: 1,
-          label: '新建'
+          label: "新建"
         },
         {
           value: 3,
-          label: '删除'
+          label: "删除"
         },
         {
           value: 5,
-          label: '其他'
+          label: "其他"
         },
         {
-          value: '',
-          label: '全部'
+          value: "",
+          label: "全部"
         }
       ],
       expand: false,
@@ -227,73 +167,73 @@ export default {
       dateoptions: {
         shortcuts: [
           {
-            text: this.$t('base.today'),
+            text: this.$t("base.today"),
 
             onClick: picker => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.yesterday'),
+            text: this.$t("base.yesterday"),
 
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.oneWeek'),
+            text: this.$t("base.oneWeek"),
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           }
         ]
       },
       searchData: {
-        serial: '',
-        number: '',
-        type: '',
-        title: '',
-        author: '',
-        date: '',
-        countryId: '',
-        countryName: '',
+        serial: "",
+        number: "",
+        type: "",
+        title: "",
+        author: "",
+        date: "",
+        countryId: "",
+        countryName: "",
         support: 0,
-        own: '',
-        ownerId: '',
-        ownerNumber: '',
-        ownerName: '',
-        contact: '',
-        summary: '',
+        own: "",
+        ownerId: "",
+        ownerNumber: "",
+        ownerName: "",
+        contact: "",
+        summary: "",
         begin: 0,
         end: 0,
-        photo: '',
-        cooperatorId: '',
-        cooperatorName: '',
-        pictures: '',
-        control: '',
-        desc: ''
+        photo: "",
+        cooperatorId: "",
+        cooperatorName: "",
+        pictures: "",
+        control: "",
+        desc: ""
       },
       typeSearchData: {
-        lead: '',
-        leaf: '',
-        name: '',
-        shape: '',
-        entry: '',
-        icon: '',
-        style: '',
-        visible: '',
-        position: '',
-        control: '',
-        desc: ''
+        lead: "",
+        leaf: "",
+        name: "",
+        shape: "",
+        entry: "",
+        icon: "",
+        style: "",
+        visible: "",
+        position: "",
+        control: "",
+        desc: ""
       },
       formData: {
         infrastructureList: [],
@@ -302,7 +242,7 @@ export default {
           currentPage: 1,
           pageSize: 10,
           total: 0,
-          keyword: '',
+          keyword: "",
           pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: []
@@ -312,10 +252,10 @@ export default {
   created() {
     Promise.all([
       infrastructureTypeApi.getAll({
-        contains: 'lead,leaf,name,shape,entry,icon,style,visible,position,control,desc,:{keyword}:true'.format(
+        contains: "lead,leaf,name,shape,entry,icon,style,visible,position,control,desc,:{keyword}:true".format(
           { keyword: this.formData.pagination.keyword }
         ),
-        search: 'lead:EQ:{lead};leaf:EQ:{leaf};name:EQ:{name};shape:EQ:{shape};entry:EQ:{entry};icon:EQ:{icon};style:EQ:{style};visible:EQ:{visible};position:EQ:{position};control:EQ:{control};desc:EQ:{desc};'.format(
+        search: "lead:EQ:{lead};leaf:EQ:{leaf};name:EQ:{name};shape:EQ:{shape};entry:EQ:{entry};icon:EQ:{icon};style:EQ:{style};visible:EQ:{visible};position:EQ:{position};control:EQ:{control};desc:EQ:{desc};".format(
           {
             lead: this.typeSearchData.lead,
             leaf: this.typeSearchData.leaf,
@@ -338,8 +278,8 @@ export default {
       .catch(error => {});
   },
   components: {
-    'add-form': AddForm,
-    'edit-form': EditForm
+    "add-form": AddForm,
+    "edit-form": EditForm
   },
   methods: {
     onExpandClick() {
@@ -360,8 +300,8 @@ export default {
         this.formData.selectRow === undefined
       ) {
         this.$message({
-          message: this.$t('message.unSelectAny'),
-          type: 'info'
+          message: this.$t("message.unSelectAny"),
+          type: "info"
         });
         return;
       }
@@ -371,8 +311,8 @@ export default {
       ])
         .then(([response]) => {
           this.$message({
-            type: 'info',
-            message: this.$t('message.deleteOk')
+            type: "info",
+            message: this.$t("message.deleteOk")
           });
           this.formData.selectRow = null;
           this.onSearchButtonClick();
@@ -381,12 +321,12 @@ export default {
     },
     deleteButtonConfirm() {
       this.$confirm(
-        this.$t('message.deleteConfirm'),
-        this.$t('base.titleTip'),
+        this.$t("message.deleteConfirm"),
+        this.$t("base.titleTip"),
         {
-          confirmButtonText: this.$t('base.buttonOk'),
-          cancelButtonText: this.$t('base.buttonCancel'),
-          type: 'warning'
+          confirmButtonText: this.$t("base.buttonOk"),
+          cancelButtonText: this.$t("base.buttonCancel"),
+          type: "warning"
         }
       )
         .then(() => {
@@ -394,8 +334,8 @@ export default {
         })
         .catch(() => {
           this.$message({
-            type: 'info',
-            message: this.$t('message.cancel')
+            type: "info",
+            message: this.$t("message.cancel")
           });
         });
     },
@@ -407,10 +347,10 @@ export default {
         infrastructureApi.getAll({
           size: this.formData.pagination.pageSize,
           page: this.formData.pagination.currentPage - 1,
-          contains: 'serial,number,type,title,author,date,countryId,countryName,support,own,ownerId,ownerNumber,ownerName,contact,summary,begin,end,photo,cooperatorId,cooperatorName,pictures,control,desc,:{keyword}:true'.format(
+          contains: "serial,number,type,title,author,date,countryId,countryName,support,own,ownerId,ownerNumber,ownerName,contact,summary,begin,end,photo,cooperatorId,cooperatorName,pictures,control,desc,:{keyword}:true".format(
             { keyword: this.formData.pagination.keyword }
           ),
-          search: 'serial:EQ:{serial};number:EQ:{number};type:EQ:{type};title:EQ:{title};author:EQ:{author};date:EQ:{date};countryId:EQ:{countryId};countryName:EQ:{countryName};support:EQ:{support};own:EQ:{own};ownerId:EQ:{ownerId};ownerNumber:EQ:{ownerNumber};ownerName:EQ:{ownerName};contact:EQ:{contact};summary:EQ:{summary};begin:EQ:{begin};end:EQ:{end};photo:EQ:{photo};cooperatorId:EQ:{cooperatorId};cooperatorName:EQ:{cooperatorName};pictures:EQ:{pictures};control:EQ:{control};desc:EQ:{desc};'.format(
+          search: "serial:EQ:{serial};number:EQ:{number};type:EQ:{type};title:EQ:{title};author:EQ:{author};date:EQ:{date};countryId:EQ:{countryId};countryName:EQ:{countryName};support:EQ:{support};own:EQ:{own};ownerId:EQ:{ownerId};ownerNumber:EQ:{ownerNumber};ownerName:EQ:{ownerName};contact:EQ:{contact};summary:EQ:{summary};begin:EQ:{begin};end:EQ:{end};photo:EQ:{photo};cooperatorId:EQ:{cooperatorId};cooperatorName:EQ:{cooperatorName};pictures:EQ:{pictures};control:EQ:{control};desc:EQ:{desc};".format(
             {
               serial: this.searchData.serial,
               number: this.searchData.number,
@@ -443,10 +383,10 @@ export default {
           this.formData.infrastructureList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
-            title: this.$t('base.hint'),
-            message: this.$t('base.loadingDone'),
+            title: this.$t("base.hint"),
+            message: this.$t("base.loadingDone"),
             duration: 1000,
-            position: 'bottom-right'
+            position: "bottom-right"
           });
         })
         .catch(error => {});
@@ -466,9 +406,9 @@ export default {
     },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
-        return 'warning-row';
+        return "warning-row";
       } else {
-        return 'success-row';
+        return "success-row";
       }
     },
     handleClose(done) {

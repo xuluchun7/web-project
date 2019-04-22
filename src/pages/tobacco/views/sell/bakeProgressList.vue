@@ -204,8 +204,13 @@ export default {
     };
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName",
-      loginName: "loginName",userName:"userName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      loginName: "loginName",
+      userName: "userName"
+    })
   },
   created() {
     this.searchData.organizationId = this.userOrgId;

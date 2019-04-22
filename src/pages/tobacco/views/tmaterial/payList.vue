@@ -1,6 +1,5 @@
 <style scoped>
 @import "~@/styles/css/main-list.css";
-
 </style>
 <template>
   <div class='mainPanel'>
@@ -242,7 +241,7 @@ export default {
       ])
         .then(([response]) => {
           this.formData.payList = response.content;
-          this.formData.pagination.total = parseFloat(response.totalElements);;
+          this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
             title: this.$t("base.hint"),
             message: this.$t("base.loadingDone"),

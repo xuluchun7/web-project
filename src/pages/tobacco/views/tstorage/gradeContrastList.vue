@@ -212,9 +212,13 @@ export default {
     OrganizationForm,
     typeGradeSelect
   },
- computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
 
   methods: {
     onExpandClick() {

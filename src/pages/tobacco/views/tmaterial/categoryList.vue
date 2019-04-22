@@ -16,11 +16,14 @@
       <div class='toolButton'
            style="min-width: 210px">
         <el-button-group>
-          <el-button type='primary' plain
+          <el-button type='primary'
+                     plain
                      @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
-          <el-button type='primary' plain
+          <el-button type='primary'
+                     plain
                      @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
-          <el-button type='primary' plain
+          <el-button type='primary'
+                     plain
                      @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>
         </el-button-group>
       </div>
@@ -52,7 +55,7 @@
                          :label="$t('base.titleOperation')"
                          width="100">
           <template slot-scope="scope">
-            <el-button @click="editButtonClick(scope.row,false)" 
+            <el-button @click="editButtonClick(scope.row,false)"
                        type="text"
                        size="small">{{$t('base.buttonView')}}</el-button>
             <el-button type="text"
