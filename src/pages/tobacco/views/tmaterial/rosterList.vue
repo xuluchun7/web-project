@@ -6,6 +6,11 @@
     <div class='toolPanel'>
       <div class='queryCriteria'>
         <el-form inline>
+          <el-form-item :label="$t('tobacco.common.organization')">
+            <organization-form :root="userOrgId"
+                               style="width:100%"
+                               :code.sync="searchData.organizationId" />
+          </el-form-item>
           <el-form-item :label="$t('base.keywords')">
             <el-input v-bind:placeholder="$t('base.ipKeywords')"
                       v-model="formData.pagination.keyword"
@@ -53,7 +58,11 @@
         <el-table-column prop="title"
                          :label="this.$t('tobacco.tmaterial.roster.title')" />
         <el-table-column prop="date"
-                         :label="this.$t('tobacco.tmaterial.roster.date')" />
+                         :label="this.$t('tobacco.tmaterial.roster.date')">
+          <template slot-scope="scope">
+            {{scope.row.date|parseDate('YYYY-MM-DD')}}
+          </template>
+        </el-table-column>
         <el-table-column prop="author"
                          :label="this.$t('tobacco.tmaterial.roster.author')" />
         <el-table-column prop="operator"
@@ -68,8 +77,6 @@
                          :label="this.$t('tobacco.tmaterial.roster.gridName')" />
         <el-table-column prop="villageCount"
                          :label="this.$t('tobacco.tmaterial.roster.villageCount')" />
-        <el-table-column prop="villageIds"
-                         :label="this.$t('tobacco.tmaterial.roster.villageIds')" />
         <el-table-column prop="villageNames"
                          :label="this.$t('tobacco.tmaterial.roster.villageNames')" />
         <el-table-column fixed="right"
@@ -79,13 +86,53 @@
             <el-button @click="editButtonClick(scope.row,false)"
                        type="text"
                        size="small">{{$t('base.buttonView')}}</el-button>
-            <el-button type="text"
-                       size="small"
-                       @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
     </main>
+    <transition name="fade"
+                v-if="childForm.detailForm"
+                enter-active-class="animated fadeInUp"
+                leave-active-class="animated fadeOut"
+                :duration="200">
+      <div class="floatDetail">
+        <nav>
+          <a @click="childForm.detailForm=false">
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="点击隐藏"
+                        placement="top-start">
+              <span>物资明细</span>
+            </el-tooltip>
+          </a>
+        </nav>
+        <el-table border
+                  :data="formData.itemList"
+                  class="subTable">
+          <el-table-column prop="serial"
+                           :label="this.$t('tobacco.tmaterial.rosterItem.serial')" />
+          <el-table-column prop="materialName"
+                           :label="this.$t('tobacco.tmaterial.rosterItem.materialName')" />
+          <el-table-column prop="standardAmount"
+                           :label="this.$t('tobacco.tmaterial.rosterItem.standardAmount')" />
+          <el-table-column prop="amount"
+                           :label="this.$t('tobacco.tmaterial.rosterItem.amount')" />
+          <el-table-column prop="actualAmount"
+                           :label="this.$t('tobacco.tmaterial.rosterItem.actualAmount')" />
+          <el-table-column prop="standardPrice"
+                           :label="this.$t('tobacco.tmaterial.rosterItem.standardPrice')" />
+          <el-table-column prop="standadMoney"
+                           :label="this.$t('tobacco.tmaterial.rosterItem.standadMoney')" />
+          <el-table-column prop="money"
+                           :label="this.$t('tobacco.tmaterial.rosterItem.money')" />
+          <el-table-column prop="actualMoney"
+                           :label="this.$t('tobacco.tmaterial.rosterItem.actualMoney')" />
+          <el-table-column prop="desc"
+                           :label="this.$t('tobacco.tmaterial.rosterItem.desc')" />
+        </el-table>
+
+      </div>
+    </transition>
     <div class='footerPanel'>
       <el-pagination :page-size='formData.pagination.pageSize'
                      :total='formData.pagination.total'
@@ -126,6 +173,8 @@
 const AddForm = () => import("./rosterAdd.vue");
 const EditForm = () => import("./rosterEdit.vue");
 import rosterApi from "../../api/tmaterial/apiRoster";
+import rosterItemApi from "../../api/tmaterial/apiRosterItem";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -133,42 +182,13 @@ export default {
         addForm: false,
         editForm: false,
         viewForm: false,
-        isEdit: false
+        isEdit: false,
+        detailForm: false
       },
-      dateoptions: {
-        shortcuts: [
-          {
-            text: this.$t("base.today"),
-
-            onClick: picker => {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: this.$t("base.yesterday"),
-
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: this.$t("base.threeMonth"),
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+      dateoptions: this.GLOBAL.dateoptions,
+      searchData: {
+        organizationId: this.userOrgId
       },
-      searchData: {},
       formData: {
         rosterList: [],
         pagination: {
@@ -177,16 +197,30 @@ export default {
           pageSize: 10,
           total: 0,
           keyword: "",
-          pageSizeOpts:  this.GLOBAL.pageSizeOpts
+          pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
-        rowSelection: []
+        rowSelection: [],
+        selectRow: {},
+        itemList: []
       }
     };
   },
-  created() {},
+  created() {
+    this.searchData.organizationId = this.userOrgId;
+    this.onSearchButtonClick();
+  },
   components: {
     "add-form": AddForm,
-    "edit-form": EditForm
+    "edit-form": EditForm,
+    OrganizationForm: () => import("@/components/Organization")
+  },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   methods: {
     editButtonClick(selectRow, isEdit) {
@@ -243,8 +277,27 @@ export default {
     },
     handleCurrentChange(val) {
       this.formData.selectRow = val;
+      if (val !== undefined && val !== null) {
+        this.childForm.detailForm = true;
+        Promise.all([
+          rosterItemApi.getAll({
+            size: 500,
+            page: 0,
+            sort: "serial,desc",
+            search: "rosterId:eq:" + val.id
+          })
+        ])
+          .then(([response]) => {
+            this.formData.itemList = response.content;
+          })
+          .catch(error => {});
+      } else {
+        this.childForm.detailForm = false;
+      }
     },
     onSearchButtonClick() {
+      let search =
+        "organization.organizationId:eq:" + this.searchData.organizationId;
       Promise.all([
         rosterApi.getAll({
           size: this.formData.pagination.pageSize,
@@ -252,7 +305,7 @@ export default {
           contains: ":{keyword}:true".format({
             keyword: this.formData.pagination.keyword
           }),
-          search: "".format({})
+          search: search
         })
       ])
         .then(([response]) => {
@@ -288,11 +341,66 @@ export default {
       }
     },
     handleClose(done) {
-      this.childForm.addForm = false;
-      this.childForm.editForm = false;
+      Object.keys(this.childForm).forEach(key => {
+        this.childForm[key] = false;
+      });
       this.onSearchButtonClick();
       done();
     }
   }
 };
 </script>
+<style scoped>
+.floatDetail {
+  height: 200px;
+  position: absolute;
+  bottom: 37px;
+  left: 210px;
+  z-index: 999;
+  width: calc(100% - 220px);
+}
+
+nav > a {
+  position: relative;
+  display: inline-block;
+  padding: 0.3em 1em 0;
+}
+
+nav::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: blur(10px) contrast(0.8);
+  z-index: -1;
+}
+
+nav > a::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  background: #e6e6e6;
+  background-image: linear-gradient(
+    hsla(0, 0%, 100%, 0.6),
+    hsla(0, 0%, 100%, 0)
+  );
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-bottom: none;
+  border-radius: 0.5em 0.5em 0 0;
+  transform: perspective(0.5em) rotateX(5deg);
+  transform-origin: left;
+}
+.subTable {
+  width: 100%;
+  background: #f7f7f7;
+  overflow-y: scroll;
+  height: 180px;
+  overflow: auto;
+}
+</style>
