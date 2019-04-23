@@ -211,6 +211,7 @@ export default {
   },
   methods: {
     editButtonClick (selectRow, isEdit) {
+      console.log("edit");
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -261,6 +262,9 @@ export default {
       this.formData.selectRow = val;
     },
     onSearchButtonClick () {
+      console.log("search");
+      this.formData.editForm = false;
+      this.formData.addForm = false;
       Promise.all([quotaApi.getAll({
         size: this.formData.pagination.pageSize,
         page: this.formData.pagination.currentPage - 1,

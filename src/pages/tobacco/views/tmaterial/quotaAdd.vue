@@ -13,7 +13,8 @@
                          @onchange="organizationOnchange"
                          style="width:100%" />
     </el-form-item>
-    <el-form-item label="物资名称">
+    <el-form-item label="物资名称"
+                  prop="material">
       <el-select v-model="formItem.material"
                  style="width:100%"
                  filterable
@@ -30,9 +31,9 @@
                    :value="item.id"></el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="计量单位">
-      <el-select v-model="formItem.unit.id"
-                 @change="unitSelectChange"
+    <el-form-item label="计量单位"
+                  prop="unit">
+      <el-select v-model="formItem.unit"
                  style="width:100%">
         <el-option v-for="unit in  formData.unitList"
                    :key="unit.id"
@@ -40,11 +41,12 @@
                    :value="unit.id"></el-option>
       </el-select>
     </el-form-item>
-    <el-form-item :label="$t('tobacco.tmaterial.quota.amount')">
+    <el-form-item :label="$t('tobacco.tmaterial.quota.amount')"
+                  prop="amount">
       <el-input :placeholder="$t('base.pleaseInput')"
+                type="number"
                 style="width:100%"
-                v-model="formItem.amount">
-        <template slot="append"> <span style="color:red;"> {{formItem.measureName}}</span></template>
+                v-model.number="formItem.amount">
       </el-input>
     </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.quota.author')">
@@ -52,8 +54,10 @@
                 v-model="formItem.author" />
     </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.quota.date')">
-      <el-input v-bind:placeholder="$t('base.pleaseInput')"
-                v-model="formItem.date" />
+      <el-date-picker v-model="formItem.date"
+                      type="date"
+                      placeholder="选择日期">
+      </el-date-picker>
     </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.quota.control')">
       <el-select v-model="formItem.control"
@@ -88,6 +92,13 @@ import moment from "moment";
 import { mapGetters } from "vuex";
 export default {
   data () {
+    var checkAmount = (rule, value, callback) => {
+      if (value <= 0) {
+        callback(new Error('请输入大于0的数字'));
+      } else {
+        callback();
+      }
+    }
     return {
       materialLoading: false,
       formData: {
@@ -95,11 +106,8 @@ export default {
         unitList: []
       },
       formItem: {
-        material: {},
-        unit: {
-          id: "",
-          measureName: ""
-        },
+        material: "",
+        unit: "",
         organizationId: "",
         organizationName: "",
         organizationOrder: "",
@@ -108,7 +116,7 @@ export default {
         'title': '',
         author: "",
         date: moment().format("YYYY-MM-DD"),
-        'amount': 0,
+        'amount': 1,
         'control': 1,
         'desc': '',
       },
@@ -117,11 +125,21 @@ export default {
         { value: 0, label: "停用" }
       ],
       ruleValidate: {
-        code: [
-          { required: true, message: '编码不能为空', trigger: 'blur' }
+        year: [
+          { required: true, message: '年度不能为空', trigger: 'blur' }
         ],
+        material: [
+          { required: true, message: '物资不能为空', trigger: 'change' }
+        ],
+        unit: [
+          { required: true, message: '计量单位不能为空', trigger: 'change' }
+        ],
+        amount: [
+          { type: 'number', message: '必须输入数字', trigger: 'change' }, { validator: checkAmount, message: '必须输入大于0的数字' }
+        ]
 
       }
+
     };
   },
   components: {
@@ -138,7 +156,6 @@ export default {
     this.formItem.author = this.userName;
   },
   methods: {
-
     organizationOnchange (label, value, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationName = label;
@@ -160,14 +177,20 @@ export default {
         ])
           .then(([unitResponse]) => {
             this.formData.unitList = unitResponse.content;
+            if (this.formData.unitList.length === 1) {
+              this.formItem.unit = this.formData.unitList[0].id;
+            }
           })
           .catch(error => { });
       }
     },
     onSubmitClick (name) {
+      console.log(this.formItem);
+      this.formItem.id = this.formItem.year + "-" + this.formItem.organizationId + "-" + this.formItem.material + "-" + this.formItem.unit;
       this.$refs[name].validate((valid) => {
         if (valid) {
-          Promise.all([quotaApi.save(this.formItem)])
+          console.log(this.formItem);
+          Promise.all([quotaApi.saveOrUpdate(this.formItem.id, this.formItem)])
             .then(([response]) => {
               this.formReset(name);
               //重置表单，允许多次操作
@@ -213,6 +236,7 @@ export default {
     },
     formReset (name) {
       this.$refs[name].resetFields();
+
     },
 
   }
