@@ -5,258 +5,192 @@
   <div class='mainPanel'>
     <div class='toolPanel'>
       <div class='queryCriteria'>
-        <el-form
-          inline
-          style="width:120%;"
-        >
+        <el-form inline
+                 style="width:120%;">
           <el-form-item :label="$t('tobacco.tmisc.infrastructureType.control')">
-            <el-select
-              v-bind:placeholder="$t('base.pleaseInput')"
-              v-model="searchData.control"
-              @keyup.enter.native="onSearchButtonClick"
-            >
-              <el-option
-                v-for="item in status"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+            <el-select v-bind:placeholder="$t('base.pleaseInput')"
+                       v-model="searchData.control"
+                       @keyup.enter.native="onSearchButtonClick">
+              <el-option v-for="item in status"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value" />
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('tobacco.tmisc.infrastructureType.leaf')">
-            <el-select
-              v-model="searchData.leaf"
-              @keyup.enter.native="onSearchButtonClick"
-            >
-              <el-option
-                v-for="item in leafoptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+            <el-select v-model="searchData.leaf"
+                       @keyup.enter.native="onSearchButtonClick">
+              <el-option v-for="item in leafoptions"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value" />
 
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('tobacco.tmisc.infrastructureType.visible')">
-            <el-select
-              v-model="searchData.visible"
-              @keyup.enter.native="onSearchButtonClick"
-            >
-              <el-option
-                v-for="item in visibleoptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+            <el-select v-model="searchData.visible"
+                       @keyup.enter.native="onSearchButtonClick">
+              <el-option v-for="item in visibleoptions"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value" />
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('base.keywords')">
-            <el-input
-              v-bind:placeholder="$t('base.ipKeywords')"
-              v-model="formData.pagination.keyword"
-              @keyup.enter.native="onSearchButtonClick"
-            />
+            <el-input v-bind:placeholder="$t('base.ipKeywords')"
+                      v-model="formData.pagination.keyword"
+                      @keyup.enter.native="onSearchButtonClick" />
           </el-form-item>
         </el-form>
       </div>
-      <div
-        class='toolButton'
-        style="min-width: 300px"
-      >
+      <div class='toolButton'
+           style="min-width: 300px">
         <el-button-group>
-          <el-button
-            type='primary'
-            @click='onSearchButtonClick'
-          >{{ $t('base.buttonSearch') }} </el-button>
-          <el-button
-            type='primary'
-            @click='childForm.addForm=true'
-          >{{ $t('base.buttonAdd') }} </el-button>
-          <el-button
-            type='primary'
-            @click='deleteButtonConfirm'
-          >{{ $t('base.buttonDelete') }} </el-button>
+          <el-button type='primary'
+                     @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
+          <el-button type='primary'
+                     @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
+          <el-button type='primary'
+                     @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>
         </el-button-group>
       </div>
     </div>
     <main class='contentPanel'>
-      <el-table
-        highlight-current-row
-        border
-        @current-change="handleCurrentChange"
-        :data="formData.infrastructureTypeList"
-        style="width: 100%"
-        :row-class-name="tableRowClassName"
-      >
+      <el-table highlight-current-row
+                border
+                @current-change="handleCurrentChange"
+                :data="formData.infrastructureTypeList"
+                style="width: 100%"
+                :row-class-name="tableRowClassName">
         <el-table-column type="index">
         </el-table-column>
-        <el-table-column
-          prop="lead"
-          :label="this.$t('tobacco.tmisc.infrastructureType.lead')"
-        />
-        <el-table-column
-          prop="leaf"
-          :label="this.$t('tobacco.tmisc.infrastructureType.leaf')"
-        >
+        <el-table-column prop="lead"
+                         :label="this.$t('tobacco.tmisc.infrastructureType.lead')" />
+        <el-table-column prop="leaf"
+                         :label="this.$t('tobacco.tmisc.infrastructureType.leaf')">
           <template slot-scope="scope">
             {{scope.row.leaf==true?"节点":"非节点"}}
           </template>
         </el-table-column>
-        <el-table-column
-          prop="name"
-          :label="this.$t('tobacco.tmisc.infrastructureType.name')"
-        />
-        <el-table-column
-          prop="shape"
-          :label="this.$t('tobacco.tmisc.infrastructureType.shape')"
-        />
-        <el-table-column
-          prop="entry"
-          :label="this.$t('tobacco.tmisc.infrastructureType.entry')"
-        />
-        <el-table-column
-          prop="icon"
-          :label="this.$t('tobacco.tmisc.infrastructureType.icon')"
-        />
-        <el-table-column
-          prop="style"
-          :label="this.$t('tobacco.tmisc.infrastructureType.style')"
-        />
-        <el-table-column
-          prop="visible"
-          :label="this.$t('tobacco.tmisc.infrastructureType.visible')"
-        >
+        <el-table-column prop="name"
+                         :label="this.$t('tobacco.tmisc.infrastructureType.name')" />
+        <el-table-column prop="shape"
+                         :label="this.$t('tobacco.tmisc.infrastructureType.shape')" />
+        <el-table-column prop="entry"
+                         :label="this.$t('tobacco.tmisc.infrastructureType.entry')" />
+        <el-table-column prop="icon"
+                         :label="this.$t('tobacco.tmisc.infrastructureType.icon')" />
+        <el-table-column prop="style"
+                         :label="this.$t('tobacco.tmisc.infrastructureType.style')" />
+        <el-table-column prop="visible"
+                         :label="this.$t('tobacco.tmisc.infrastructureType.visible')">
           <template slot-scope="scope">
             {{scope.row.visible==true?"可见":"不可见"}}
           </template>
         </el-table-column>
-        <el-table-column
-          prop="position"
-          :label="this.$t('tobacco.tmisc.infrastructureType.position')"
-        />
-        <el-table-column
-          prop="control"
-          :label="this.$t('tobacco.tmisc.infrastructureType.control')"
-        />
-        <el-table-column
-          prop="desc"
-          :label="this.$t('tobacco.tmisc.infrastructureType.desc')"
-        />
-        <el-table-column
-          fixed="right"
-          :label="$t('base.titleOperation')"
-          width="100"
-        >
+        <el-table-column prop="position"
+                         :label="this.$t('tobacco.tmisc.infrastructureType.position')" />
+        <el-table-column prop="control"
+                         :label="this.$t('tobacco.tmisc.infrastructureType.control')" />
+        <el-table-column prop="desc"
+                         :label="this.$t('tobacco.tmisc.infrastructureType.desc')" />
+        <el-table-column fixed="right"
+                         :label="$t('base.titleOperation')"
+                         width="100">
           <template slot-scope="scope">
-            <el-button
-              @click="editButtonClick(scope.row,false)"
-              type="text"
-              plain
-            >{{$t('base.buttonView')}}</el-button>
-            <el-button
-              type="text"
-              plain
-              @click="editButtonClick(scope.row,true)"
-            >{{$t('base.buttonEdit')}}</el-button>
+            <el-button @click="editButtonClick(scope.row,false)"
+                       type="text"
+                       plain>{{$t('base.buttonView')}}</el-button>
+            <el-button type="text"
+                       plain
+                       @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
     </main>
     <div class='footerPanel'>
-      <el-pagination
-        :page-size='formData.pagination.pageSize'
-        :total='formData.pagination.total'
-        :current-page='formData.pagination.currentPage'
-        @current-change='onPageChange'
-        :page-sizes='formData.pagination.pageSizeOpts'
-        @size-change='onPageSizeChange'
-        layout="total, sizes, prev, pager, next, jumper"
-        placement='top'
-      ></el-pagination>
+      <el-pagination :page-size='formData.pagination.pageSize'
+                     :total='formData.pagination.total'
+                     :current-page='formData.pagination.currentPage'
+                     @current-change='onPageChange'
+                     :page-sizes='formData.pagination.pageSizeOpts'
+                     @size-change='onPageSizeChange'
+                     layout="total, sizes, prev, pager, next, jumper"
+                     placement='top'></el-pagination>
     </div>
     <template>
-      <el-dialog
-        :title="$t('base.buttonAdd')"
-        :visible.sync="childForm.addForm"
-        top="10px"
-        :before-close="handleClose"
-      >
+      <el-dialog :title="$t('base.buttonAdd')"
+                 :visible.sync="childForm.addForm"
+                 top="10px"
+                 :before-close="handleClose">
         <add-form />
       </el-dialog>
-      <el-dialog
-        :title="$t('base.buttonEdit')"
-        :visible.sync="childForm.editForm"
-        top="10px"
-        :before-close="handleClose"
-      >
-        <edit-form
-          :item.sync=formData.viewSelect
-          :isEdit=childForm.isEdit
-          :visible.sync="childForm.editForm"
-        />
+      <el-dialog :title="$t('base.buttonEdit')"
+                 :visible.sync="childForm.editForm"
+                 top="10px"
+                 :before-close="handleClose">
+        <edit-form :item.sync=formData.viewSelect
+                   :isEdit=childForm.isEdit
+                   :visible.sync="childForm.editForm" />
       </el-dialog>
-      <el-dialog
-        :title="$t('base.buttonView')"
-        :visible.sync="childForm.viewForm"
-        top="10px"
-        :before-close="handleClose"
-      >
-        <edit-form
-          :item=formData.viewSelect
-          :isEdit=childForm.isEdit
-          :visible.sync="childForm.viewForm"
-        />
+      <el-dialog :title="$t('base.buttonView')"
+                 :visible.sync="childForm.viewForm"
+                 top="10px"
+                 :before-close="handleClose">
+        <edit-form :item=formData.viewSelect
+                   :isEdit=childForm.isEdit
+                   :visible.sync="childForm.viewForm" />
       </el-dialog>
     </template>
   </div>
 </template>
 <script>
-const AddForm = () => import('./infrastructureTypeAdd.vue');
-const EditForm = () => import('./infrastructureTypeEdit.vue');
-import infrastructureTypeApi from '../../api/tmisc/api_infrastructureType';
+const AddForm = () => import("./infrastructureTypeAdd.vue");
+const EditForm = () => import("./infrastructureTypeEdit.vue");
+import infrastructureTypeApi from "../../api/tmisc/api_infrastructureType";
 export default {
   data() {
     return {
       status: [
         {
           value: 1,
-          label: '新增'
+          label: "新增"
         },
         {
           value: 3,
-          label: '删除'
+          label: "删除"
         },
         {
-          value: '',
-          label: '全部'
+          value: "",
+          label: "全部"
         }
       ],
       leafoptions: [
         {
           value: true,
-          label: '节点'
+          label: "节点"
         },
         {
           value: false,
-          label: '非节点'
+          label: "非节点"
         },
         {
-          value: '',
-          label: '全部'
+          value: "",
+          label: "全部"
         }
       ],
       visibleoptions: [
         {
           value: true,
-          label: '节点'
+          label: "节点"
         },
         {
           value: false,
-          label: '非节点'
+          label: "非节点"
         },
         {
-          value: '',
-          label: '全部'
+          value: "",
+          label: "全部"
         }
       ],
       expand: false,
@@ -269,48 +203,48 @@ export default {
       dateoptions: {
         shortcuts: [
           {
-            text: this.$t('base.today'),
+            text: this.$t("base.today"),
 
             onClick: picker => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.yesterday'),
+            text: this.$t("base.yesterday"),
 
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.oneWeek'),
+            text: this.$t("base.oneWeek"),
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           }
         ]
       },
       searchData: {
-        lead: '',
-        leaf: '',
-        name: '',
-        shape: '',
-        entry: '',
-        icon: '',
-        style: '',
-        visible: '',
-        position: '',
-        control: '',
-        desc: ''
+        lead: "",
+        leaf: "",
+        name: "",
+        shape: "",
+        entry: "",
+        icon: "",
+        style: "",
+        visible: "",
+        position: "",
+        control: "",
+        desc: ""
       },
       formData: {
         infrastructureTypeList: [],
@@ -319,8 +253,8 @@ export default {
           currentPage: 1,
           pageSize: 10,
           total: 0,
-          keyword: '',
-          pageSizeOpts: [10, 15, 20, 25, 30]
+          keyword: "",
+          pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: []
       }
@@ -328,8 +262,8 @@ export default {
   },
   created() {},
   components: {
-    'add-form': AddForm,
-    'edit-form': EditForm
+    "add-form": AddForm,
+    "edit-form": EditForm
   },
   methods: {
     onExpandClick() {
@@ -350,8 +284,8 @@ export default {
         this.formData.selectRow === undefined
       ) {
         this.$message({
-          message: this.$t('message.unSelectAny'),
-          type: 'info'
+          message: this.$t("message.unSelectAny"),
+          type: "info"
         });
         return;
       }
@@ -363,8 +297,8 @@ export default {
       ])
         .then(([response]) => {
           this.$message({
-            type: 'info',
-            message: this.$t('message.deleteOk')
+            type: "info",
+            message: this.$t("message.deleteOk")
           });
           this.formData.selectRow = null;
           this.onSearchButtonClick();
@@ -373,12 +307,12 @@ export default {
     },
     deleteButtonConfirm() {
       this.$confirm(
-        this.$t('message.deleteConfirm'),
-        this.$t('base.titleTip'),
+        this.$t("message.deleteConfirm"),
+        this.$t("base.titleTip"),
         {
-          confirmButtonText: this.$t('base.buttonOk'),
-          cancelButtonText: this.$t('base.buttonCancel'),
-          type: 'warning'
+          confirmButtonText: this.$t("base.buttonOk"),
+          cancelButtonText: this.$t("base.buttonCancel"),
+          type: "warning"
         }
       )
         .then(() => {
@@ -386,8 +320,8 @@ export default {
         })
         .catch(() => {
           this.$message({
-            type: 'info',
-            message: this.$t('message.cancel')
+            type: "info",
+            message: this.$t("message.cancel")
           });
         });
     },
@@ -399,10 +333,10 @@ export default {
         infrastructureTypeApi.getAll({
           size: this.formData.pagination.pageSize,
           page: this.formData.pagination.currentPage - 1,
-          contains: 'lead,leaf,name,shape,entry,icon,style,visible,position,control,desc,:{keyword}:true'.format(
+          contains: "lead,leaf,name,shape,entry,icon,style,visible,position,control,desc,:{keyword}:true".format(
             { keyword: this.formData.pagination.keyword }
           ),
-          search: 'lead:EQ:{lead};leaf:EQ:{leaf};name:EQ:{name};shape:EQ:{shape};entry:EQ:{entry};icon:EQ:{icon};style:EQ:{style};visible:EQ:{visible};position:EQ:{position};control:EQ:{control};desc:EQ:{desc};'.format(
+          search: "lead:EQ:{lead};leaf:EQ:{leaf};name:EQ:{name};shape:EQ:{shape};entry:EQ:{entry};icon:EQ:{icon};style:EQ:{style};visible:EQ:{visible};position:EQ:{position};control:EQ:{control};desc:EQ:{desc};".format(
             {
               lead: this.searchData.lead,
               leaf: this.searchData.leaf,
@@ -423,10 +357,10 @@ export default {
           this.formData.infrastructureTypeList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
-            title: this.$t('base.hint'),
-            message: this.$t('base.loadingDone'),
+            title: this.$t("base.hint"),
+            message: this.$t("base.loadingDone"),
             duration: 1000,
-            position: 'bottom-right'
+            position: "bottom-right"
           });
         })
         .catch(error => {});
@@ -446,9 +380,9 @@ export default {
     },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
-        return 'warning-row';
+        return "warning-row";
       } else {
-        return 'success-row';
+        return "success-row";
       }
     },
     handleClose(done) {

@@ -123,15 +123,12 @@
   </div>
 </template>
 <script>
-const AddForm = () => import('./quotaAdd.vue');
-const EditForm = () => import('./quotaEdit.vue');
-import quotaApi from '../../api/tmaterial/apiQuota';
-const control = [
-  { value: 1, label: "启用" },
-  { value: 0, label: "停用" }
-];
+const AddForm = () => import("./quotaAdd.vue");
+const EditForm = () => import("./quotaEdit.vue");
+import quotaApi from "../../api/tmaterial/apiQuota";
+const control = [{ value: 1, label: "启用" }, { value: 0, label: "停用" }];
 export default {
-  data () {
+  data() {
     return {
       childForm: {
         addForm: false,
@@ -142,67 +139,66 @@ export default {
       dateoptions: {
         shortcuts: [
           {
-            text: this.$t('base.today'),
+            text: this.$t("base.today"),
 
-            onClick: (picker) => {
+            onClick: picker => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.yesterday'),
+            text: this.$t("base.yesterday"),
 
-            onClick (picker) {
+            onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.threeMonth'),
-            onClick (picker) {
+            text: this.$t("base.threeMonth"),
+            onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           }
         ]
       },
       searchData: {
-        'year': 0,
-        'title': '',
-        'author': '',
-        'date': '',
-        'amount': 0,
-        'control': 0,
-        'desc': '',
+        year: 0,
+        title: "",
+        author: "",
+        date: "",
+        amount: 0,
+        control: 0,
+        desc: ""
       },
       formData: {
         quotaList: [],
-        pagination: {//用于分页的变量
+        pagination: {
+          //用于分页的变量
           currentPage: 1,
           pageSize: 10,
           total: 0,
-          keyword: '',
-          pageSizeOpts: [10, 15, 20, 25, 30]
+          keyword: "",
+          pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: []
-      },
+      }
     };
   },
-  created () {
-
-  },
+  created() {},
   components: {
-    'add-form': AddForm,
-    'edit-form': EditForm
+    "add-form": AddForm,
+    "edit-form": EditForm
   },
   filters: {
-    capitalizeState: function (value) {
+    capitalizeState: function(value) {
       let item = control.find(it => {
         return it.value === value;
       });
@@ -220,11 +216,14 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    deleteButtonClick () {
-      if (this.formData.selectRow === null || this.formData.selectRow === undefined) {
+    deleteButtonClick() {
+      if (
+        this.formData.selectRow === null ||
+        this.formData.selectRow === undefined
+      ) {
         this.$message({
-          message: this.$t('message.unSelectAny'),
-          type: 'info',
+          message: this.$t("message.unSelectAny"),
+          type: "info"
         });
         return;
       }
@@ -232,33 +231,35 @@ export default {
       Promise.all([quotaApi.softDelete(this.formData.selectRow.id)])
         .then(([response]) => {
           this.$message({
-            type: 'info',
-            message: this.$t('message.deleteOk')
+            type: "info",
+            message: this.$t("message.deleteOk")
           });
           this.formData.selectRow = null;
           this.onSearchButtonClick();
-
         })
-        .catch(error => {
-
+        .catch(error => {});
+    },
+    deleteButtonConfirm() {
+      this.$confirm(
+        this.$t("message.deleteConfirm"),
+        this.$t("base.titleTip"),
+        {
+          confirmButtonText: this.$t("base.buttonOk"),
+          cancelButtonText: this.$t("base.buttonCancel"),
+          type: "warning"
+        }
+      )
+        .then(() => {
+          this.deleteButtonClick();
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: this.$t("message.cancel")
+          });
         });
     },
-    deleteButtonConfirm () {
-      this.$confirm(this.$t('message.deleteConfirm'), this.$t('base.titleTip'), {
-        confirmButtonText: this.$t('base.buttonOk'),
-        cancelButtonText: this.$t('base.buttonCancel'),
-        type: 'warning'
-      }).then(() => {
-        this.deleteButtonClick();
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: this.$t('message.cancel')
-        });
-      });
-
-    },
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.formData.selectRow = val;
     },
     onSearchButtonClick () {
@@ -274,37 +275,35 @@ export default {
           this.formData.quotaList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
-            title: this.$t('base.hint'),
-            message: this.$t('base.loadingDone'),
+            title: this.$t("base.hint"),
+            message: this.$t("base.loadingDone"),
             duration: 1000,
-            position: 'bottom-right'
+            position: "bottom-right"
           });
         })
-        .catch(error => {
-        });
-
+        .catch(error => {});
     },
 
-    onPageChange (index) {
+    onPageChange(index) {
       if (this.formData.pagination.currentPage !== index) {
         this.formData.pagination.currentPage = index;
         this.onSearchButtonClick();
       }
     },
-    onPageSizeChange (size) {
+    onPageSizeChange(size) {
       if (this.formData.pagination.pageSize !== size) {
         this.formData.pagination.pageSize = size;
         this.onSearchButtonClick();
       }
     },
-    tableRowClassName ({ row, rowIndex }) {
+    tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
-        return 'warning-row';
+        return "warning-row";
       } else {
-        return 'success-row';
+        return "success-row";
       }
     },
-    handleClose (done) {
+    handleClose(done) {
       this.childForm.addForm = false;
       this.childForm.editForm = false;
       this.onSearchButtonClick();

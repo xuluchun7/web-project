@@ -89,11 +89,14 @@
       <div class='toolButton'
            style="min-width: 210px">
         <el-button-group>
-          <el-button type='primary' plain
+          <el-button type='primary'
+                     plain
                      @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
-          <el-button type='primary' plain
+          <el-button type='primary'
+                     plain
                      @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
-          <el-button type='primary' plain
+          <el-button type='primary'
+                     plain
                      @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>
         </el-button-group>
       </div>
@@ -184,9 +187,9 @@
   </div>
 </template>
 <script>
-const AddForm = () => import('./plantPlanAreaAdd.vue');
-const EditForm = () => import('./plantPlanAreaEdit.vue');
-import plantPlanAreaApi from '../../api/tfarm/api_plantPlanArea';
+const AddForm = () => import("./plantPlanAreaAdd.vue");
+const EditForm = () => import("./plantPlanAreaEdit.vue");
+import plantPlanAreaApi from "../../api/tfarm/api_plantPlanArea";
 export default {
   data() {
     return {
@@ -199,49 +202,49 @@ export default {
       dateoptions: {
         shortcuts: [
           {
-            text: this.$t('base.today'),
+            text: this.$t("base.today"),
 
             onClick: picker => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.yesterday'),
+            text: this.$t("base.yesterday"),
 
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.oneWeek'),
+            text: this.$t("base.oneWeek"),
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           }
         ]
       },
       searchData: {
-        plantPlanId: '',
+        plantPlanId: "",
         areaId: 0,
-        start: '',
-        finish: '',
-        typeName: '',
-        varietyName: '',
+        start: "",
+        finish: "",
+        typeName: "",
+        varietyName: "",
         area: 0,
         number: 0,
         yield: 0,
         money: 0,
-        pictures: '',
-        desc: ''
+        pictures: "",
+        desc: ""
       },
       formData: {
         plantPlanAreaList: [],
@@ -250,8 +253,8 @@ export default {
           currentPage: 1,
           pageSize: 10,
           total: 0,
-          keyword: '',
-          pageSizeOpts: [10, 15, 20, 25, 30]
+          keyword: "",
+          pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: []
       }
@@ -259,8 +262,8 @@ export default {
   },
   created() {},
   components: {
-    'add-form': AddForm,
-    'edit-form': EditForm
+    "add-form": AddForm,
+    "edit-form": EditForm
   },
   methods: {
     editButtonClick(selectRow, isEdit) {
@@ -278,8 +281,8 @@ export default {
         this.formData.selectRow === undefined
       ) {
         this.$message({
-          message: this.$t('message.unSelectAny'),
-          type: 'info'
+          message: this.$t("message.unSelectAny"),
+          type: "info"
         });
         return;
       }
@@ -289,8 +292,8 @@ export default {
       ])
         .then(([response]) => {
           this.$message({
-            type: 'info',
-            message: this.$t('message.deleteOk')
+            type: "info",
+            message: this.$t("message.deleteOk")
           });
           this.formData.selectRow = null;
           this.onSearchButtonClick();
@@ -299,12 +302,12 @@ export default {
     },
     deleteButtonConfirm() {
       this.$confirm(
-        this.$t('message.deleteConfirm'),
-        this.$t('base.titleTip'),
+        this.$t("message.deleteConfirm"),
+        this.$t("base.titleTip"),
         {
-          confirmButtonText: this.$t('base.buttonOk'),
-          cancelButtonText: this.$t('base.buttonCancel'),
-          type: 'warning'
+          confirmButtonText: this.$t("base.buttonOk"),
+          cancelButtonText: this.$t("base.buttonCancel"),
+          type: "warning"
         }
       )
         .then(() => {
@@ -312,8 +315,8 @@ export default {
         })
         .catch(() => {
           this.$message({
-            type: 'info',
-            message: this.$t('message.cancel')
+            type: "info",
+            message: this.$t("message.cancel")
           });
         });
     },
@@ -325,10 +328,10 @@ export default {
         plantPlanAreaApi.getAll({
           size: this.formData.pagination.pageSize,
           page: this.formData.pagination.currentPage - 1,
-          contains: 'plantPlanId,areaId,start,finish,typeName,varietyName,area,number,yield,money,pictures,desc,:{keyword}:true'.format(
+          contains: "plantPlanId,areaId,start,finish,typeName,varietyName,area,number,yield,money,pictures,desc,:{keyword}:true".format(
             { keyword: this.formData.pagination.keyword }
           ),
-          search: 'plantPlanId:EQ:{plantPlanId};areaId:EQ:{areaId};start:EQ:{start};finish:EQ:{finish};typeName:EQ:{typeName};varietyName:EQ:{varietyName};area:EQ:{area};number:EQ:{number};yield:EQ:{yield};money:EQ:{money};pictures:EQ:{pictures};desc:EQ:{desc};'.format(
+          search: "plantPlanId:EQ:{plantPlanId};areaId:EQ:{areaId};start:EQ:{start};finish:EQ:{finish};typeName:EQ:{typeName};varietyName:EQ:{varietyName};area:EQ:{area};number:EQ:{number};yield:EQ:{yield};money:EQ:{money};pictures:EQ:{pictures};desc:EQ:{desc};".format(
             {
               plantPlanId: this.searchData.plantPlanId,
               areaId: this.searchData.areaId,
@@ -350,10 +353,10 @@ export default {
           this.formData.plantPlanAreaList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
-            title: this.$t('base.hint'),
-            message: this.$t('base.loadingDone'),
+            title: this.$t("base.hint"),
+            message: this.$t("base.loadingDone"),
             duration: 1000,
-            position: 'bottom-right'
+            position: "bottom-right"
           });
         })
         .catch(error => {});
@@ -373,9 +376,9 @@ export default {
     },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
-        return 'warning-row';
+        return "warning-row";
       } else {
-        return 'success-row';
+        return "success-row";
       }
     },
     handleClose(done) {

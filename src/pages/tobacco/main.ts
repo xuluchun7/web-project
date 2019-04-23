@@ -30,6 +30,7 @@ import * as langFilters from './filters/langFilters'; // global filters
 import * as longFilters from './filters/longFilters'; //
 import '@/directive/highlight';
 import utilsPlugin from '@/utils/utilsPlugin';
+import global_variable from './global_variable';
 import BaiduMap from 'vue-baidu-map';
 import fullscreen from '@/directive/el-fullscreenDialog';
 import ECharts from 'vue-echarts';
@@ -42,6 +43,7 @@ Vue.use(BaiduMap, {
 });
 Vue.config.productionTip = false;
 Vue.use(utilsPlugin);
+Vue.use(global_variable);
 Vue.use(fullscreen);
 Vue.use(Avue);
 Vue.use(Element, {

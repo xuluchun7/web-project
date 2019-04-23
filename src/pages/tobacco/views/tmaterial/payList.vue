@@ -1,6 +1,5 @@
 <style scoped>
 @import "~@/styles/css/main-list.css";
-
 </style>
 <template>
   <div class='mainPanel'>
@@ -159,7 +158,7 @@ export default {
           pageSize: 10,
           total: 0,
           keyword: "",
-          pageSizeOpts: [10, 15, 20, 25, 30]
+          pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: []
       }
@@ -242,7 +241,7 @@ export default {
       ])
         .then(([response]) => {
           this.formData.payList = response.content;
-          this.formData.pagination.total = parseFloat(response.totalElements);;
+          this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
             title: this.$t("base.hint"),
             message: this.$t("base.loadingDone"),

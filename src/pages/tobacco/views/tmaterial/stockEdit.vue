@@ -1,24 +1,24 @@
  <template>
      <el-form :model="formItem" label-width="80px" :rules="ruleValidate" ref="formValidate">
-           <el-form-item    :label="$t('material.tmaterial.stock.yearMonth')">
+           <el-form-item    :label="$t('tobacco.tmaterial.stock.yearMonth')">
                <el-input v-bind:placeholder="$t('base.pleaseInput')"  v-model="formItem.yearMonth"/>
            </el-form-item>
-           <el-form-item    :label="$t('material.tmaterial.stock.initialAmount')">
+           <el-form-item    :label="$t('tobacco.tmaterial.stock.initialAmount')">
                <el-input v-bind:placeholder="$t('base.pleaseInput')"  v-model="formItem.initialAmount"/>
            </el-form-item>
-           <el-form-item    :label="$t('material.tmaterial.stock.initialAmountUnit')">
+           <el-form-item    :label="$t('tobacco.tmaterial.stock.initialAmountUnit')">
                <el-input v-bind:placeholder="$t('base.pleaseInput')"  v-model="formItem.initialAmountUnit"/>
            </el-form-item>
-           <el-form-item    :label="$t('material.tmaterial.stock.currentAmount')">
+           <el-form-item    :label="$t('tobacco.tmaterial.stock.currentAmount')">
                <el-input v-bind:placeholder="$t('base.pleaseInput')"  v-model="formItem.currentAmount"/>
            </el-form-item>
-           <el-form-item    :label="$t('material.tmaterial.stock.currentAmountUnit')">
+           <el-form-item    :label="$t('tobacco.tmaterial.stock.currentAmountUnit')">
                <el-input v-bind:placeholder="$t('base.pleaseInput')"  v-model="formItem.currentAmountUnit"/>
            </el-form-item>
-           <el-form-item    :label="$t('material.tmaterial.stock.control')">
+           <el-form-item    :label="$t('tobacco.tmaterial.stock.control')">
                <el-input v-bind:placeholder="$t('base.pleaseInput')"  v-model="formItem.control"/>
            </el-form-item>
-           <el-form-item    :label="$t('material.tmaterial.stock.desc')">
+           <el-form-item    :label="$t('tobacco.tmaterial.stock.desc')">
                <el-input v-bind:placeholder="$t('base.pleaseInput')"  v-model="formItem.desc"/>
            </el-form-item>
            <el-form-item>

@@ -512,7 +512,7 @@ export default {
           pageSize: 1000,
           total: 0,
           keyword: "",
-          pageSizeOpts: [10, 15, 20, 25, 30]
+          pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         showImg: false,
         selectRow: "",
@@ -679,7 +679,11 @@ export default {
     this.load();
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   methods: {
     //获取图片路径
@@ -832,7 +836,7 @@ export default {
       }
     },
     remoteFarmerMethod(query) {
-        this.dataItem.orgId = this.userOrgId;
+      this.dataItem.orgId = this.userOrgId;
       if (query !== "") {
         this.loading2 = true;
         Promise.all([

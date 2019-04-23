@@ -194,7 +194,7 @@ export default {
           pageSize: 10,
           total: 0,
           keyword: "",
-          pageSizeOpts: [10, 15, 20, 25, 30]
+          pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: []
       }
@@ -210,7 +210,11 @@ export default {
     OrganizationForm
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   methods: {
     organizationOnchange(label, value, values) {

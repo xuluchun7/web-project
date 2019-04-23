@@ -40,7 +40,7 @@
                    trigger="click">
         <div class="avatar-wrapper">
           <span class="el-dropdown-link userinfo-inner"
-                style="color:black">
+                >
             {{username}}
             <i class="el-icon-arrow-down el-icon--right" />
           </span>

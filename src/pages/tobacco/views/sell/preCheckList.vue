@@ -215,7 +215,6 @@ const EditForm = () => import("./preCheckEdit.vue");
 import preCheckApi from "../../api/tsell/api_preCheck";
 import { mapGetters } from "vuex";
 
-
 const path = require("path");
 
 export default {
@@ -284,7 +283,7 @@ export default {
           pageSize: 10,
           total: 0,
           keyword: "",
-          pageSizeOpts: [10, 15, 20, 25, 30]
+          pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: [],
         photoList: []
@@ -296,7 +295,11 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   components: {
     "add-form": AddForm,

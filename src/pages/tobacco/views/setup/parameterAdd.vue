@@ -196,7 +196,7 @@ export default {
           pageSize: 5,
           total: 0,
           keyword: "",
-          pageSizeOpts: [10, 15, 20, 25, 30]
+          pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: []
       }
@@ -232,7 +232,11 @@ export default {
       .catch(error => {});
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   components: {
     "add-form": AddForm,

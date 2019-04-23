@@ -2,7 +2,10 @@
   height: $titlebarHeight+1;
   line-height: $titlebarHeight;
   border-radius: 0px !important;
-  background: lightseagreen;
+  background: $titlebarBg;
+  span{
+    color: white;
+  }
   .hamburger-container {
     line-height: 58px;
     height: 50px;

@@ -197,15 +197,20 @@ export default {
           pageSize: 10,
           total: 0,
           keyword: "",
-          pageSizeOpts: [10, 15, 20, 25, 30]
+          pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: []
       }
     };
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName",
-      loginName: "loginName",userName:"userName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      loginName: "loginName",
+      userName: "userName"
+    })
   },
   created() {
     this.searchData.organizationId = this.userOrgId;
