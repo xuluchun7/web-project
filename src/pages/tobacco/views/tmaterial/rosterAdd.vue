@@ -117,6 +117,7 @@ export default {
           Promise.all([rosterApi.save(this.formItem)])
             .then(([response]) => {
               this.formReset(name);
+              this.$emit('onSearchButtonClick');
               //重置表单，允许多次操作
               this.$message({
                 message: this.$t("message.saveAndContinue"),
