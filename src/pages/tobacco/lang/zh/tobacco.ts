@@ -2172,6 +2172,7 @@ export default {
       villageNames: '村组名称',
       annual: '年度',
       desc: '描述',
+      buttonDetails: '花名册详情'
     },
     rosterDetails: {
       rosterId: '花名册',

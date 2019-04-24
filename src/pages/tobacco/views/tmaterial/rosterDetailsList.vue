@@ -19,27 +19,41 @@
           <el-button type='primary'
                      @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
           <el-button type='primary'
-                     @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
-          <el-button type='primary'
-                     @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>
+                     @click='goBack'>{{ $t('base.buttonBack') }} </el-button>
         </el-button-group>
       </div>
     </div>
     <main class='contentPanel'>
       <el-table highlight-current-row
                 border
-                @current-change="handleCurrentChange"
                 :data="formData.rosterDetailsList"
                 style="width: 100%"
                 :row-class-name="tableRowClassName">
-        <el-table-column type="index">
+        <el-table-column type="expand"
+                         fixed="left">
+          <template slot-scope="props">
+            <el-form class="cas-group cas-flex-3">
+              <el-form-item :label="$t('tobacco.tmaterial.rosterDetails.farmerNumber')">
+                {{props.row.farmerNumber}}
+              </el-form-item>
+              <el-form-item :label="$t('tobacco.tmaterial.rosterDetails.phone')">
+                {{props.row.phone}}
+              </el-form-item>
+              <el-form-item :label="$t('tobacco.tmaterial.rosterDetails.billOutSerial')">
+                {{props.row.billOutSerial}}
+              </el-form-item>
+              <el-form-item :label="$t('tobacco.tmaterial.rosterDetails.money')">
+                {{props.row.money}}
+              </el-form-item>
+              <el-form-item :label="$t('tobacco.tmaterial.rosterDetails.actualMoney')">
+                {{props.row.actualMoney}}
+              </el-form-item>
+              <el-form-item :label="$t('tobacco.tmaterial.rosterDetails.expectMoney')">
+                {{props.row.expectMoney}}
+              </el-form-item>
+            </el-form>
+          </template>
         </el-table-column>
-        <el-table-column prop="rosterId"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.rosterId')" />
-        <el-table-column prop="farmerId"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.farmerId')" />
-        <el-table-column prop="farmerNumber"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.farmerNumber')" />
         <el-table-column prop="farmerName"
                          :label="this.$t('tobacco.tmaterial.rosterDetails.farmerName')" />
         <el-table-column prop="identity"
@@ -48,44 +62,23 @@
                          :label="this.$t('tobacco.tmaterial.rosterDetails.address')" />
         <el-table-column prop="bankNo"
                          :label="this.$t('tobacco.tmaterial.rosterDetails.bankNo')" />
-        <el-table-column prop="phone"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.phone')" />
         <el-table-column prop="area"
                          :label="this.$t('tobacco.tmaterial.rosterDetails.area')" />
         <el-table-column prop="actualArea"
                          :label="this.$t('tobacco.tmaterial.rosterDetails.actualArea')" />
         <el-table-column prop="expectArea"
                          :label="this.$t('tobacco.tmaterial.rosterDetails.expectArea')" />
-        <el-table-column prop="money"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.money')" />
-        <el-table-column prop="actualMoney"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.actualMoney')" />
-        <el-table-column prop="expectMoney"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.expectMoney')" />
-        <el-table-column prop="filePath"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.filePath')" />
-        <el-table-column prop="signElec"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.signElec')" />
-        <el-table-column prop="pictures"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.pictures')" />
-        <el-table-column prop="signHand"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.signHand')" />
-        <el-table-column prop="billOutId"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.billOutId')" />
-        <el-table-column prop="billOutSerial"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.billOutSerial')" />
-        <el-table-column prop="control"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.control')" />
-        <el-table-column fixed="right"
-                         :label="$t('base.titleOperation')"
-                         width="100">
+        <el-table-column v-for="item in formData.materialList"
+                         :key=item.id
+                         :label="item.materialName">
           <template slot-scope="scope">
-            <el-button @click="editButtonClick(scope.row,false)"
-                       type="text"
-                       size="small">{{$t('base.buttonView')}}</el-button>
-            <el-button type="text"
-                       size="small"
-                       @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
+            {{formatCell(scope.row.rosterDetailsItemEntityList,item.materialId)}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="control"
+                         :label="this.$t('tobacco.tmaterial.rosterDetails.control')">
+          <template slot-scope="scope">
+            {{scope.row.control|controlFormat}}
           </template>
         </el-table-column>
       </el-table>
@@ -100,37 +93,15 @@
                      layout="total, sizes, prev, pager, next, jumper"
                      placement='top'></el-pagination>
     </div>
-    <template>
-      <el-dialog :title="$t('base.buttonAdd')"
-                 :visible.sync="childForm.addForm"
-                 top="10px"
-                 :before-close="handleClose">
-        <add-form />
-      </el-dialog>
-      <el-dialog :title="$t('base.buttonEdit')"
-                 :visible.sync="childForm.editForm"
-                 top="10px"
-                 :before-close="handleClose">
-        <edit-form :item.sync=formData.viewSelect
-                   :isEdit=childForm.isEdit
-                   :visible.sync="childForm.editForm" />
-      </el-dialog>
-      <el-dialog :title="$t('base.buttonView')"
-                 :visible.sync="childForm.viewForm"
-                 top="10px"
-                 :before-close="handleClose">
-        <edit-form :item=formData.viewSelect
-                   :isEdit=childForm.isEdit
-                   :visible.sync="childForm.viewForm" />
-      </el-dialog>
-    </template>
   </div>
 </template>
 <script>
 const AddForm = () => import("./rosterDetailsAdd.vue");
 const EditForm = () => import("./rosterDetailsEdit.vue");
 import rosterDetailsApi from "../../api/tmaterial/apiRosterDetails";
+import rosterStandardApi from "../../api/tmaterial/apiRosterStandard";
 export default {
+  props: ["roster", "visible"],
   data() {
     return {
       childForm: {
@@ -139,41 +110,9 @@ export default {
         viewForm: false,
         isEdit: false
       },
-      dateoptions: {
-        shortcuts: [
-          {
-            text: this.$t("base.today"),
-
-            onClick: picker => {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: this.$t("base.yesterday"),
-
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: this.$t("base.threeMonth"),
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      },
       searchData: {},
       formData: {
+        materialList: [],
         rosterDetailsList: [],
         pagination: {
           //用于分页的变量
@@ -187,79 +126,32 @@ export default {
       }
     };
   },
-  created() {},
+  created() {
+    this.onSearchButtonClick();
+  },
   components: {
     "add-form": AddForm,
     "edit-form": EditForm
   },
   methods: {
-    editButtonClick(selectRow, isEdit) {
-      this.formData.viewSelect = selectRow;
-      if (isEdit) {
-        this.childForm.editForm = true;
-      } else {
-        this.childForm.viewForm = true;
-      }
-      this.childForm.isEdit = isEdit;
-    },
-    deleteButtonClick() {
-      if (
-        this.formData.selectRow === null ||
-        this.formData.selectRow === undefined
-      ) {
-        this.$message({
-          message: this.$t("message.unSelectAny"),
-          type: "info"
-        });
-        return;
-      }
-
-      Promise.all([rosterDetailsApi.softDelete(this.formData.selectRow.id)])
-        .then(([response]) => {
-          this.$message({
-            type: "info",
-            message: this.$t("message.deleteOk")
-          });
-          this.formData.selectRow = null;
-          this.onSearchButtonClick();
-        })
-        .catch(error => {});
-    },
-    deleteButtonConfirm() {
-      this.$confirm(
-        this.$t("message.deleteConfirm"),
-        this.$t("base.titleTip"),
-        {
-          confirmButtonText: this.$t("base.buttonOk"),
-          cancelButtonText: this.$t("base.buttonCancel"),
-          type: "warning"
-        }
-      )
-        .then(() => {
-          this.deleteButtonClick();
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: this.$t("message.cancel")
-          });
-        });
-    },
-    handleCurrentChange(val) {
-      this.formData.selectRow = val;
-    },
     onSearchButtonClick() {
       Promise.all([
         rosterDetailsApi.getAll({
           size: this.formData.pagination.pageSize,
           page: this.formData.pagination.currentPage - 1,
-          contains: ":{keyword}:true".format({
+          contains: "farmerName,identity,address,bankNo:{keyword}:true".format({
             keyword: this.formData.pagination.keyword
           }),
-          search: "".format({})
+          search: "rosterId:eq:" + this.roster.id
+        }),
+        rosterStandardApi.getAll({
+          size: 500,
+          page: 0,
+          sort: "materialId",
+          search: "rosterId:eq:" + this.roster.id
         })
       ])
-        .then(([response]) => {
+        .then(([response, standardResponse]) => {
           this.formData.rosterDetailsList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
@@ -268,6 +160,7 @@ export default {
             duration: 1000,
             position: "bottom-right"
           });
+          this.formData.materialList = standardResponse.content;
         })
         .catch(error => {});
     },
@@ -291,11 +184,36 @@ export default {
         return "success-row";
       }
     },
-    handleClose(done) {
-      this.childForm.addForm = false;
-      this.childForm.editForm = false;
-      this.onSearchButtonClick();
-      done();
+
+    goBack() {
+      this.$emit("update:visible", false);
+    },
+    formatCell(rosterDetailsItemEntityList, materialId) {
+      let item = rosterDetailsItemEntityList.find(t => {
+        return t.materialId === materialId;
+      });
+      if (item) {
+        return item.amount.toFixed(2) + " " + item.measureName;
+      }
+      return "0.00";
+    }
+  },
+  watch: {
+    roster(curVal, oldVal) {
+      if (curVal) {
+        this.onSearchButtonClick();
+      } else {
+        this.formData.rosterDetailsList = [];
+        this.formData.materialList = [];
+      }
+    }
+  },
+  filters: {
+    controlFormat: function(key) {
+      let item = rosterDetailsApi.CONTROL_LIST.find(it => {
+        return it.key === key;
+      });
+      return item ? item.value : "其它";
     }
   }
 };
