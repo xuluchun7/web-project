@@ -151,7 +151,7 @@
 const AddForm = () => import("./stockAdd.vue");
 const InitForm = () => import("./stockInit.vue");
 const EditForm = () => import("./stockEdit.vue");
-import stockApi from "../../api/tmaterial/apiStock";
+import stockApi from "../../api/tmaterial/apiStock.ts";
 import warehouseApi from "../../api/tmaterial/apiWarehouse";
 import { mapGetters } from "vuex";
 export default {

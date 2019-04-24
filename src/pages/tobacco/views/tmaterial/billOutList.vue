@@ -104,44 +104,37 @@
                          fixed="left">
           <template slot-scope="props">
             <el-form class="cas-group cas-flex-3">
-              <el-form-item :label="$t('tobacco.tmaterial.bill.barcode')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.barcode')">
                 {{props.row.barcode}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.author')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.author')">
                 {{props.row.author}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.deliveryInfo')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.deliveryInfo')">
                 {{props.row.deliveryInfo}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.arriveInfo')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.arriveInfo')">
                 {{props.row.arriveInfo}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillBarcode')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillBarcode')">
                 {{props.row.refBillBarcode}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillInfo')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.receiveSerial')">
+                {{props.row.refBillSerial}}
+              </el-form-item>
+              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillInfo')">
                 {{props.row.refBillInfo}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.print')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.print')">
                 {{props.row.print}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.itemCount')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.itemCount')">
                 {{props.row.itemCount}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.itemMoneys')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.itemMoneys')">
                 {{props.row.itemMoney}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.desc')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.desc')">
                 {{props.row.desc}}
               </el-form-item>
             </el-form>
@@ -152,11 +145,6 @@
                          fixed="left"
                          show-overflow-tooltip
                          :label="this.$t('tobacco.tmaterial.bill.serial')" />
-        <el-table-column prop="refBillSerial"
-                         width="200"
-                         fixed="left"
-                         show-overflow-tooltip
-                         :label="this.$t('tobacco.tmaterial.bill.receiveSerial')" />
 
         <el-table-column prop="date"
                          width="100"
@@ -196,14 +184,15 @@
                          width="100">
 
           <template slot-scope="scope">
-            <el-button @click="button.audit=false;onAuditClick(scope.row.id)"
-                       type="text"
-                       :disabled="scope.row.control>=5||!button.audit"
-                       size="small">{{$t('tobacco.tmaterial.bill.buttonAudit')}}</el-button>
+
             <el-button type="text"
                        size="small"
                        :disabled="scope.row.control!==0"
                        @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
+            <el-button @click="button.audit=false;onAuditClick(scope.row.id)"
+                       type="text"
+                       :disabled="scope.row.control>=5||!button.audit"
+                       size="small">{{$t('tobacco.tmaterial.bill.buttonAudit')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -244,6 +233,7 @@
                            :label="this.$t('tobacco.tmaterial.billItem.measureName')"
                            show-overflow-tooltip />
           <el-table-column prop="mfg"
+                           v-if="false"
                            :label="this.$t('tobacco.tmaterial.billItem.mfg')">
             <template slot-scope="scope">
               <span v-if=" scope.row.mfg">
@@ -283,6 +273,11 @@
                          size="small"
                          :disabled="formData.selectRow?formData.selectRow.control===5:true"
                          @click="onDeleteBillItemClick(scope.row)">{{$t('base.buttonDelete')}}</el-button>
+              <el-button type="text"
+                         size="small"
+                         :disabled="formData.selectRow?formData.selectRow.control===5:true"
+                         v-if="scope.row"
+                         @click="onEditItemClick(scope.row)">{{$t('base.buttonEdit')}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -315,6 +310,7 @@
         <edit-form :item.sync=formData.selectRow
                    :isEdit=childForm.isEdit
                    :operation='formData.operation'
+                   @onSearchButtonClick="onSearchButtonClick"
                    :visible.sync="childForm.editForm" />
       </el-dialog>
       <el-dialog :title="$t('base.buttonView')"
@@ -333,18 +329,19 @@
                  :before-close="handleClose">
         <bill-item-add :master=formData.selectRow
                        :visible.sync="childForm.billItemForm" />
+
       </el-dialog>
     </template>
   </div>
 </template>
 <script>
 import animate from "animate.css";
-const AddForm = () => import("./billSharedOutAdd.vue");
-const EditForm = () => import("./billSharedOutEdit.vue");
+const EditForm = () => import("./billOutEdit.vue");
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui
 import billApi from "../../api/tmaterial/apiBillOut";
 import billItemApi from "../../api/tmaterial/apiBillItem";
 import { mapGetters } from "vuex";
+import stockApi from "../../api/tmaterial/apiStock.ts";
 const status = [
   { value: 0, label: "编辑" },
   { value: 5, label: "记账" },
@@ -371,39 +368,7 @@ export default {
         detailForm: false,
         billItemForm: false
       },
-      dateoptions: {
-        shortcuts: [
-          {
-            text: this.$t("base.today"),
-
-            onClick: picker => {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: this.$t("base.yesterday"),
-
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: this.$t("base.threeMonth"),
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      },
+      dateoptions: this.GLOBAL.dateoptions,
       searchData: {
         organizationId: "",
         serial: "",
@@ -439,7 +404,9 @@ export default {
         },
         rowSelection: [],
         selectRow: {},
-        grantObject: 0 //发放对象
+        grantObject: 0, //发放对象
+        selectItemRow: {},
+        stockList: []
       },
       button: {
         audit: true
@@ -456,7 +423,6 @@ export default {
   },
   components: {
     OrganizationForm: () => import("@/components/Organization"),
-    "add-form": AddForm,
     "edit-form": EditForm,
     billItemAdd: () => import("./billSharedOutItemAdd.vue")
   },
@@ -743,13 +709,22 @@ export default {
     },
     onResetButtonClick() {
       //重置数据
+    },
+    onEditItemClick(row) {
+      row._edit = true;
+      this.formData.selectItemRow = row;
+      Promise.all([stockApi.getStock()])
+        .then(([response]) => {
+          this.formData.stockList = response.content;
+        })
+        .catch(error => {});
     }
   }
 };
 </script>
 <style scoped>
 .floatDetail {
-  height: 200px;
+  height: 300px;
   position: absolute;
   bottom: 37px;
   left: 210px;
@@ -785,7 +760,7 @@ nav > a::before {
   width: 100%;
   background: #f7f7f7;
   overflow-y: scroll;
-  height: 180px;
+  height: 280px;
   overflow: auto;
 }
 </style>

@@ -157,7 +157,7 @@
   </div>
 </template>
 <script>
-import stockApi from "../../api/tmaterial/apiStock";
+import stockApi from "../../api/tmaterial/apiStock.ts";
 import billInApi from "../../api/tmaterial/apiBillIn";
 import billItemApi from "../../api/tmaterial/apiBillItem";
 import booksApi from "../../api/tmaterial/apiBooks";

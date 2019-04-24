@@ -27,7 +27,7 @@
      </el-form>
 </template>
 <script>
-    import stockApi from '../../api/tmaterial/apiStock';
+    import stockApi from '../../api/tmaterial/apiStock.ts';
     export default {
         props: ['item', 'isEdit','visible'],
         data () {

@@ -116,7 +116,7 @@ import moment from "moment";
 import UUID from "es6-uuid";
 import materialUnitApi from "../../api/tmaterial/apiMaterialUnit";
 import billApi from "../../api/tmaterial/apiBillOut";
-import stockApi from "../../api/tmaterial/apiStock";
+import stockApi from "../../api/tmaterial/apiStock.ts";
 import { parseDate } from "@/filters/index.ts";
 export default {
   props: ["master", "visible"],

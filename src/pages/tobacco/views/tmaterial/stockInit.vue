@@ -209,7 +209,7 @@
 
 </template>
 <script>
-import stockApi from "../../api/tmaterial/apiStock";
+import stockApi from "../../api/tmaterial/apiStock.ts";
 import booksApi from "../../api/tmaterial/apiBooks";
 import materialApi from "../../api/tmaterial/apiMaterial";
 import materialUnitApi from "../../api/tmaterial/apiMaterialUnit";

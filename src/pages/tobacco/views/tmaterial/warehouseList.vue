@@ -243,7 +243,7 @@ const EditForm = () => import("./warehouseEdit.vue");
 import billInApi from "../../api/tmaterial/apiBillIn";
 import billOutApi from "../../api/tmaterial/apiBillOut";
 import warehouseApi from "../../api/tmaterial/apiWarehouse";
-import stockApi from "../../api/tmaterial/apiStock";
+import stockApi from "../../api/tmaterial/apiStock.ts";
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui
 import moment from "moment";
 import UUID from "es6-uuid";
@@ -347,7 +347,12 @@ export default {
     AddStock: () => import("./stockAdd")
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName", userName: "userName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   filters: {
     capitalizeState: function(value) {
