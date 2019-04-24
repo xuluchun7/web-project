@@ -19,7 +19,7 @@
           <el-button type='primary'
                      @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
           <el-button type='primary'
-                     @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
+                     @click='childForm.addItemForm=true'>{{ $t('base.buttonAdd') }} </el-button>
           <el-button type='primary'
                      @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>
         </el-button-group>
@@ -29,50 +29,21 @@
       <el-table highlight-current-row
                 border
                 @current-change="handleCurrentChange"
-                :data="formData.purchasePlanList"
+                :data="formData.purchasePlanItemList"
                 style="width: 100%"
                 :row-class-name="tableRowClassName">
         <el-table-column type="index">
         </el-table-column>
-        <el-table-column prop="serial"
-                         :label="this.$t('tobacco.tmaterial.purchasePlan.serial')" />
-        <el-table-column prop="title"
-                         :label="this.$t('tobacco.tmaterial.purchasePlan.title')" />
-        <el-table-column prop="author"
-                         :label="this.$t('tobacco.tmaterial.purchasePlan.author')" />
-        <el-table-column prop="date"
-                         :label="this.$t('tobacco.tmaterial.purchasePlan.date')">
-          <template slot-scope="scope">
-            {{
-            scope.row.date|parseDate('YYYY-MM-DD')
-            }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="receiverName"
-                         :label="this.$t('tobacco.tmaterial.purchasePlan.receiverName')" />
-        <el-table-column prop="supplierName"
-                         :label="this.$t('tobacco.tmaterial.purchasePlan.supplierName')" />
-        <el-table-column prop="control"
-                         :label="this.$t('tobacco.tmaterial.purchasePlan.control')">
-          <template slot-scope="scope">
-            {{scope.row.control|controlFormat}}
-          </template>
-        </el-table-column>
-        <el-table-column fixed="right"
-                         :label="$t('base.titleOperation')"
-                         width="180">
-          <template slot-scope="scope">
-            <el-button @click="editButtonClick(scope.row,false)"
-                       type="text"
-                       size="small">{{$t('base.buttonView')}}</el-button>
-            <el-button type="text"
-                       size="small"
-                       @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
-            <el-button type="text"
-                       size="small"
-                       @click="itemsManageButtonClick(scope.row,true)">{{$t('base.buttonItemsManage')}}</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column prop="materialName"
+                         :label="this.$t('tobacco.tmaterial.purchasePlanItem.materialName')" />
+        <el-table-column prop="materialCode"
+                         :label="this.$t('tobacco.tmaterial.purchasePlanItem.materialCode')" />
+        <el-table-column prop="measureName"
+                         :label="this.$t('tobacco.tmaterial.purchasePlanItem.measureName')" />
+        <el-table-column prop="amount"
+                         :label="this.$t('tobacco.tmaterial.purchasePlanItem.amount')" />
+        <el-table-column prop="confirmAmount"
+                         :label="this.$t('tobacco.tmaterial.purchasePlanItem.confirmAmount')" />
       </el-table>
     </main>
     <div class='footerPanel'>
@@ -87,10 +58,12 @@
     </div>
     <template>
       <el-dialog :title="$t('base.buttonAdd')"
-                 :visible.sync="childForm.addForm"
+                 :visible.sync="childForm.addItemForm"
                  top="10px"
+                 append-to-body
                  :before-close="handleClose">
-        <add-form @onSearchButtonClick="onSearchButtonClick" />
+        <add-form :visible.sync="childForm.addItemForm"
+                  :parentForm=parentForm />
       </el-dialog>
       <el-dialog :title="$t('base.buttonEdit')"
                  :visible.sync="childForm.editForm"
@@ -98,8 +71,7 @@
                  :before-close="handleClose">
         <edit-form :item.sync=formData.viewSelect
                    :isEdit=childForm.isEdit
-                   :visible.sync="childForm.editForm"
-                   @onSearchButtonClick="onSearchButtonClick" />
+                   :visible.sync="childForm.editForm" />
       </el-dialog>
       <el-dialog :title="$t('base.buttonView')"
                  :visible.sync="childForm.viewForm"
@@ -109,31 +81,22 @@
                    :isEdit=childForm.isEdit
                    :visible.sync="childForm.viewForm" />
       </el-dialog>
-      <el-dialog :title="$t('base.buttonItemsManage')"
-                 :visible.sync="childForm.itemsForm"
-                 top="10px"
-                 :before-close="handleClose">
-        <items-form :item.sync=formData.viewSelect
-                    :isEdit=childForm.isEdit
-                    :visible.sync="childForm.itemsForm" />
-      </el-dialog>
     </template>
   </div>
 </template>
 <script>
-const AddForm = () => import('./purchasePlanAdd.vue');
-const EditForm = () => import('./purchasePlanEdit.vue');
-const ItemsForm = () => import("./purchasePlanItemList.vue");
-import purchasePlanApi from '../../api/tmaterial/apiPurchasePlan';
-import purchasePlanItemApi from "../../api/tmaterial/apiPurchasePlanItem";
+const AddForm = () => import('./purchasePlanItemAdd.vue');
+const EditForm = () => import('./purchasePlanItemEdit.vue');
+import purchasePlanItemApi from '../../api/tmaterial/apiPurchasePlanItem';
+import { constants } from 'crypto';
 export default {
+  props: ["item"],
   data () {
     return {
       childForm: {
-        addForm: false,
+        addItemForm: false,
         editForm: false,
         viewForm: false,
-        itemsForm: false,
         isEdit: false
       },
       dateoptions: {
@@ -171,8 +134,8 @@ export default {
       },
       searchData: {
       },
+      parentForm: {},
       formData: {
-        purchasePlanList: [],
         purchasePlanItemList: [],
         pagination: {//用于分页的变量
           currentPage: 1,
@@ -186,29 +149,30 @@ export default {
     };
   },
   created () {
+    this.load();
     this.onSearchButtonClick();
   },
   components: {
     'add-form': AddForm,
-    "edit-form": EditForm,
-    "items-form": ItemsForm
+    'edit-form': EditForm
   },
   methods: {
+    load () {
+      if (this.item) {
+        this.parentForm = JSON.parse(JSON.stringify(this.item));
+      }
+      else {
+        this.parentForm = this.item;
+      }
+      this.formData.purchasePlanItemList = [];
+      console.log(this.parentForm);
+    },
     editButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
       } else {
         this.childForm.viewForm = true;
-      }
-      this.childForm.isEdit = isEdit;
-    },
-    itemsManageButtonClick (selectRow, isEdit) {
-      this.formData.viewSelect = selectRow;
-      if (isEdit) {
-        this.childForm.itemsForm = true;
-      } else {
-        this.childForm.itemsForm = true;
       }
       this.childForm.isEdit = isEdit;
     },
@@ -221,7 +185,7 @@ export default {
         return;
       }
 
-      Promise.all([purchasePlanApi.softDelete(this.formData.selectRow.id)])
+      Promise.all([purchasePlanItemApi.softDelete(this.formData.selectRow.id)])
         .then(([response]) => {
           this.$message({
             type: 'info',
@@ -254,14 +218,14 @@ export default {
       this.formData.selectRow = val;
     },
     onSearchButtonClick () {
-      Promise.all([purchasePlanApi.getAll({
+      Promise.all([purchasePlanItemApi.getAll({
         size: this.formData.pagination.pageSize,
         page: this.formData.pagination.currentPage - 1,
         contains: ':{keyword}:true'.format({ keyword: this.formData.pagination.keyword }),
         search: ''.format({})
       })])
         .then(([response]) => {
-          this.formData.purchasePlanList = response.content;
+          this.formData.purchasePlanItemList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
             title: this.$t('base.hint'),
@@ -299,14 +263,6 @@ export default {
       this.childForm.editForm = false;
       this.onSearchButtonClick();
       done();
-    }
-  },
-  filters: {
-    controlFormat: function (key) {
-      let item = purchasePlanApi.CONTROL_LIST.find(it => {
-        return it.key === key;
-      });
-      return item ? item.value : "其它";
     }
   }
 };

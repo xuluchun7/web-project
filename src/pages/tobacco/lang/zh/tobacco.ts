@@ -2149,7 +2149,7 @@ export default {
       measureId: '计量单位ID',
       measureName: '计量单位',
       price: '采购单价',
-      amount: '采购数量',
+      amount: '数量',
       money: '金额',
       confirmAmount: '认购数量',
     },
