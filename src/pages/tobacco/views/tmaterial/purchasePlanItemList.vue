@@ -19,7 +19,7 @@
           <el-button type='primary'
                      @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
           <el-button type='primary'
-                     @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
+                     @click='childForm.addItemForm=true'>{{ $t('base.buttonAdd') }} </el-button>
           <el-button type='primary'
                      @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>
         </el-button-group>
@@ -29,61 +29,21 @@
       <el-table highlight-current-row
                 border
                 @current-change="handleCurrentChange"
-                :data="formData.quotaList"
+                :data="formData.purchasePlanItemList"
                 style="width: 100%"
                 :row-class-name="tableRowClassName">
         <el-table-column type="index">
         </el-table-column>
-        <el-table-column prop="year"
-                         :label="this.$t('tobacco.tmaterial.quota.year')" />
-        <el-table-column prop="organization"
-                         show-overflow-tooltip
-                         min-width="150px"
-                         label="所属单位">
-          <template slot-scope="scope">
-            {{scope.row.organization?scope.row.organization.organizationName:''}}
-          </template>
-        </el-table-column>
-        <el-table-column prop="material.name"
-                         min-width="100px"
-                         label="物资名称" />
-        <el-table-column prop="unit.measureName"
-                         label="计量单位" />
+        <el-table-column prop="materialName"
+                         :label="this.$t('tobacco.tmaterial.purchasePlanItem.materialName')" />
+        <el-table-column prop="materialCode"
+                         :label="this.$t('tobacco.tmaterial.purchasePlanItem.materialCode')" />
+        <el-table-column prop="measureName"
+                         :label="this.$t('tobacco.tmaterial.purchasePlanItem.measureName')" />
         <el-table-column prop="amount"
-                         :label="this.$t('tobacco.tmaterial.quota.amount')" />
-        <el-table-column prop="author"
-                         :label="this.$t('tobacco.tmaterial.quota.author')" />
-        <el-table-column prop="date"
-                         :label="this.$t('tobacco.tmaterial.quota.date')">
-          <template slot-scope="scope">
-            <span v-if=" scope.row.date">
-              {{ scope.row.date|parseDate('YYYY-MM-DD') }}
-            </span>
-            <span v-else>
-              未设置
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="control"
-                         :label="this.$t('tobacco.tmaterial.quota.control')">
-          <template slot-scope="scope">
-            {{scope.row.control|capitalizeState}}
-          </template>
-        </el-table-column>
-        <el-table-column prop="desc"
-                         :label="this.$t('tobacco.tmaterial.quota.desc')" />
-        <el-table-column fixed="right"
-                         :label="$t('base.titleOperation')"
-                         width="100">
-          <template slot-scope="scope">
-            <el-button @click="editButtonClick(scope.row,false)"
-                       type="text"
-                       size="small">{{$t('base.buttonView')}}</el-button>
-            <el-button type="text"
-                       size="small"
-                       @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
-          </template>
-        </el-table-column>
+                         :label="this.$t('tobacco.tmaterial.purchasePlanItem.amount')" />
+        <el-table-column prop="confirmAmount"
+                         :label="this.$t('tobacco.tmaterial.purchasePlanItem.confirmAmount')" />
       </el-table>
     </main>
     <div class='footerPanel'>
@@ -98,11 +58,12 @@
     </div>
     <template>
       <el-dialog :title="$t('base.buttonAdd')"
-                 :visible.sync="childForm.addForm"
+                 :visible.sync="childForm.addItemForm"
                  top="10px"
+                 append-to-body
                  :before-close="handleClose">
-        <add-form @onSearchButtonClick="onSearchButtonClick"
-                  :visible.sync="childForm.addForm" />
+        <add-form :visible.sync="childForm.addItemForm"
+                  :parentForm=parentForm />
       </el-dialog>
       <el-dialog :title="$t('base.buttonEdit')"
                  :visible.sync="childForm.editForm"
@@ -110,8 +71,7 @@
                  :before-close="handleClose">
         <edit-form :item.sync=formData.viewSelect
                    :isEdit=childForm.isEdit
-                   :visible.sync="childForm.editForm"
-                   @onSearchButtonClick="onSearchButtonClick" />
+                   :visible.sync="childForm.editForm" />
       </el-dialog>
       <el-dialog :title="$t('base.buttonView')"
                  :visible.sync="childForm.viewForm"
@@ -125,15 +85,16 @@
   </div>
 </template>
 <script>
-const AddForm = () => import("./quotaAdd.vue");
-const EditForm = () => import("./quotaEdit.vue");
-import quotaApi from "../../api/tmaterial/apiQuota";
-const control = [{ value: 1, label: "启用" }, { value: 0, label: "停用" }];
+const AddForm = () => import('./purchasePlanItemAdd.vue');
+const EditForm = () => import('./purchasePlanItemEdit.vue');
+import purchasePlanItemApi from '../../api/tmaterial/apiPurchasePlanItem';
+import { constants } from 'crypto';
 export default {
+  props: ["item"],
   data () {
     return {
       childForm: {
-        addForm: false,
+        addItemForm: false,
         editForm: false,
         viewForm: false,
         isEdit: false
@@ -141,75 +102,72 @@ export default {
       dateoptions: {
         shortcuts: [
           {
-            text: this.$t("base.today"),
+            text: this.$t('base.today'),
 
-            onClick: picker => {
+            onClick: (picker) => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", [start, end]);
+              picker.$emit('pick', [start, end]);
             }
           },
           {
-            text: this.$t("base.yesterday"),
+            text: this.$t('base.yesterday'),
 
             onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit("pick", [start, end]);
+              picker.$emit('pick', [start, end]);
             }
           },
           {
-            text: this.$t("base.threeMonth"),
+            text: this.$t('base.threeMonth'),
             onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
+              picker.$emit('pick', [start, end]);
             }
           }
         ]
       },
       searchData: {
-        year: 0,
-        title: "",
-        author: "",
-        date: "",
-        amount: 0,
-        control: 0,
-        desc: ""
       },
+      parentForm: {},
       formData: {
-        quotaList: [],
-        pagination: {
-          //用于分页的变量
+        purchasePlanItemList: [],
+        pagination: {//用于分页的变量
           currentPage: 1,
           pageSize: 10,
           total: 0,
-          keyword: "",
-          pageSizeOpts: this.GLOBAL.pageSizeOpts
+          keyword: '',
+          pageSizeOpts: [10, 15, 20, 25, 30]
         },
         rowSelection: []
-      }
+      },
     };
   },
-  created () { },
-  components: {
-    "add-form": AddForm,
-    "edit-form": EditForm
+  created () {
+    this.load();
+    this.onSearchButtonClick();
   },
-  filters: {
-    capitalizeState: function (value) {
-      let item = control.find(it => {
-        return it.value === value;
-      });
-      return item ? item.label : "";
-    }
+  components: {
+    'add-form': AddForm,
+    'edit-form': EditForm
   },
   methods: {
+    load () {
+      if (this.item) {
+        this.parentForm = JSON.parse(JSON.stringify(this.item));
+      }
+      else {
+        this.parentForm = this.item;
+      }
+      this.formData.purchasePlanItemList = [];
+      console.log(this.parentForm);
+    },
     editButtonClick (selectRow, isEdit) {
-      console.log("edit");
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -219,71 +177,66 @@ export default {
       this.childForm.isEdit = isEdit;
     },
     deleteButtonClick () {
-      if (
-        this.formData.selectRow === null ||
-        this.formData.selectRow === undefined
-      ) {
+      if (this.formData.selectRow === null || this.formData.selectRow === undefined) {
         this.$message({
-          message: this.$t("message.unSelectAny"),
-          type: "info"
+          message: this.$t('message.unSelectAny'),
+          type: 'info',
         });
         return;
       }
 
-      Promise.all([quotaApi.softDelete(this.formData.selectRow.id)])
+      Promise.all([purchasePlanItemApi.softDelete(this.formData.selectRow.id)])
         .then(([response]) => {
           this.$message({
-            type: "info",
-            message: this.$t("message.deleteOk")
+            type: 'info',
+            message: this.$t('message.deleteOk')
           });
           this.formData.selectRow = null;
           this.onSearchButtonClick();
+
         })
-        .catch(error => { });
+        .catch(error => {
+
+        });
     },
     deleteButtonConfirm () {
-      this.$confirm(
-        this.$t("message.deleteConfirm"),
-        this.$t("base.titleTip"),
-        {
-          confirmButtonText: this.$t("base.buttonOk"),
-          cancelButtonText: this.$t("base.buttonCancel"),
-          type: "warning"
-        }
-      )
-        .then(() => {
-          this.deleteButtonClick();
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: this.$t("message.cancel")
-          });
+      this.$confirm(this.$t('message.deleteConfirm'), this.$t('base.titleTip'), {
+        confirmButtonText: this.$t('base.buttonOk'),
+        cancelButtonText: this.$t('base.buttonCancel'),
+        type: 'warning'
+      }).then(() => {
+        this.deleteButtonClick();
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: this.$t('message.cancel')
         });
+      });
+
     },
     handleCurrentChange (val) {
       this.formData.selectRow = val;
     },
     onSearchButtonClick () {
-      console.log("search");
-      this.formData.editForm = false;
-      this.formData.addForm = false;
-      Promise.all([quotaApi.getAll({
+      Promise.all([purchasePlanItemApi.getAll({
         size: this.formData.pagination.pageSize,
         page: this.formData.pagination.currentPage - 1,
-        contains: 'title,material.name,author,desc,:{keyword}:true'.format({ keyword: this.formData.pagination.keyword })
+        contains: ':{keyword}:true'.format({ keyword: this.formData.pagination.keyword }),
+        search: ''.format({})
       })])
         .then(([response]) => {
-          this.formData.quotaList = response.content;
+          this.formData.purchasePlanItemList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
-            title: this.$t("base.hint"),
-            message: this.$t("base.loadingDone"),
+            title: this.$t('base.hint'),
+            message: this.$t('base.loadingDone'),
             duration: 1000,
-            position: "bottom-right"
+            position: 'bottom-right'
           });
         })
-        .catch(error => { });
+        .catch(error => {
+        });
+
     },
 
     onPageChange (index) {
@@ -300,9 +253,9 @@ export default {
     },
     tableRowClassName ({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
-        return "warning-row";
+        return 'warning-row';
       } else {
-        return "success-row";
+        return 'success-row';
       }
     },
     handleClose (done) {
