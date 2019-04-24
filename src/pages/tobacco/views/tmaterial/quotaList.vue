@@ -206,7 +206,8 @@ export default {
     }
   },
   methods: {
-    editButtonClick(selectRow, isEdit) {
+    editButtonClick (selectRow, isEdit) {
+      console.log("edit");
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -261,16 +262,15 @@ export default {
     handleCurrentChange(val) {
       this.formData.selectRow = val;
     },
-    onSearchButtonClick() {
-      Promise.all([
-        quotaApi.getAll({
-          size: this.formData.pagination.pageSize,
-          page: this.formData.pagination.currentPage - 1,
-          contains: "title,material.name,author,desc,:{keyword}:true".format({
-            keyword: this.formData.pagination.keyword
-          })
-        })
-      ])
+    onSearchButtonClick () {
+      console.log("search");
+      this.formData.editForm = false;
+      this.formData.addForm = false;
+      Promise.all([quotaApi.getAll({
+        size: this.formData.pagination.pageSize,
+        page: this.formData.pagination.currentPage - 1,
+        contains: 'title,material.name,author,desc,:{keyword}:true'.format({ keyword: this.formData.pagination.keyword })
+      })])
         .then(([response]) => {
           this.formData.quotaList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
