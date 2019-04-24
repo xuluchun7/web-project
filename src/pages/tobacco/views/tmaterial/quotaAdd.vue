@@ -195,10 +195,11 @@ export default {
               this.formReset(name);
               //重置表单，允许多次操作
               this.$message({
-                message: this.$t('message.saveAndContinue'),
+                message: '保存成功!',
                 type: 'info',
               });
-
+              this.$emit('onSearchButtonClick');
+              this.$emit('update:visible', false);
             })
             .catch(error => {
               console.log(error);

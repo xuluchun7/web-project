@@ -200,8 +200,8 @@ export default {
                 message: '保存成功!',
                 type: 'info',
               });
+              this.$emit('onSearchButtonClick');
               this.$emit('update:visible', false);
-              //this.$emit('click', 'click');
             })
             .catch(error => {
 

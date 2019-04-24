@@ -29,49 +29,31 @@
       <el-table highlight-current-row
                 border
                 @current-change="handleCurrentChange"
-                :data="formData.quotaList"
+                :data="formData.purchasePlanList"
                 style="width: 100%"
                 :row-class-name="tableRowClassName">
         <el-table-column type="index">
         </el-table-column>
-        <el-table-column prop="year"
-                         :label="this.$t('tobacco.tmaterial.quota.year')" />
-        <el-table-column prop="organization"
-                         show-overflow-tooltip
-                         min-width="150px"
-                         label="所属单位">
-          <template slot-scope="scope">
-            {{scope.row.organization?scope.row.organization.organizationName:''}}
-          </template>
-        </el-table-column>
-        <el-table-column prop="material.name"
-                         min-width="100px"
-                         label="物资名称" />
-        <el-table-column prop="unit.measureName"
-                         label="计量单位" />
-        <el-table-column prop="amount"
-                         :label="this.$t('tobacco.tmaterial.quota.amount')" />
+        <el-table-column prop="serial"
+                         :label="this.$t('tobacco.tmaterial.purchasePlan.serial')" />
+        <el-table-column prop="title"
+                         :label="this.$t('tobacco.tmaterial.purchasePlan.title')" />
         <el-table-column prop="author"
-                         :label="this.$t('tobacco.tmaterial.quota.author')" />
+                         :label="this.$t('tobacco.tmaterial.purchasePlan.author')" />
         <el-table-column prop="date"
-                         :label="this.$t('tobacco.tmaterial.quota.date')">
+                         :label="this.$t('tobacco.tmaterial.purchasePlan.date')">
           <template slot-scope="scope">
-            <span v-if=" scope.row.date">
-              {{ scope.row.date|parseDate('YYYY-MM-DD') }}
-            </span>
-            <span v-else>
-              未设置
-            </span>
+            {{
+            scope.row.date|parseDate('YYYY-MM-DD')
+            }}
           </template>
         </el-table-column>
+        <el-table-column prop="receiverName"
+                         :label="this.$t('tobacco.tmaterial.purchasePlan.receiverName')" />
+        <el-table-column prop="supplierName"
+                         :label="this.$t('tobacco.tmaterial.purchasePlan.supplierName')" />
         <el-table-column prop="control"
-                         :label="this.$t('tobacco.tmaterial.quota.control')">
-          <template slot-scope="scope">
-            {{scope.row.control|capitalizeState}}
-          </template>
-        </el-table-column>
-        <el-table-column prop="desc"
-                         :label="this.$t('tobacco.tmaterial.quota.desc')" />
+                         :label="this.$t('tobacco.tmaterial.purchasePlan.control')" />
         <el-table-column fixed="right"
                          :label="$t('base.titleOperation')"
                          width="100">
@@ -101,8 +83,7 @@
                  :visible.sync="childForm.addForm"
                  top="10px"
                  :before-close="handleClose">
-        <add-form @onSearchButtonClick="onSearchButtonClick"
-                  :visible.sync="childForm.addForm" />
+        <add-form @onSearchButtonClick="onSearchButtonClick" />
       </el-dialog>
       <el-dialog :title="$t('base.buttonEdit')"
                  :visible.sync="childForm.editForm"
@@ -110,8 +91,8 @@
                  :before-close="handleClose">
         <edit-form :item.sync=formData.viewSelect
                    :isEdit=childForm.isEdit
-                   :visible.sync="childForm.editForm"
-                   @onSearchButtonClick="onSearchButtonClick" />
+                   :visible.sync="childForm.editForm" 
+                   @onSearchButtonClick="onSearchButtonClick"/>
       </el-dialog>
       <el-dialog :title="$t('base.buttonView')"
                  :visible.sync="childForm.viewForm"
@@ -125,10 +106,9 @@
   </div>
 </template>
 <script>
-const AddForm = () => import("./quotaAdd.vue");
-const EditForm = () => import("./quotaEdit.vue");
-import quotaApi from "../../api/tmaterial/apiQuota";
-const control = [{ value: 1, label: "启用" }, { value: 0, label: "停用" }];
+const AddForm = () => import('./purchasePlanAdd.vue');
+const EditForm = () => import('./purchasePlanEdit.vue');
+import purchasePlanApi from '../../api/tmaterial/apiPurchasePlan';
 export default {
   data () {
     return {
@@ -141,75 +121,60 @@ export default {
       dateoptions: {
         shortcuts: [
           {
-            text: this.$t("base.today"),
+            text: this.$t('base.today'),
 
-            onClick: picker => {
+            onClick: (picker) => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", [start, end]);
+              picker.$emit('pick', [start, end]);
             }
           },
           {
-            text: this.$t("base.yesterday"),
+            text: this.$t('base.yesterday'),
 
             onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit("pick", [start, end]);
+              picker.$emit('pick', [start, end]);
             }
           },
           {
-            text: this.$t("base.threeMonth"),
+            text: this.$t('base.threeMonth'),
             onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
+              picker.$emit('pick', [start, end]);
             }
           }
         ]
       },
       searchData: {
-        year: 0,
-        title: "",
-        author: "",
-        date: "",
-        amount: 0,
-        control: 0,
-        desc: ""
       },
       formData: {
-        quotaList: [],
-        pagination: {
-          //用于分页的变量
+        purchasePlanList: [],
+        pagination: {//用于分页的变量
           currentPage: 1,
           pageSize: 10,
           total: 0,
-          keyword: "",
-          pageSizeOpts: this.GLOBAL.pageSizeOpts
+          keyword: '',
+          pageSizeOpts: [10, 15, 20, 25, 30]
         },
         rowSelection: []
-      }
+      },
     };
   },
-  created () { },
-  components: {
-    "add-form": AddForm,
-    "edit-form": EditForm
+  created () {
+    this.onSearchButtonClick();
   },
-  filters: {
-    capitalizeState: function (value) {
-      let item = control.find(it => {
-        return it.value === value;
-      });
-      return item ? item.label : "";
-    }
+  components: {
+    'add-form': AddForm,
+    'edit-form': EditForm
   },
   methods: {
     editButtonClick (selectRow, isEdit) {
-      console.log("edit");
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -219,71 +184,66 @@ export default {
       this.childForm.isEdit = isEdit;
     },
     deleteButtonClick () {
-      if (
-        this.formData.selectRow === null ||
-        this.formData.selectRow === undefined
-      ) {
+      if (this.formData.selectRow === null || this.formData.selectRow === undefined) {
         this.$message({
-          message: this.$t("message.unSelectAny"),
-          type: "info"
+          message: this.$t('message.unSelectAny'),
+          type: 'info',
         });
         return;
       }
 
-      Promise.all([quotaApi.softDelete(this.formData.selectRow.id)])
+      Promise.all([purchasePlanApi.softDelete(this.formData.selectRow.id)])
         .then(([response]) => {
           this.$message({
-            type: "info",
-            message: this.$t("message.deleteOk")
+            type: 'info',
+            message: this.$t('message.deleteOk')
           });
           this.formData.selectRow = null;
           this.onSearchButtonClick();
+
         })
-        .catch(error => { });
+        .catch(error => {
+
+        });
     },
     deleteButtonConfirm () {
-      this.$confirm(
-        this.$t("message.deleteConfirm"),
-        this.$t("base.titleTip"),
-        {
-          confirmButtonText: this.$t("base.buttonOk"),
-          cancelButtonText: this.$t("base.buttonCancel"),
-          type: "warning"
-        }
-      )
-        .then(() => {
-          this.deleteButtonClick();
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: this.$t("message.cancel")
-          });
+      this.$confirm(this.$t('message.deleteConfirm'), this.$t('base.titleTip'), {
+        confirmButtonText: this.$t('base.buttonOk'),
+        cancelButtonText: this.$t('base.buttonCancel'),
+        type: 'warning'
+      }).then(() => {
+        this.deleteButtonClick();
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: this.$t('message.cancel')
         });
+      });
+
     },
     handleCurrentChange (val) {
       this.formData.selectRow = val;
     },
     onSearchButtonClick () {
-      console.log("search");
-      this.formData.editForm = false;
-      this.formData.addForm = false;
-      Promise.all([quotaApi.getAll({
+      Promise.all([purchasePlanApi.getAll({
         size: this.formData.pagination.pageSize,
         page: this.formData.pagination.currentPage - 1,
-        contains: 'title,material.name,author,desc,:{keyword}:true'.format({ keyword: this.formData.pagination.keyword })
+        contains: ':{keyword}:true'.format({ keyword: this.formData.pagination.keyword }),
+        search: ''.format({})
       })])
         .then(([response]) => {
-          this.formData.quotaList = response.content;
+          this.formData.purchasePlanList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
-            title: this.$t("base.hint"),
-            message: this.$t("base.loadingDone"),
+            title: this.$t('base.hint'),
+            message: this.$t('base.loadingDone'),
             duration: 1000,
-            position: "bottom-right"
+            position: 'bottom-right'
           });
         })
-        .catch(error => { });
+        .catch(error => {
+        });
+
     },
 
     onPageChange (index) {
@@ -300,9 +260,9 @@ export default {
     },
     tableRowClassName ({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
-        return "warning-row";
+        return 'warning-row';
       } else {
-        return "success-row";
+        return 'success-row';
       }
     },
     handleClose (done) {
