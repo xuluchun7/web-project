@@ -217,7 +217,7 @@
         <el-table border
                   :data="formData.billItemList"
                   class="subTable"
-                  :header-cell-style="{background:'wheat',color:'black','font-size': '16px'}">
+                  :header-cell-style="{background:'wheat',color:'black'}">
 
           <el-table-column prop="serial"
                            :label="this.$t('tobacco.tmaterial.billItem.serial')"
@@ -740,6 +740,7 @@ nav > a {
   padding: 0.3em 1em 0;
 }
 nav > a::before {
+  font-size: 18px;
   content: "";
   position: absolute;
   top: 0;
@@ -747,7 +748,7 @@ nav > a::before {
   bottom: 0;
   left: 0;
   z-index: -1;
-  background: #e6e6e6;
+  background: wheat;
   background-image: linear-gradient(
     hsla(0, 0%, 100%, 0.6),
     hsla(0, 0%, 100%, 0)
