@@ -32,8 +32,6 @@
                        @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
             <el-button type='primary'
                        @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
-            <el-button type='primary'
-                       @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>
           </el-button-group>
         </div>
       </div>
@@ -98,6 +96,9 @@
               <el-button @click="onShowDetail(scope.row)"
                          type="text"
                          size="small">{{$t('tobacco.tmaterial.roster.buttonDetails')}}</el-button>
+              <el-button @click="onVoidedClick(scope.row)"
+                         type="text"
+                         size="small">{{$t('tobacco.tmaterial.roster.buttonVoided')}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -342,6 +343,24 @@ export default {
     onShowDetail(row) {
       this.formData.selectRow = row;
       this.childForm.detailsForm = true;
+    },
+    onVoidedClick(row) {
+      Promise.all([rosterApi.voided(row.id)])
+        .then(([response]) => {
+          this.$notify({
+            title: this.$t("base.hint"),
+            message: "作废成功",
+            duration: 1000,
+            position: "bottom-right"
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          this.$notify.error({
+            title: "错误",
+            message: "作废失败"
+          });
+        });
     }
   },
   filters: {
