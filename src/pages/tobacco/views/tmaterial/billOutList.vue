@@ -216,7 +216,8 @@
         </nav>
         <el-table border
                   :data="formData.billItemList"
-                  class="subTable">
+                  class="subTable"
+                  :header-cell-style="{background:'wheat',color:'black','font-size': '16px'}">
 
           <el-table-column prop="serial"
                            :label="this.$t('tobacco.tmaterial.billItem.serial')"
@@ -271,12 +272,13 @@
 
               <el-button type="text"
                          size="small"
+                         v-if="false"
                          :disabled="formData.selectRow?formData.selectRow.control===5:true"
                          @click="onDeleteBillItemClick(scope.row)">{{$t('base.buttonDelete')}}</el-button>
               <el-button type="text"
                          size="small"
                          :disabled="formData.selectRow?formData.selectRow.control===5:true"
-                         v-if="scope.row"
+                         v-if="false"
                          @click="onEditItemClick(scope.row)">{{$t('base.buttonEdit')}}</el-button>
             </template>
           </el-table-column>
