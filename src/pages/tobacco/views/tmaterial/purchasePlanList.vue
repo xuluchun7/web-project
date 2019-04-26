@@ -31,7 +31,30 @@
                 @current-change="handleCurrentChange"
                 :data="formData.purchasePlanList"
                 style="width: 100%"
-                :row-class-name="tableRowClassName">
+                :row-class-name="tableRowClassName"
+                row-key="id"
+                @expand-change="expandChange"
+                :expand-row-keys="expandKeys">
+        <el-table-column type="expand"
+                         v-loading="loading">
+          <template>
+            <el-table :data="formData.purchasePlanItemList"
+                      style="margin-left: 3%;font-size: 12px;color: black;"
+                      :header-cell-style="{'background-color': '#fafafa', 'color': 'black','border-bottom': '1px rgb(103, 194, 58) solid'}">
+              <el-table-column type="index">
+              </el-table-column>
+              <el-table-column prop="materialCode"
+                               :label="this.$t('tobacco.tmaterial.purchasePlanItem.materialCode')" />
+              <el-table-column prop="materialName"
+                               :label="this.$t('tobacco.tmaterial.purchasePlanItem.materialName')" />
+              <el-table-column prop="amount"
+                               :label="this.$t('tobacco.tmaterial.purchasePlanItem.amount')" />
+              <el-table-column prop="measureName"
+                               :label="this.$t('tobacco.tmaterial.purchasePlanItem.measureName')" />
+
+            </el-table>
+          </template>
+        </el-table-column>
         <el-table-column type="index">
         </el-table-column>
         <el-table-column prop="serial"
@@ -129,6 +152,8 @@ import purchasePlanItemApi from "../../api/tmaterial/apiPurchasePlanItem";
 export default {
   data () {
     return {
+      expandKeys: [] /** 新增 **/,
+      loading: true,
       childForm: {
         addForm: false,
         editForm: false,
@@ -194,6 +219,37 @@ export default {
     "items-form": ItemsForm
   },
   methods: {
+    expandChange (row, expandedRows) {
+      console.log(row);
+      if (this.expandKeys.indexOf(row.id) >= 0) {
+        //收起当前行
+        this.expandKeys.shift();
+        return;
+      }
+      let _this = this;
+      //恢复默认值
+      _this.loading = true;
+      _this.formData.purchasePlanItemList = [];
+      //加载数据
+      Promise.all([
+        purchasePlanItemApi.getAll({
+          search: "purchasePlan.id:EQ:{pId};".format({
+            pId: row.id
+          })
+        })
+      ])
+        .then(([response]) => {
+          _this.formData.purchasePlanItemList = response.content;
+          _this.loading = false;
+          _this.expandKeys.shift(); /** 新增 **/
+          _this.expandKeys.push(row.id); /** 新增 **/
+        })
+        .catch(error => { });
+      if (expandedRows.length > 1) {
+        //只展开当前选项
+        expandedRows.shift();
+      }
+    },
     editButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {

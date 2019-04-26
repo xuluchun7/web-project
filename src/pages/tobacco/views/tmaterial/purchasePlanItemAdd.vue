@@ -23,7 +23,7 @@
       </el-autocomplete>
     </el-form-item>
     <el-form-item :label="$t('tobacco.tmaterial.purchasePlanItem.measureName')">
-      <el-select v-model="formItem.measureId"
+      <el-select v-model="formItem.measureName"
                  @change="unitSelectChange"
                  style="width:100%">
         <el-option v-for="unit in  formData.unitList"
@@ -49,6 +49,8 @@
 import purchasePlanItemApi from '../../api/tmaterial/apiPurchasePlanItem';
 import materialApi from "../../api/tmaterial/apiMaterial";
 import materialUnitApi from "../../api/tmaterial/apiMaterialUnit";
+import quotaApi from "../../api/tmaterial/apiQuota";
+import plantPlanApi from "../../api/tfarm/api_plantPlan";
 import moment from "moment";
 import UUID from "es6-uuid";
 export default {
@@ -57,7 +59,8 @@ export default {
     return {
       formData: {
         materialList: [],
-        unitList: []
+        unitList: [],
+        sumArea: 0
       },
       formItem: {
       },
@@ -70,23 +73,22 @@ export default {
     };
   },
   created () {
-    this.load();
     this.formItem = this.initFormItem();
-    Promise.all([materialApi.getAll({ size: 500, sort: "code" })])
-      .then(([materialResponse]) => {
+    Promise.all([materialApi.getAll({ size: 500, sort: "code" }),
+    plantPlanApi.getSumArea(this.$store.state.system.annual
+      , this.parentForm.receiverId)])
+      .then(([materialResponse, sumAreaResponse]) => {
         this.formData.materialList = materialResponse.content;
+        this.formData.sumArea = sumAreaResponse;
       })
       .catch(error => { });
 
   },
   methods: {
-    load () {
-      this.formItem.purchasePlan = this.parentForm.id;
-    },
     initFormItem () {
       return {
         id: UUID(32, 36),
-        'purchasePlan': '',
+        'purchasePlan': this.parentForm.id,
         'materialId': '',
         'materialName': '',
         'materialCode': '',
@@ -103,6 +105,16 @@ export default {
         return item.id === value;
       }).measureName;
       this.formItem.materialUnit.measureName = name;
+      this.genAmount(material.id, this.formItem.measureId, this.$store.state.system.annual);
+    },
+    genAmount (materialId, measureId, annual) {
+      Promise.all([
+        quotaApi.getAmount(materialId, measureId, annual)
+      ])
+        .then(([response]) => {
+          this.formItem.amount = (this.formData.sumArea * response).toFixed(2);
+        })
+        .catch(error => { });
     },
     querySearch (queryString, cb) {
       var materials = this.formData.materialList;
@@ -138,6 +150,7 @@ export default {
           if (this.formData.unitList.length === 1) {
             this.formItem.measureId = this.formData.unitList[0].measureId;
             this.formItem.measureName = this.formData.unitList[0].measureName;
+            this.genAmount(material.id, this.formItem.measureId, this.$store.state.system.annual);
           }
         })
         .catch(error => { });
@@ -150,10 +163,11 @@ export default {
               this.formReset(name);
               //重置表单，允许多次操作
               this.$message({
-                message: this.$t('message.saveAndContinue'),
+                message: "新增成功!",
                 type: 'info',
               });
-
+              this.$emit('onSearchButtonClick');
+              this.$emit('update:visible', false);
             })
             .catch(error => {
               console.log(error);

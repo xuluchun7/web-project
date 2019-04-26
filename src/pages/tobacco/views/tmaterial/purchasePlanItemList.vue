@@ -6,10 +6,7 @@
     <div class='toolPanel'>
       <div class='queryCriteria'>
         <el-form inline>
-          <el-form-item :label="$t('base.keywords')">
-            <el-input v-bind:placeholder="$t('base.ipKeywords')"
-                      v-model="formData.pagination.keyword"
-                      @keyup.enter.native="onSearchButtonClick" />
+          <el-form-item :label="formData.showText">
           </el-form-item>
         </el-form>
       </div>
@@ -42,8 +39,6 @@
                          :label="this.$t('tobacco.tmaterial.purchasePlanItem.measureName')" />
         <el-table-column prop="amount"
                          :label="this.$t('tobacco.tmaterial.purchasePlanItem.amount')" />
-        <el-table-column prop="confirmAmount"
-                         :label="this.$t('tobacco.tmaterial.purchasePlanItem.confirmAmount')" />
       </el-table>
     </main>
     <div class='footerPanel'>
@@ -63,6 +58,7 @@
                  append-to-body
                  :before-close="handleClose">
         <add-form :visible.sync="childForm.addItemForm"
+                  @onSearchButtonClick="onSearchButtonClick"
                   :parentForm=parentForm />
       </el-dialog>
       <el-dialog :title="$t('base.buttonEdit')"
@@ -88,6 +84,7 @@
 const AddForm = () => import('./purchasePlanItemAdd.vue');
 const EditForm = () => import('./purchasePlanItemEdit.vue');
 import purchasePlanItemApi from '../../api/tmaterial/apiPurchasePlanItem';
+import plantPlanApi from "../../api/tfarm/api_plantPlan";
 import { constants } from 'crypto';
 export default {
   props: ["item"],
@@ -136,6 +133,8 @@ export default {
       },
       parentForm: {},
       formData: {
+        sumArea: 0,
+        showText: '',
         purchasePlanItemList: [],
         pagination: {//用于分页的变量
           currentPage: 1,
@@ -151,6 +150,7 @@ export default {
   created () {
     this.load();
     this.onSearchButtonClick();
+
   },
   components: {
     'add-form': AddForm,
@@ -160,6 +160,15 @@ export default {
     load () {
       if (this.item) {
         this.parentForm = JSON.parse(JSON.stringify(this.item));
+        Promise.all([
+          plantPlanApi.getSumArea(this.$store.state.system.annual
+            , this.parentForm.receiverId)])
+          .then(([sumAreaResponse]) => {
+            this.formData.sumArea = sumAreaResponse;
+            this.formData.showText = this.parentForm.receiverName + " :[ " + this.formData.sumArea.toFixed(2) + " ]亩";
+          })
+          .catch(error => { });
+
       }
       else {
         this.parentForm = this.item;
@@ -221,8 +230,9 @@ export default {
       Promise.all([purchasePlanItemApi.getAll({
         size: this.formData.pagination.pageSize,
         page: this.formData.pagination.currentPage - 1,
-        contains: ':{keyword}:true'.format({ keyword: this.formData.pagination.keyword }),
-        search: ''.format({})
+        search: "purchasePlan.id:EQ:{pId};".format({
+          pId: this.parentForm.id
+        })
       })])
         .then(([response]) => {
           this.formData.purchasePlanItemList = response.content;

@@ -1,7 +1,7 @@
 import * as API from '@/api/index';
 const baseUrl = 'tobacco/api/tfarm/plantPlan';
 export default {
-  getAll: ( params) => {
+  getAll: (params) => {
     return API.GET(baseUrl, params);
   },
   savePlantPlan: (params) => {
@@ -12,6 +12,12 @@ export default {
   },
   deletePlantPlan: (id) => {
     return API.POST(baseUrl + '/remove/' + id);
+  },
+  getSumArea: (annual, orgId) => {
+    return API.GET(baseUrl + "/getSumAreaByAnnualAndOrganization",
+      {
+        annual: annual, orgId: orgId
+      })
   }
 }
-;
+  ;
