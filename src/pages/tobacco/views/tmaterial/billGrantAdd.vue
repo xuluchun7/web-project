@@ -294,7 +294,10 @@ export default {
   created() {
     this.formItem.operation = this.operation;
     this.loading = true;
-    this.formItem.deliveryOrganizationId = this.userOrgId;
+    (this.formItem.organizationId = this.userOrgId),
+      (this.formItem.organizationIds = [this.userOrgId]),
+      (this.formItem.organizationName = this.organizationName),
+      (this.formItem.deliveryOrganizationId = this.userOrgId);
     this.formItem.deliveryOrganizationName = this.organizationName;
     this.onDeliveryChanged("", this.formItem.deliveryOrganizationId);
     this.formData.districtId = this.userDistrictId;
@@ -340,7 +343,12 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName" ,userName: "userName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   watch: {
     operation(curl, old) {
