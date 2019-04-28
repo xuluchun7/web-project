@@ -91,13 +91,14 @@
           </el-table-column>
           <el-table-column fixed="right"
                            :label="$t('base.titleOperation')"
-                           width="100">
+                           width="160">
             <template slot-scope="scope">
               <el-button @click="onShowDetail(scope.row)"
                          type="text"
                          size="small">{{$t('tobacco.tmaterial.roster.buttonDetails')}}</el-button>
               <el-button @click="onVoidedClick(scope.row)"
                          type="text"
+                         :disabled="scope.row.control!==1"
                          size="small">{{$t('tobacco.tmaterial.roster.buttonVoided')}}</el-button>
             </template>
           </el-table-column>
@@ -120,6 +121,7 @@
             </a>
           </nav>
           <el-table border
+                    height="180"
                     :data="formData.itemList"
                     class="subTable">
             <el-table-column prop="serial"
@@ -295,9 +297,11 @@ export default {
         rosterApi.getAll({
           size: this.formData.pagination.pageSize,
           page: this.formData.pagination.currentPage - 1,
-          contains: ":{keyword}:true".format({
-            keyword: this.formData.pagination.keyword
-          }),
+          contains: "author,operator,title,serial,gridName:{keyword}:true".format(
+            {
+              keyword: this.formData.pagination.keyword
+            }
+          ),
           search: search
         })
       ])
@@ -345,22 +349,32 @@ export default {
       this.childForm.detailsForm = true;
     },
     onVoidedClick(row) {
-      Promise.all([rosterApi.voided(row.id)])
-        .then(([response]) => {
-          this.$notify({
-            title: this.$t("base.hint"),
-            message: "作废成功",
-            duration: 1000,
-            position: "bottom-right"
-          });
+      let that = this;
+      this.$confirm("确认继续作废数据,此操作不可逆, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          Promise.all([rosterApi.voided(row.id)])
+            .then(([response]) => {
+              that.onSearchButtonClick();
+              this.$notify({
+                title: this.$t("base.hint"),
+                message: "作废成功",
+                duration: 1000,
+                position: "bottom-right"
+              });
+            })
+            .catch(error => {
+              console.log(error);
+              this.$notify.error({
+                title: "错误",
+                message: "作废失败"
+              });
+            });
         })
-        .catch(error => {
-          console.log(error);
-          this.$notify.error({
-            title: "错误",
-            message: "作废失败"
-          });
-        });
+        .catch(() => {});
     }
   },
   filters: {
@@ -423,7 +437,7 @@ nav > a::before {
   width: 100%;
   background: #f7f7f7;
   overflow-y: scroll;
-  height: 180px;
+  height: 160px;
   overflow: auto;
 }
 </style>

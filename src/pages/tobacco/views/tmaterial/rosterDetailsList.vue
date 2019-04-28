@@ -55,18 +55,25 @@
           </template>
         </el-table-column>
         <el-table-column prop="farmerName"
+                         fixed
                          :label="this.$t('tobacco.tmaterial.rosterDetails.farmerName')" />
         <el-table-column prop="identity"
+                         fixed
                          :label="this.$t('tobacco.tmaterial.rosterDetails.identity')" />
         <el-table-column prop="address"
+                         fixed
                          :label="this.$t('tobacco.tmaterial.rosterDetails.address')" />
         <el-table-column prop="bankNo"
+                         fixed
                          :label="this.$t('tobacco.tmaterial.rosterDetails.bankNo')" />
         <el-table-column prop="area"
+                         fixed
                          :label="this.$t('tobacco.tmaterial.rosterDetails.area')" />
         <el-table-column prop="actualArea"
+                         fixed
                          :label="this.$t('tobacco.tmaterial.rosterDetails.actualArea')" />
         <el-table-column prop="expectArea"
+                         fixed
                          :label="this.$t('tobacco.tmaterial.rosterDetails.expectArea')" />
         <el-table-column v-for="item in formData.materialList"
                          :key=item.id

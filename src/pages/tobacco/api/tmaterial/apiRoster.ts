@@ -12,6 +12,6 @@ export default new class extends baseApi {
    * @param params
    */
   voided(id: string) {
-    return this.API.PUT(this.baseUrl + '/materialsOutAudit', id);
+    return this.API.PUT(this.baseUrl+"/"+id + '/voided');
   }
 };
