@@ -46,7 +46,7 @@
   </el-form>
 </template>
 <script>
-import purchasePlanItemApi from '../../api/tmaterial/apiPurchasePlanItem';
+import purchasePlanItemApi from "../../api/tmaterial/apiPurchasePlanItem.ts";
 import materialApi from "../../api/tmaterial/apiMaterial";
 import materialUnitApi from "../../api/tmaterial/apiMaterialUnit";
 import quotaApi from "../../api/tmaterial/apiQuota";
@@ -55,73 +55,74 @@ import moment from "moment";
 import UUID from "es6-uuid";
 export default {
   props: ["parentForm"],
-  data () {
+  data() {
     return {
       formData: {
         materialList: [],
         unitList: [],
         sumArea: 0
       },
-      formItem: {
-      },
+      formItem: {},
       ruleValidate: {
-        code: [
-          { required: true, message: '编码不能为空', trigger: 'blur' }
-        ],
-
+        code: [{ required: true, message: "编码不能为空", trigger: "blur" }]
       }
     };
   },
-  created () {
+  created() {
     this.formItem = this.initFormItem();
-    Promise.all([materialApi.getAll({ size: 500, sort: "code" }),
-    plantPlanApi.getSumArea(this.$store.state.system.annual
-      , this.parentForm.receiverId)])
+    Promise.all([
+      materialApi.getAll({ size: 500, sort: "code" }),
+      plantPlanApi.getSumArea(
+        this.$store.state.system.annual,
+        this.parentForm.receiverId
+      )
+    ])
       .then(([materialResponse, sumAreaResponse]) => {
         this.formData.materialList = materialResponse.content;
         this.formData.sumArea = sumAreaResponse;
       })
-      .catch(error => { });
-
+      .catch(error => {});
   },
   watch: {
-    formItem (curValue, oldValue) {
+    formItem(curValue, oldValue) {
       console.log(curValue);
     }
   },
   methods: {
-    initFormItem () {
+    initFormItem() {
       return {
         id: UUID(32, 36),
-        'purchasePlan': this.parentForm.id,
-        'materialId': '',
-        'materialName': '',
-        'materialCode': '',
-        'measureId': '',
-        'measureName': '',
-        'price': 0,
-        'amount': 0,
-        'money': 0,
-        'confirmAmount': 0,
-      }
+        purchasePlan: this.parentForm.id,
+        materialId: "",
+        materialName: "",
+        materialCode: "",
+        measureId: "",
+        measureName: "",
+        price: 0,
+        amount: 0,
+        money: 0,
+        confirmAmount: 0
+      };
     },
-    unitSelectChange (value) {
+    unitSelectChange(value) {
       var name = this.formData.unitList.find(item => {
         return item.id === value;
       }).measureName;
       this.formItem.materialUnit.measureName = name;
-      this.genAmount(material.id, this.formItem.measureId, this.$store.state.system.annual);
+      this.genAmount(
+        material.id,
+        this.formItem.measureId,
+        this.$store.state.system.annual
+      );
     },
-    genAmount (materialId, measureId, annual) {
-      Promise.all([
-        quotaApi.getAmount(materialId, measureId, annual)
-      ])
+    genAmount(materialId, measureId, annual) {
+      Promise.all([quotaApi.getAmount(materialId, measureId, annual)])
         .then(([response]) => {
           this.formItem.amount = (this.formData.sumArea * response).toFixed(2);
         })
-        .catch(error => { });
+        .catch(error => {});
     },
-    querySearch (queryString, cb) {
+    querySearch(queryString, cb) {
       var materials = this.formData.materialList;
       var results = queryString
         ? materials.filter(this.createFilter(queryString))
@@ -129,14 +130,14 @@ export default {
       // 调用 callback 返回建议列表的数据
       cb(results);
     },
-    createFilter (queryString) {
+    createFilter(queryString) {
       return material => {
         return (
           material.name.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
         );
       };
     },
-    handleSelect (item) {
+    handleSelect(item) {
       let material = JSON.parse(JSON.stringify(item));
       this.formItem.materialId = material.id;
       this.formItem.materialName = material.name;
@@ -155,13 +156,17 @@ export default {
           if (this.formData.unitList.length === 1) {
             this.formItem.measureId = this.formData.unitList[0].measureId;
             this.formItem.measureName = this.formData.unitList[0].measureName;
-            this.genAmount(material.id, this.formItem.measureId, this.$store.state.system.annual);
+            this.genAmount(
+              material.id,
+              this.formItem.measureId,
+              this.$store.state.system.annual
+            );
           }
         })
-        .catch(error => { });
+        .catch(error => {});
     },
-    onSubmitClick (name) {
-      this.$refs[name].validate((valid) => {
+    onSubmitClick(name) {
+      this.$refs[name].validate(valid => {
         if (valid) {
           Promise.all([purchasePlanItemApi.save(this.formItem)])
             .then(([response]) => {
@@ -169,28 +174,27 @@ export default {
               //重置表单，允许多次操作
               this.$message({
                 message: "新增成功!",
-                type: 'info',
+                type: "info"
               });
-              this.$emit('onSearchButtonClick');
-              this.$emit('update:visible', false);
+              this.$emit("onSearchButtonClick");
+              this.$emit("update:visible", false);
             })
             .catch(error => {
               console.log(error);
             });
         } else {
           this.$message({
-            message: this.$t('message.formValidate'),
-            type: 'warn',
+            message: this.$t("message.formValidate"),
+            type: "warn"
           });
         }
       });
     },
 
-    formReset (name) {
+    formReset(name) {
       this.$refs[name].resetFields();
       this.formItem = this.initFormItem();
-    },
-
+    }
   }
 };
 </script>

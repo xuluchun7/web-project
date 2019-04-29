@@ -27,5 +27,11 @@ export default {
       billIn: billIn,
       billItemEntityList: billItemList
     });
+  },
+  saveByPurchase: (billIn, billItemList) => {
+    return API.POST(baseUrl + '/saveByPurchase', {
+      billIn: billIn,
+      billItemEntityList: billItemList
+    });
   }
 };

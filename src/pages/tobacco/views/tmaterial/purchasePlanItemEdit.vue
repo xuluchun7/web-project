@@ -48,70 +48,66 @@
   </el-form>
 </template>
 <script>
-import purchasePlanItemApi from '../../api/tmaterial/apiPurchasePlanItem';
+import purchasePlanItemApi from "../../api/tmaterial/apiPurchasePlanItem.ts";
 export default {
-  props: ['item', 'isEdit', 'visible'],
-  data () {
+  props: ["item", "isEdit", "visible"],
+  data() {
     return {
       formItem: {
-        'materialId': '',
-        'materialName': '',
-        'materialCode': '',
-        'measureId': '',
-        'measureName': '',
-        'price': 0,
-        'amount': 0,
-        'money': 0,
-        'confirmAmount': 0,
+        materialId: "",
+        materialName: "",
+        materialCode: "",
+        measureId: "",
+        measureName: "",
+        price: 0,
+        amount: 0,
+        money: 0,
+        confirmAmount: 0
       },
       ruleValidate: {
-        code: [
-          { required: true, message: '编码不能为空', trigger: 'blur' }
-        ],
+        code: [{ required: true, message: "编码不能为空", trigger: "blur" }]
       }
     };
   },
-  created () {
+  created() {
     this.load();
   },
   methods: {
-    load () {
+    load() {
       this.formItem = JSON.parse(JSON.stringify(this.item));
     },
-    onSubmitClick (name) {
-      this.$refs[name].validate((valid) => {//进行前端检验
+    onSubmitClick(name) {
+      this.$refs[name].validate(valid => {
+        //进行前端检验
         if (valid) {
           Promise.all([purchasePlanItemApi.update(this.item.id, this.formItem)])
             .then(([response]) => {
               this.formReset(name);
               this.$message({
-                message: this.$t('message.saveAndContinue'),
-                type: 'info',
+                message: this.$t("message.saveAndContinue"),
+                type: "info"
               });
-              this.$emit('update:visible', false);
+              this.$emit("update:visible", false);
             })
-            .catch(error => {
-
-            });
+            .catch(error => {});
         } else {
           this.$message({
-            message: this.$t('message.formValidate'),
-            type: 'warn',
+            message: this.$t("message.formValidate"),
+            type: "warn"
           });
         }
       });
     },
 
-    formReset (name) {
+    formReset(name) {
       this.$refs[name].resetFields();
-    },
-
+    }
   },
   watch: {
-    item (curVal, oldVal) {
+    item(curVal, oldVal) {
       this.formItem = JSON.parse(JSON.stringify(curVal));
       this.load();
-    },
-  },
+    }
+  }
 };
 </script>

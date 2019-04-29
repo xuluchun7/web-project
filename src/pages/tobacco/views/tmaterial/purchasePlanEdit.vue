@@ -56,40 +56,34 @@
   </el-form>
 </template>
 <script>
-import purchasePlanApi from '../../api/tmaterial/apiPurchasePlan';
+import purchasePlanApi from "../../api/tmaterial/apiPurchasePlan.ts";
 import organizationApi from "@/api/xbasic/apiOrganization";
 import moment from "moment";
 import { mapGetters } from "vuex";
 import UUID from "es6-uuid";
 export default {
-  props: ['item', 'isEdit', 'visible'],
-  data () {
+  props: ["item", "isEdit", "visible"],
+  data() {
     return {
       formData: {
         manufacturerList: []
       },
-      formItem: {
-      },
+      formItem: {},
       ruleValidate: {
-        title: [
-          { required: true, message: '标题不能为空', trigger: 'blur' }
-        ],
+        title: [{ required: true, message: "标题不能为空", trigger: "blur" }],
         receiverId: [
-          { required: true, message: '使用单位不能为空', trigger: 'blur' }
+          { required: true, message: "使用单位不能为空", trigger: "blur" }
         ]
-
       }
     };
   },
-  created () {
+  created() {
     this.load();
-    Promise.all([
-      organizationApi.getAll({ search: "lead:eq:XC", size: 500 })
-    ])
+    Promise.all([organizationApi.getAll({ search: "lead:eq:XC", size: 500 })])
       .then(([response]) => {
         this.formData.supplierList = response.content;
       })
-      .catch(error => { });
+      .catch(error => {});
   },
   components: {
     OrganizationForm: () => import("@/components/Organization")
@@ -103,16 +97,16 @@ export default {
     })
   },
   methods: {
-    organizationOnchange (label, value, values) {
+    organizationOnchange(label, value, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationName = label;
       this.formItem.organizationOrder = "0";
       this.formItem.organizationCode = value;
     },
-    load () {
+    load() {
       this.formItem = JSON.parse(JSON.stringify(this.item));
     },
-    querySearch (queryString, cb) {
+    querySearch(queryString, cb) {
       var suppliers = this.formData.supplierList;
       var results = queryString
         ? suppliers.filter(this.createFilter(queryString))
@@ -120,55 +114,52 @@ export default {
       // 调用 callback 返回建议列表的数据
       cb(results);
     },
-    createFilter (queryString) {
+    createFilter(queryString) {
       console.log(queryString);
       return supplier => {
         return (
-          supplier.name.toLowerCase().indexOf(queryString.toLowerCase()) >=
-          0
+          supplier.name.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
         );
       };
     },
-    handleSelect (item) {
+    handleSelect(item) {
       this.formItem.supplierId = item.id;
       this.formItem.supplierName = item.name;
     },
-    onSubmitClick (name) {
+    onSubmitClick(name) {
       this.formItem.date = moment(this.formItem.date).format("YYYY-MM-DD");
-      this.$refs[name].validate((valid) => {//进行前端检验
+      this.$refs[name].validate(valid => {
+        //进行前端检验
         if (valid) {
           Promise.all([purchasePlanApi.update(this.item.id, this.formItem)])
             .then(([response]) => {
               this.formReset(name);
               this.$message({
                 message: "修改成功!",
-                type: 'info',
+                type: "info"
               });
-              this.$emit('onSearchButtonClick');
-              this.$emit('update:visible', false);
+              this.$emit("onSearchButtonClick");
+              this.$emit("update:visible", false);
             })
-            .catch(error => {
-
-            });
+            .catch(error => {});
         } else {
           this.$message({
-            message: this.$t('message.formValidate'),
-            type: 'warn',
+            message: this.$t("message.formValidate"),
+            type: "warn"
           });
         }
       });
     },
 
-    formReset (name) {
+    formReset(name) {
       this.$refs[name].resetFields();
-    },
-
+    }
   },
   watch: {
-    item (curVal, oldVal) {
+    item(curVal, oldVal) {
       this.formItem = JSON.parse(JSON.stringify(curVal));
       this.load();
-    },
-  },
+    }
+  }
 };
 </script>
