@@ -25,7 +25,7 @@ class util {
     if (response.headers['content-disposition'] !== undefined) {
       const cd = response.headers['content-disposition'].split(';');
       if (cd.length > 1) {
-        const file = cd[1].split('moment=');
+        const file = cd[1].split('filename=');
         filename = decodeURI(file[1]);
       }
     }
