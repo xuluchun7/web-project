@@ -94,6 +94,9 @@
             <el-button type="text"
                        size="small"
                        @click="itemsManageButtonClick(scope.row,true)">{{$t('base.buttonItemsManage')}}</el-button>
+            <el-button type="text"
+                       size="small"
+                       @click="splitButtonClick(scope.row,true)">分解</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -140,6 +143,14 @@
                     :isEdit=childForm.isEdit
                     :visible.sync="childForm.itemsForm" />
       </el-dialog>
+      <el-dialog title="计划分解"
+                 :visible.sync="childForm.splitForm"
+                 top="10px"
+                 :before-close="handleClose">
+        <split-form :item=formData.viewSelect
+                    :isEdit=childForm.isEdit
+                    :visible.sync="childForm.splitForm" />
+      </el-dialog>
     </template>
   </div>
 </template>
@@ -147,8 +158,10 @@
 const AddForm = () => import('./purchasePlanAdd.vue');
 const EditForm = () => import('./purchasePlanEdit.vue');
 const ItemsForm = () => import("./purchasePlanItemList.vue");
+const SplitForm = () => import("./purchasePlanSplit.vue");
 import purchasePlanApi from '../../api/tmaterial/apiPurchasePlan';
 import purchasePlanItemApi from "../../api/tmaterial/apiPurchasePlanItem";
+import { mapGetters } from "vuex";
 export default {
   data () {
     return {
@@ -159,6 +172,7 @@ export default {
         editForm: false,
         viewForm: false,
         itemsForm: false,
+        splitForm: false,
         isEdit: false
       },
       dateoptions: {
@@ -213,10 +227,19 @@ export default {
   created () {
     this.onSearchButtonClick();
   },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
+  },
   components: {
     'add-form': AddForm,
     "edit-form": EditForm,
-    "items-form": ItemsForm
+    "items-form": ItemsForm,
+    "split-form": SplitForm
   },
   methods: {
     expandChange (row, expandedRows) {
@@ -268,6 +291,11 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
+    splitButtonClick (selectRow, isEdit) {
+      this.formData.viewSelect = selectRow;
+      this.childForm.splitForm = true;
+      this.childForm.isEdit = isEdit;
+    },
     deleteButtonClick () {
       if (this.formData.selectRow === null || this.formData.selectRow === undefined) {
         this.$message({
@@ -314,7 +342,9 @@ export default {
         size: this.formData.pagination.pageSize,
         page: this.formData.pagination.currentPage - 1,
         contains: ':{keyword}:true'.format({ keyword: this.formData.pagination.keyword }),
-        search: ''.format({})
+        search: 'organization.organizationId:eq:{orgId}:or;receiverId:{orgId}'.format({
+          orgId: this.userOrgId
+        })
       })])
         .then(([response]) => {
           this.formData.purchasePlanList = response.content;

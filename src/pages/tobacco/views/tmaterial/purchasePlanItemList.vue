@@ -156,8 +156,16 @@ export default {
     'add-form': AddForm,
     'edit-form': EditForm
   },
+  watch: {
+    item (curVal, oldVal) {
+
+      this.formItem = JSON.parse(JSON.stringify(curVal));
+      this.load();
+    }
+  },
   methods: {
     load () {
+      this.formData.purchasePlanItemList = [];
       if (this.item) {
         this.parentForm = JSON.parse(JSON.stringify(this.item));
         Promise.all([
@@ -173,8 +181,8 @@ export default {
       else {
         this.parentForm = this.item;
       }
-      this.formData.purchasePlanItemList = [];
-      console.log(this.parentForm);
+
+      this.onSearchButtonClick();
     },
     editButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
@@ -273,7 +281,7 @@ export default {
       this.childForm.editForm = false;
       this.onSearchButtonClick();
       done();
-    }
+    },
   }
 };
 </script>

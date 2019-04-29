@@ -109,6 +109,12 @@ export default {
     })
   },
   methods: {
+    organizationOnchange (label, value, values) {
+      this.formItem.organizationId = value;
+      this.formItem.organizationName = label;
+      this.formItem.organizationOrder = "0";
+      this.formItem.organizationCode = value;
+    },
     initformItem () {
       let uid = UUID(32, 36);
       return {
@@ -124,11 +130,11 @@ export default {
         'date': moment().format("YYYY-MM-DD"),
         'receiverId': this.userOrgId,
         'receiverName': this.organizationName,
-        'control': 0,
+        'control': 5,
         'supplierId': '',
         'supplierName': '',
         original: uid,
-        relevance: uid
+        relevance: ""
       }
     },
     onReceiverChanged (label, value) {

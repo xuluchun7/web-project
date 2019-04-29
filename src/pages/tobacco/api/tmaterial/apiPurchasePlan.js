@@ -5,4 +5,19 @@ export default new class extends baseApi {
   constructor() {
     super(baseUrl);
   }
+
+  saveAll (purchasePlanEntity, purchasePlanItemEntityList) {
+    return this.API.POST(baseUrl + '/all', {
+      purchasePlanEntity: purchasePlanEntity,
+      purchasePlanItemEntityList: purchasePlanItemEntityList
+    });
+  };
+
+  removeAll (purchasePlanEntity, purchasePlanItemEntityList) {
+    return this.API.POST(baseUrl + '/remove', {
+      purchasePlanEntity: purchasePlanEntity,
+      purchasePlanItemEntityList: purchasePlanItemEntityList
+    });
+  };
+
 };

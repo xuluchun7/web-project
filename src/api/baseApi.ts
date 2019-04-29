@@ -49,4 +49,11 @@ export default class baseApi {
   softDelete(id: any) {
     return API.DELETE(this.baseUrl + '/' + id, {});
   }
+  /**
+   * 根据Id获取对象
+   * @param id 
+   */
+  getById(id: any) {
+    return API.GET(this.baseUrl + '/' + id);
+  }
 }

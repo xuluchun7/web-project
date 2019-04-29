@@ -84,6 +84,11 @@ export default {
       .catch(error => { });
 
   },
+  watch: {
+    formItem (curValue, oldValue) {
+      console.log(curValue);
+    }
+  },
   methods: {
     initFormItem () {
       return {
@@ -183,6 +188,7 @@ export default {
 
     formReset (name) {
       this.$refs[name].resetFields();
+      this.formItem = this.initFormItem();
     },
 
   }
