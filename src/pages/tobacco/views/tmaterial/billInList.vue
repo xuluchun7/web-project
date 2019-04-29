@@ -466,6 +466,7 @@ export default {
     this.formData.operation = this.$route.query.operation;
     this.formData.title = this.$route.query.title;
     this.formData.balance = this.$route.query.balance;
+    this.searchData.organizationId=this.userOrgId;
   },
   components: {
     OrganizationForm: () => import("@/components/Organization"),

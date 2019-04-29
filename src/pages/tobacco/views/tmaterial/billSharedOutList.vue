@@ -428,6 +428,7 @@ export default {
     };
   },
   created() {
+    this.searchData.organizationId = this.userOrgId;
     this.resetData();
   },
   components: {
@@ -727,6 +728,7 @@ export default {
       this.formData.operation = this.$route.query.operation;
       this.formData.title = this.$route.query.title;
       this.formData.balance = this.$route.query.balance;
+      this.searchData.organizationId = this.userOrgId;
     },
     createFormData() {
       return {
