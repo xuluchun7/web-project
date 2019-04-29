@@ -158,20 +158,20 @@
   </div>
 </template>
 <script>
-const AddForm = () => import('./purchasePlanItemAdd.vue');
-const EditForm = () => import('./purchasePlanItemEdit.vue');
+const AddForm = () => import("./purchasePlanItemAdd.vue");
+const EditForm = () => import("./purchasePlanItemEdit.vue");
 import organizationApi from "@/api/xbasic/apiOrganization";
-import purchasePlanItemApi from '../../api/tmaterial/apiPurchasePlanItem';
-import purchasePlanApi from '../../api/tmaterial/apiPurchasePlan';
+import purchasePlanItemApi from "../../api/tmaterial/apiPurchasePlanItem.ts";
+import purchasePlanApi from "../../api/tmaterial/apiPurchasePlan.ts";
 import plantPlanApi from "../../api/tfarm/api_plantPlan";
 import quotaApi from "../../api/tmaterial/apiQuota";
-import { constants } from 'crypto';
+import { constants } from "crypto";
 import { mapGetters } from "vuex";
 import UUID from "es6-uuid";
 import moment from "moment";
 export default {
   props: ["item"],
-  data () {
+  data() {
     return {
       addOrg: [],
       childForm: {
@@ -183,68 +183,67 @@ export default {
       dateoptions: {
         shortcuts: [
           {
-            text: this.$t('base.today'),
+            text: this.$t("base.today"),
 
-            onClick: (picker) => {
+            onClick: picker => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.yesterday'),
+            text: this.$t("base.yesterday"),
 
-            onClick (picker) {
+            onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.threeMonth'),
-            onClick (picker) {
+            text: this.$t("base.threeMonth"),
+            onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           }
         ]
       },
-      searchData: {
-      },
+      searchData: {},
       parentForm: {},
       formData: {
         selectRow: {},
         sumArea: 0,
         itemArea: 0,
-        showText: '',
+        showText: "",
         showItemTitle: "",
         purchasePlanItemList: [],
         orgChildList: [],
         newPlanList: [],
         newPlanItemList: [],
-        pagination: {//用于分页的变量
+        pagination: {
+          //用于分页的变量
           currentPage: 1,
           pageSize: 10,
           total: 0,
-          keyword: '',
+          keyword: "",
           pageSizeOpts: [10, 15, 20, 25, 30]
         },
         rowSelection: []
-      },
+      }
     };
   },
-  created () {
+  created() {
     console.log("进入分解界面");
     this.load();
-
   },
   components: {
-    'add-form': AddForm,
-    'edit-form': EditForm
+    "add-form": AddForm,
+    "edit-form": EditForm
   },
   computed: {
     ...mapGetters({
@@ -255,52 +254,47 @@ export default {
     })
   },
   watch: {
-    item (curVal, oldVal) {
-
+    item(curVal, oldVal) {
       this.formItem = JSON.parse(JSON.stringify(curVal));
       this.load();
     }
   },
   methods: {
-    onSavePlanAndItmes (row) {
-      Promise.all([
-        purchasePlanApi.saveAll(row, this.formData.newPlanItemList)
-      ])
+    onSavePlanAndItmes(row) {
+      Promise.all([purchasePlanApi.saveAll(row, this.formData.newPlanItemList)])
         .then(([response]) => {
           this.$message({
-            message: '保存成功!',
-            type: 'success'
+            message: "保存成功!",
+            type: "success"
           });
           this.onSearchButtonClick();
         })
-        .catch(error => { });
-
+        .catch(error => {});
     },
-    onRemovePlan (row) {
-      Promise.all([purchasePlanApi.removeAll(row, this.formData.newPlanItemList)])
+    onRemovePlan(row) {
+      Promise.all([
+        purchasePlanApi.removeAll(row, this.formData.newPlanItemList)
+      ])
         .then(([response]) => {
           this.$message({
-            type: 'info',
-            message: this.$t('message.deleteOk')
+            type: "info",
+            message: this.$t("message.deleteOk")
           });
           this.formData.showItemTitle = "";
           this.onSearchButtonClick();
           this.formData.selectRow = null;
           this.formData.newPlanItemList = [];
           this.formData.newPlanList = this.formData.newPlanList.filter(item => {
-            return item != row
+            return item != row;
           });
           this.addOrg = this.addOrg.filter(item => {
-            return item != row.receiverId
+            return item != row.receiverId;
           });
           console.log(this.formData.newPlanList);
         })
-        .catch(error => {
-
-        });
-
+        .catch(error => {});
     },
-    onPlanSelected (currentRow, oldCurrentRow) {
+    onPlanSelected(currentRow, oldCurrentRow) {
       this.formData.newPlanItemList = [];
       if (currentRow) {
         let item = this.formData.newPlanList.find(it => {
@@ -308,15 +302,21 @@ export default {
         });
         if (item) {
           Promise.all([
-            plantPlanApi.getSumArea(this.$store.state.system.annual, item.receiverId)
+            plantPlanApi.getSumArea(
+              this.$store.state.system.annual,
+              item.receiverId
+            )
           ])
             .then(([areaResponse]) => {
               this.formData.itemArea = areaResponse;
-              this.formData.showItemTitle = item.receiverName + " :" + this.formData.itemArea.toFixed(2) + "亩";
+              this.formData.showItemTitle =
+                item.receiverName +
+                " :" +
+                this.formData.itemArea.toFixed(2) +
+                "亩";
               this.loadNewPlanItemList(item.id);
             })
-            .catch(error => { });
-
+            .catch(error => {});
         } else {
           this.formData.newPlanItemList = [];
         }
@@ -326,11 +326,8 @@ export default {
         this.formData.selectRow = {};
       }
     },
-    loadNewPlanItemList (planId) {
-
-      Promise.all([
-        purchasePlanApi.getById(planId)
-      ])
+    loadNewPlanItemList(planId) {
+      Promise.all([purchasePlanApi.getById(planId)])
         .then(([response]) => {
           Promise.all([
             purchasePlanItemApi.getAll({
@@ -350,7 +347,7 @@ export default {
           this.createItmes(planId);
         });
     },
-    createItmes (planId) {
+    createItmes(planId) {
       this.formData.purchasePlanItemList.forEach(item => {
         let newItem = JSON.parse(JSON.stringify(item));
         newItem.purchasePlan = planId;
@@ -359,27 +356,34 @@ export default {
         newItem.confirmAmount = 0;
 
         Promise.all([
-          quotaApi.getAmount(newItem.materialId, newItem.measureId, this.$store.state.system.annual)
+          quotaApi.getAmount(
+            newItem.materialId,
+            newItem.measureId,
+            this.$store.state.system.annual
+          )
         ])
           .then(([response]) => {
             newItem.amount = (this.formData.itemArea * response).toFixed(2);
           })
-          .catch(error => { });
+          .catch(error => {});
 
         this.formData.newPlanItemList.push(newItem);
       });
     },
 
-    orgSelectChange (value) {
+    orgSelectChange(value) {
       var name = this.formData.orgChildList.find(item => {
         return item.id === value;
       }).name;
     },
-    load () {
+    load() {
       if (this.item) {
         this.parentForm = JSON.parse(JSON.stringify(this.item));
         Promise.all([
-          plantPlanApi.getSumArea(this.$store.state.system.annual, this.parentForm.receiverId),
+          plantPlanApi.getSumArea(
+            this.$store.state.system.annual,
+            this.parentForm.receiverId
+          ),
           organizationApi.getAll({
             size: 500,
             page: 0,
@@ -393,21 +397,23 @@ export default {
         ])
           .then(([sumAreaResponse, orgResponse, planResponse]) => {
             this.formData.sumArea = sumAreaResponse;
-            this.formData.showText = this.parentForm.receiverName + " :" + this.formData.sumArea.toFixed(2) + "亩,计划单号:" + this.item.serial;
+            this.formData.showText =
+              this.parentForm.receiverName +
+              " :" +
+              this.formData.sumArea.toFixed(2) +
+              "亩,计划单号:" +
+              this.item.serial;
             this.formData.orgChildList = orgResponse.content;
             this.formData.newPlanList = planResponse.content;
           })
-          .catch(error => { });
-
-      }
-      else {
+          .catch(error => {});
+      } else {
         this.parentForm = this.item;
       }
       this.formData.purchasePlanItemList = [];
       this.onSearchButtonClick();
-
     },
-    editButtonClick (selectRow, isEdit) {
+    editButtonClick(selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -416,11 +422,14 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    deleteButtonClick () {
-      if (this.formData.selectRow === null || this.formData.selectRow === undefined) {
+    deleteButtonClick() {
+      if (
+        this.formData.selectRow === null ||
+        this.formData.selectRow === undefined
+      ) {
         this.$message({
-          message: this.$t('message.unSelectAny'),
-          type: 'info',
+          message: this.$t("message.unSelectAny"),
+          type: "info"
         });
         return;
       }
@@ -428,40 +437,39 @@ export default {
       Promise.all([purchasePlanItemApi.softDelete(this.formData.selectRow.id)])
         .then(([response]) => {
           this.$message({
-            type: 'info',
-            message: this.$t('message.deleteOk')
+            type: "info",
+            message: this.$t("message.deleteOk")
           });
           this.formData.selectRow = null;
           this.onSearchButtonClick();
-
         })
-        .catch(error => {
-
+        .catch(error => {});
+    },
+    deleteButtonConfirm() {
+      this.$confirm(
+        this.$t("message.deleteConfirm"),
+        this.$t("base.titleTip"),
+        {
+          confirmButtonText: this.$t("base.buttonOk"),
+          cancelButtonText: this.$t("base.buttonCancel"),
+          type: "warning"
+        }
+      )
+        .then(() => {
+          this.deleteButtonClick();
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: this.$t("message.cancel")
+          });
         });
     },
-    deleteButtonConfirm () {
-      this.$confirm(this.$t('message.deleteConfirm'), this.$t('base.titleTip'), {
-        confirmButtonText: this.$t('base.buttonOk'),
-        cancelButtonText: this.$t('base.buttonCancel'),
-        type: 'warning'
-      }).then(() => {
-        this.deleteButtonClick();
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: this.$t('message.cancel')
-        });
-      });
-
-    },
-    addButtonOnClick () {
-
+    addButtonOnClick() {
       this.addOrg.forEach(value => {
-
         let plan = this.formData.newPlanList.filter(plan => {
           return plan.receiverId === value;
-        }
-        );
+        });
         if (plan.length === 0) {
           let org = this.formData.orgChildList.find(item => {
             return item.id === value;
@@ -471,12 +479,9 @@ export default {
         }
 
         console.log(this.formData.newPlanList);
-
       });
-
-
     },
-    createNewPlanByOrg (org) {
+    createNewPlanByOrg(org) {
       let uid = UUID(32, 36);
       let newPlan = JSON.parse(JSON.stringify(this.parentForm));
       newPlan.id = uid;
@@ -491,52 +496,52 @@ export default {
       newPlan.receiverName = org.name;
       return newPlan;
     },
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.formData.selectRow = val;
     },
-    onSearchButtonClick () {
-      Promise.all([purchasePlanItemApi.getAll({
-        size: this.formData.pagination.pageSize,
-        page: this.formData.pagination.currentPage - 1,
-        search: "purchasePlan.id:EQ:{pId};".format({
-          pId: this.parentForm.id
+    onSearchButtonClick() {
+      Promise.all([
+        purchasePlanItemApi.getAll({
+          size: this.formData.pagination.pageSize,
+          page: this.formData.pagination.currentPage - 1,
+          search: "purchasePlan.id:EQ:{pId};".format({
+            pId: this.parentForm.id
+          })
         })
-      })])
+      ])
         .then(([response]) => {
           this.formData.purchasePlanItemList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
-            title: this.$t('base.hint'),
-            message: this.$t('base.loadingDone'),
+            title: this.$t("base.hint"),
+            message: this.$t("base.loadingDone"),
             duration: 1000,
-            position: 'bottom-right'
+            position: "bottom-right"
           });
         })
-        .catch(error => {
-        });
-
+        .catch(error => {});
     },
 
-    onPageChange (index) {
+    onPageChange(index) {
       if (this.formData.pagination.currentPage !== index) {
         this.formData.pagination.currentPage = index;
         this.onSearchButtonClick();
       }
     },
-    onPageSizeChange (size) {
+    onPageSizeChange(size) {
       if (this.formData.pagination.pageSize !== size) {
         this.formData.pagination.pageSize = size;
         this.onSearchButtonClick();
       }
     },
-    tableRowClassName ({ row, rowIndex }) {
+    tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
-        return 'warning-row';
+        return "warning-row";
       } else {
-        return 'success-row';
+        return "success-row";
       }
     },
-    handleClose (done) {
+    handleClose(done) {
       this.childForm.addForm = false;
       this.childForm.editForm = false;
       this.onSearchButtonClick();

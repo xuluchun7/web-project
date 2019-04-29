@@ -8,30 +8,15 @@
         <el-form inline>
           <el-form-item :label="$t('tobacco.tmaterial.bill.deliveryOrganizationName')">
 
-            <organization-form :root="userOrgId"
+            <organization-form root="XC"
                                style="width:100%"
                                :code.sync="searchData.deliveryOrganizationId" />
           </el-form-item>
 
-          <el-form-item :label="$t('tobacco.tmaterial.bill.arriveOrganizationName')"
-                        v-if="  this.formData.grantObject ===1">
+          <el-form-item :label="$t('tobacco.tmaterial.bill.arriveOrganizationName')">
             <organization-form :root="userOrgId"
                                style="width:100%"
-                               :showRoot="false"
                                :code.sync="searchData.arriveOrganizationId" />
-          </el-form-item>
-          <el-form-item :label="$t('tobacco.tmaterial.bill.control')">
-            <el-select v-model="searchData.control"
-                       clearable
-                       :placeholder="$t('base.pleaseSelect')"
-                       style="width: 100%">
-              <el-option v-for="item in statusList"
-                         :key="item.value"
-                         :label="item.label"
-                         :value="item.value">
-              </el-option>
-            </el-select>
-
           </el-form-item>
 
         </el-form>
@@ -69,6 +54,20 @@
                         @keyup.enter.native="onSearchButtonClick" />
             </el-form-item>
 
+            <el-form-item :label="$t('tobacco.tmaterial.bill.control')">
+              <el-select v-model="searchData.control"
+                         clearable
+                         :placeholder="$t('base.pleaseSelect')"
+                         style="width: 100%">
+                <el-option v-for="item in statusList"
+                           :key="item.value"
+                           :label="item.label"
+                           :value="item.value">
+                </el-option>
+              </el-select>
+
+            </el-form-item>
+
             <el-form-item :label="$t('base.keywords')"
                           style="width:100%">
               <el-input v-bind:placeholder="$t('base.ipKeywords')"
@@ -91,6 +90,15 @@
                    style="margin-left:3px"
                    plain
                    @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
+        <el-button type='primary'
+                   style="margin-left:3px"
+                   plain
+                   @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
+        <el-button type='danger'
+                   style="margin-left:3px"
+                   plain
+                   v-if="formData.selectRow?formData.selectRow.control===0:false"
+                   @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>
       </div>
     </div>
     <main class='contentPanel'>
@@ -104,37 +112,44 @@
                          fixed="left">
           <template slot-scope="props">
             <el-form class="cas-group cas-flex-3">
-              <el-form-item :label="$t('tobacco.tmaterial.bill.barcode')">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.barcode')"
+                            prop="deliver">
                 {{props.row.barcode}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.author')">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.author')"
+                            prop="deliver">
                 {{props.row.author}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.deliveryInfo')">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.deliveryInfo')"
+                            prop="deliver">
                 {{props.row.deliveryInfo}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.arriveInfo')">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.arriveInfo')"
+                            prop="deliver">
                 {{props.row.arriveInfo}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillBarcode')">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillBarcode')"
+                            prop="deliver">
                 {{props.row.refBillBarcode}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.receiveSerial')">
-                {{props.row.refBillSerial}}
-              </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillInfo')">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillInfo')"
+                            prop="deliver">
                 {{props.row.refBillInfo}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.print')">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.print')"
+                            prop="deliver">
                 {{props.row.print}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.itemCount')">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.itemCount')"
+                            prop="deliver">
                 {{props.row.itemCount}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.itemMoneys')">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.itemMoneys')"
+                            prop="deliver">
                 {{props.row.itemMoney}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.desc')">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.desc')"
+                            prop="deliver">
                 {{props.row.desc}}
               </el-form-item>
             </el-form>
@@ -145,7 +160,14 @@
                          fixed="left"
                          show-overflow-tooltip
                          :label="this.$t('tobacco.tmaterial.bill.serial')" />
-
+        <el-table-column prop="refBillId"
+                         width="200"
+                         fixed="left"
+                         show-overflow-tooltip
+                         :label="this.$t('tobacco.tmaterial.bill.sendBillSerial')" />
+        <el-table-column prop="annual"
+                         width="60"
+                         :label="this.$t('tobacco.tmaterial.bill.year')" />
         <el-table-column prop="date"
                          width="100"
                          :label="this.$t('tobacco.tmaterial.bill.date')">
@@ -156,16 +178,15 @@
         <el-table-column prop="deliveryOrganizationName"
                          :label="this.$t('tobacco.tmaterial.bill.deliveryOrganizationName')"
                          show-overflow-tooltip />
-        <el-table-column :label="this.$t('tobacco.tmaterial.bill.deliveryWarehouse')"
+        <el-table-column prop="arriveOrganizationName"
+                         :label="this.$t('tobacco.tmaterial.bill.arriveOrganizationName')"
+                         show-overflow-tooltip />
+        <el-table-column :label="this.$t('tobacco.tmaterial.bill.arriveWarehouse')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.warehouse?scope.row.warehouse.name:''}}
           </template>
         </el-table-column>
-        <el-table-column prop="arriveOrganizationName"
-                         :label="this.$t('tobacco.tmaterial.bill.grantObject')"
-                         show-overflow-tooltip />
-
         <el-table-column prop="deliver"
                          :label="this.$t('tobacco.tmaterial.bill.deliver')"
                          show-overflow-tooltip />
@@ -184,15 +205,14 @@
                          width="100">
 
           <template slot-scope="scope">
-
-            <el-button type="text"
-                       size="small"
-                       :disabled="scope.row.control!==0"
-                       @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
             <el-button @click="button.audit=false;onAuditClick(scope.row.id)"
                        type="text"
                        :disabled="scope.row.control>=5||!button.audit"
                        size="small">{{$t('tobacco.tmaterial.bill.buttonAudit')}}</el-button>
+            <el-button type="text"
+                       size="small"
+                       :disabled="scope.row.control!==0"
+                       @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -215,9 +235,9 @@
           </a>
         </nav>
         <el-table border
+                  height="280"
                   :data="formData.billItemList"
                   class="subTable"
-                  height="280"
                   :header-cell-style="{background:'wheat',color:'black'}">
 
           <el-table-column prop="serial"
@@ -235,7 +255,6 @@
                            :label="this.$t('tobacco.tmaterial.billItem.measureName')"
                            show-overflow-tooltip />
           <el-table-column prop="mfg"
-                           v-if="false"
                            :label="this.$t('tobacco.tmaterial.billItem.mfg')">
             <template slot-scope="scope">
               <span v-if=" scope.row.mfg">
@@ -268,19 +287,19 @@
                            :label="this.$t('tobacco.tmaterial.billItem.money')" />
 
           <el-table-column width="100">
-
+            <template slot="header"
+                      slot-scope="scope">
+              <el-button size="small"
+                         v-if="formData.selectRow?formData.selectRow.control<5:false"
+                         @click="childForm.billItemForm=true">{{$t('tobacco.tmaterial.bill.buttonInsertDetail')}}
+              </el-button>
+            </template>
             <template slot-scope="scope">
 
               <el-button type="text"
                          size="small"
-                         v-if="false"
                          :disabled="formData.selectRow?formData.selectRow.control===5:true"
                          @click="onDeleteBillItemClick(scope.row)">{{$t('base.buttonDelete')}}</el-button>
-              <el-button type="text"
-                         size="small"
-                         :disabled="formData.selectRow?formData.selectRow.control===5:true"
-                         v-if="false"
-                         @click="onEditItemClick(scope.row)">{{$t('base.buttonEdit')}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -313,7 +332,6 @@
         <edit-form :item.sync=formData.selectRow
                    :isEdit=childForm.isEdit
                    :operation='formData.operation'
-                   @onSearchButtonClick="onSearchButtonClick"
                    :visible.sync="childForm.editForm" />
       </el-dialog>
       <el-dialog :title="$t('base.buttonView')"
@@ -332,19 +350,18 @@
                  :before-close="handleClose">
         <bill-item-add :master=formData.selectRow
                        :visible.sync="childForm.billItemForm" />
-
       </el-dialog>
     </template>
   </div>
 </template>
 <script>
 import animate from "animate.css";
-const EditForm = () => import("./billOutEdit.vue");
+const AddForm = () => import("./billInPurchaseAdd.vue");
+const EditForm = () => import("./billInEdit.vue");
 import elDragDialog from "@/directive/el-dragDialog"; // base on element-ui
-import billApi from "../../api/tmaterial/apiBillOut";
+import billApi from "../../api/tmaterial/apiBillIn";
 import billItemApi from "../../api/tmaterial/apiBillItem";
 import { mapGetters } from "vuex";
-import stockApi from "../../api/tmaterial/apiStock.ts";
 const status = [
   { value: 0, label: "编辑" },
   { value: 5, label: "记账" },
@@ -376,6 +393,8 @@ export default {
         organizationId: "",
         serial: "",
         barcode: "",
+        year: this.$store.state.system.annual,
+        month: 0,
         author: "",
         date: [],
         operation: "",
@@ -406,10 +425,7 @@ export default {
           pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: [],
-        selectRow: {},
-        grantObject: 0, //发放对象
-        selectItemRow: {},
-        stockList: []
+        selectRow: {}
       },
       button: {
         audit: true
@@ -417,17 +433,16 @@ export default {
     };
   },
   created() {
-    this.formData.operation = this.$route.query.operation;
-    this.formData.title = this.$route.query.title;
-    this.formData.balance = this.$route.query.balance;
-    this.formData.grantObject = this.$route.query.grant;
+    this.formData.operation = "I001";
+    this.formData.title = "采购入库";
+    this.formData.balance = 1;
     this.searchData.organizationId = this.userOrgId;
-    this.searchData.deliveryOrganizationId = this.userOrgId;
   },
   components: {
     OrganizationForm: () => import("@/components/Organization"),
+    "add-form": AddForm,
     "edit-form": EditForm,
-    billItemAdd: () => import("./billSharedOutItemAdd.vue")
+    billItemAdd: () => import("./billItemAdd.vue")
   },
   computed: {
     ...mapGetters({
@@ -436,20 +451,7 @@ export default {
       organizationName: "organizationName"
     })
   },
-  watch: {
-    $route(to, from) {
-      if (
-        to.meta.file !== undefined &&
-        to.meta.file.indexOf("billOutList") !== -1
-      ) {
-        console.log(to.meta.file);
-        this.formData.operation = this.$route.query.operation;
-        this.formData.title = this.$route.query.title;
-        this.formData.balance = this.$route.query.balance;
-        this.formData.grantObject = this.$route.query.grant;
-      }
-    }
-  },
+  watch: {},
   methods: {
     onAuditClick(billId) {
       this.$confirm(
@@ -634,6 +636,7 @@ export default {
 
       if (
         this.searchData.date !== undefined &&
+        this.searchData.date !== null &&
         this.searchData.date.length === 2
       ) {
         search +=
@@ -712,15 +715,6 @@ export default {
     },
     onResetButtonClick() {
       //重置数据
-    },
-    onEditItemClick(row) {
-      row._edit = true;
-      this.formData.selectItemRow = row;
-      Promise.all([stockApi.getStock()])
-        .then(([response]) => {
-          this.formData.stockList = response.content;
-        })
-        .catch(error => {});
     }
   }
 };

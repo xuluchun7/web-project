@@ -58,40 +58,34 @@
   </el-form>
 </template>
 <script>
-import purchasePlanApi from '../../api/tmaterial/apiPurchasePlan';
+import purchasePlanApi from "../../api/tmaterial/apiPurchasePlan.ts";
 import organizationApi from "@/api/xbasic/apiOrganization";
 import moment from "moment";
 import { mapGetters } from "vuex";
 import UUID from "es6-uuid";
 export default {
-  data () {
+  data() {
     return {
       formData: {
         manufacturerList: []
       },
-      formItem: {
-      },
+      formItem: {},
       ruleValidate: {
-        title: [
-          { required: true, message: '标题不能为空', trigger: 'blur' }
-        ],
+        title: [{ required: true, message: "标题不能为空", trigger: "blur" }],
         receiverId: [
-          { required: true, message: '使用单位不能为空', trigger: 'blur' }
+          { required: true, message: "使用单位不能为空", trigger: "blur" }
         ]
-
       }
     };
   },
-  created () {
+  created() {
     this.formItem = this.initformItem();
     this.formItem.receiverId = this.userOrgId;
-    Promise.all([
-      organizationApi.getAll({ search: "lead:eq:XC", size: 500 })
-    ])
+    Promise.all([organizationApi.getAll({ search: "lead:eq:XC", size: 500 })])
       .then(([response]) => {
         this.formData.supplierList = response.content;
       })
-      .catch(error => { });
+      .catch(error => {});
   },
   components: {
     OrganizationForm: () => import("@/components/Organization")
@@ -105,13 +99,13 @@ export default {
     })
   },
   methods: {
-    organizationOnchange (label, value, values) {
+    organizationOnchange(label, value, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationName = label;
       this.formItem.organizationOrder = "0";
       this.formItem.organizationCode = value;
     },
-    initformItem () {
+    initformItem() {
       let uid = UUID(32, 36);
       return {
         id: uid,
@@ -119,29 +113,28 @@ export default {
         organizationName: this.organizationName,
         organizationOrder: "",
         organizationCode: this.userOrgId,
-        'serial': '',
-        'barcode': '',
-        'title': '',
-        'author': this.userName,
-        'date': moment().format("YYYY-MM-DD"),
-        'receiverId': this.userOrgId,
-        'receiverName': this.organizationName,
-        'control': 5,
-        'supplierId': '',
-        'supplierName': '',
+        serial: "",
+        barcode: "",
+        title: "",
+        author: this.userName,
+        date: moment().format("YYYY-MM-DD"),
+        receiverId: this.userOrgId,
+        receiverName: this.organizationName,
+        control: 5,
+        supplierId: "",
+        supplierName: "",
         original: uid,
         relevance: ""
-      }
+      };
     },
-    onReceiverChanged (label, value) {
+    onReceiverChanged(label, value) {
       let search = "organization.organizationId:eq:{orgid};control:eq:5".format(
         {
           orgid: value
         }
       );
-
     },
-    querySearch (queryString, cb) {
+    querySearch(queryString, cb) {
       var suppliers = this.formData.supplierList;
       var results = queryString
         ? suppliers.filter(this.createFilter(queryString))
@@ -149,52 +142,49 @@ export default {
       // 调用 callback 返回建议列表的数据
       cb(results);
     },
-    createFilter (queryString) {
+    createFilter(queryString) {
       console.log(queryString);
       return supplier => {
         return (
-          supplier.name.toLowerCase().indexOf(queryString.toLowerCase()) >=
-          0
+          supplier.name.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
         );
       };
     },
-    handleSelect (item) {
+    handleSelect(item) {
       this.formItem.supplierId = item.id;
       this.formItem.supplierName = item.name;
     },
-    onSubmitClick (name) {
-      this.$refs[name].validate((valid) => {
+    onSubmitClick(name) {
+      this.$refs[name].validate(valid => {
         if (valid) {
           Promise.all([purchasePlanApi.save(this.formItem)])
             .then(([response]) => {
               this.formReset(name);
               //重置表单，允许多次操作
               this.$message({
-                message: '保存成功!',
-                type: 'info',
+                message: "保存成功!",
+                type: "info"
               });
 
-              this.$emit('onSearchButtonClick');
-              this.$emit('update:visible', false);
-
+              this.$emit("onSearchButtonClick");
+              this.$emit("update:visible", false);
             })
             .catch(error => {
               console.log(error);
             });
         } else {
           this.$message({
-            message: this.$t('message.formValidate'),
-            type: 'warn',
+            message: this.$t("message.formValidate"),
+            type: "warn"
           });
         }
       });
     },
 
-    formReset (name) {
+    formReset(name) {
       this.$refs[name].resetFields();
       this.formItem = this.initformItem();
-    },
-
+    }
   }
 };
 </script>

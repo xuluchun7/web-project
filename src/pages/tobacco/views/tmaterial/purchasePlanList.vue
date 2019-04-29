@@ -155,15 +155,15 @@
   </div>
 </template>
 <script>
-const AddForm = () => import('./purchasePlanAdd.vue');
-const EditForm = () => import('./purchasePlanEdit.vue');
+const AddForm = () => import("./purchasePlanAdd.vue");
+const EditForm = () => import("./purchasePlanEdit.vue");
 const ItemsForm = () => import("./purchasePlanItemList.vue");
 const SplitForm = () => import("./purchasePlanSplit.vue");
-import purchasePlanApi from '../../api/tmaterial/apiPurchasePlan';
-import purchasePlanItemApi from "../../api/tmaterial/apiPurchasePlanItem";
+import purchasePlanApi from "../../api/tmaterial/apiPurchasePlan.ts";
+import purchasePlanItemApi from "../../api/tmaterial/apiPurchasePlanItem.ts";
 import { mapGetters } from "vuex";
 export default {
-  data () {
+  data() {
     return {
       expandKeys: [] /** 新增 **/,
       loading: true,
@@ -178,53 +178,53 @@ export default {
       dateoptions: {
         shortcuts: [
           {
-            text: this.$t('base.today'),
+            text: this.$t("base.today"),
 
-            onClick: (picker) => {
+            onClick: picker => {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.yesterday'),
+            text: this.$t("base.yesterday"),
 
-            onClick (picker) {
+            onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           },
           {
-            text: this.$t('base.threeMonth'),
-            onClick (picker) {
+            text: this.$t("base.threeMonth"),
+            onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
           }
         ]
       },
-      searchData: {
-      },
+      searchData: {},
       formData: {
         purchasePlanList: [],
         purchasePlanItemList: [],
-        pagination: {//用于分页的变量
+        pagination: {
+          //用于分页的变量
           currentPage: 1,
           pageSize: 10,
           total: 0,
-          keyword: '',
+          keyword: "",
           pageSizeOpts: [10, 15, 20, 25, 30]
         },
         rowSelection: []
-      },
+      }
     };
   },
-  created () {
+  created() {
     this.onSearchButtonClick();
   },
   computed: {
@@ -236,13 +236,13 @@ export default {
     })
   },
   components: {
-    'add-form': AddForm,
+    "add-form": AddForm,
     "edit-form": EditForm,
     "items-form": ItemsForm,
     "split-form": SplitForm
   },
   methods: {
-    expandChange (row, expandedRows) {
+    expandChange(row, expandedRows) {
       console.log(row);
       if (this.expandKeys.indexOf(row.id) >= 0) {
         //收起当前行
@@ -267,13 +267,13 @@ export default {
           _this.expandKeys.shift(); /** 新增 **/
           _this.expandKeys.push(row.id); /** 新增 **/
         })
-        .catch(error => { });
+        .catch(error => {});
       if (expandedRows.length > 1) {
         //只展开当前选项
         expandedRows.shift();
       }
     },
-    editButtonClick (selectRow, isEdit) {
+    editButtonClick(selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -282,7 +282,7 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    itemsManageButtonClick (selectRow, isEdit) {
+    itemsManageButtonClick(selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.itemsForm = true;
@@ -291,16 +291,19 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    splitButtonClick (selectRow, isEdit) {
+    splitButtonClick(selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       this.childForm.splitForm = true;
       this.childForm.isEdit = isEdit;
     },
-    deleteButtonClick () {
-      if (this.formData.selectRow === null || this.formData.selectRow === undefined) {
+    deleteButtonClick() {
+      if (
+        this.formData.selectRow === null ||
+        this.formData.selectRow === undefined
+      ) {
         this.$message({
-          message: this.$t('message.unSelectAny'),
-          type: 'info',
+          message: this.$t("message.unSelectAny"),
+          type: "info"
         });
         return;
       }
@@ -308,79 +311,85 @@ export default {
       Promise.all([purchasePlanApi.softDelete(this.formData.selectRow.id)])
         .then(([response]) => {
           this.$message({
-            type: 'info',
-            message: this.$t('message.deleteOk')
+            type: "info",
+            message: this.$t("message.deleteOk")
           });
           this.formData.selectRow = null;
           this.onSearchButtonClick();
-
         })
-        .catch(error => {
-
+        .catch(error => {});
+    },
+    deleteButtonConfirm() {
+      this.$confirm(
+        this.$t("message.deleteConfirm"),
+        this.$t("base.titleTip"),
+        {
+          confirmButtonText: this.$t("base.buttonOk"),
+          cancelButtonText: this.$t("base.buttonCancel"),
+          type: "warning"
+        }
+      )
+        .then(() => {
+          this.deleteButtonClick();
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: this.$t("message.cancel")
+          });
         });
     },
-    deleteButtonConfirm () {
-      this.$confirm(this.$t('message.deleteConfirm'), this.$t('base.titleTip'), {
-        confirmButtonText: this.$t('base.buttonOk'),
-        cancelButtonText: this.$t('base.buttonCancel'),
-        type: 'warning'
-      }).then(() => {
-        this.deleteButtonClick();
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: this.$t('message.cancel')
-        });
-      });
-
-    },
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.formData.selectRow = val;
     },
-    onSearchButtonClick () {
-      Promise.all([purchasePlanApi.getAll({
-        size: this.formData.pagination.pageSize,
-        page: this.formData.pagination.currentPage - 1,
-        contains: ':{keyword}:true'.format({ keyword: this.formData.pagination.keyword }),
-        search: 'organization.organizationId:eq:{orgId}:or;receiverId:{orgId}'.format({
-          orgId: this.userOrgId
+    onSearchButtonClick() {
+      Promise.all([
+        purchasePlanApi.getAll({
+          size: this.formData.pagination.pageSize,
+          page: this.formData.pagination.currentPage - 1,
+          contains: ":{keyword}:true".format({
+            keyword: this.formData.pagination.keyword
+          }),
+          search: "organization.organizationId:eq:{orgId}:or;receiverId:{orgId}".format(
+            {
+              orgId: this.userOrgId
+            }
+          )
         })
-      })])
+      ])
         .then(([response]) => {
           this.formData.purchasePlanList = response.content;
           this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
-            title: this.$t('base.hint'),
-            message: this.$t('base.loadingDone'),
+            title: this.$t("base.hint"),
+            message: this.$t("base.loadingDone"),
             duration: 1000,
-            position: 'bottom-right'
+            position: "bottom-right"
           });
         })
-        .catch(error => {
-        });
-
+        .catch(error => {});
     },
 
-    onPageChange (index) {
+    onPageChange(index) {
       if (this.formData.pagination.currentPage !== index) {
         this.formData.pagination.currentPage = index;
         this.onSearchButtonClick();
       }
     },
-    onPageSizeChange (size) {
+    onPageSizeChange(size) {
       if (this.formData.pagination.pageSize !== size) {
         this.formData.pagination.pageSize = size;
         this.onSearchButtonClick();
       }
     },
-    tableRowClassName ({ row, rowIndex }) {
+    tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
-        return 'warning-row';
+        return "warning-row";
       } else {
-        return 'success-row';
+        return "success-row";
       }
     },
-    handleClose (done) {
+    handleClose(done) {
       this.childForm.addForm = false;
       this.childForm.editForm = false;
       this.onSearchButtonClick();
@@ -388,7 +397,7 @@ export default {
     }
   },
   filters: {
-    controlFormat: function (key) {
+    controlFormat: function(key) {
       let item = purchasePlanApi.CONTROL_LIST.find(it => {
         return it.key === key;
       });

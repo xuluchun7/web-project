@@ -2089,7 +2089,9 @@ export default {
       buttonAudit: '记账',
       accountPeriod: '账期',
       materialGrant: '物资发放',
-      grantPack: '发放套餐'
+      grantPack: '发放套餐',
+      purchasePlan: '采购计划',
+
     },
     billItem: {
       billId: '单据号',
@@ -2117,7 +2119,8 @@ export default {
       convertMeasureName: '换算单位',
       convertAmount: '换算数量',
       units: '计量单位',
-      salePrice: '销售单价'
+      salePrice: '销售单价',
+      availableAmount: '可用数量'
     },
     quota: {
       year: '业务年度',
@@ -2173,7 +2176,7 @@ export default {
       annual: '年度',
       desc: '描述',
       buttonDetails: '花名册详情',
-      buttonVoided:'作废'
+      buttonVoided: '作废'
     },
     rosterDetails: {
       rosterId: '花名册',
