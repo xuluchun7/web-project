@@ -60,7 +60,7 @@
           </el-table>
         </el-collapse-item>
       </el-collapse>
-      <div style="float:left;">
+      <div style="float:left;border-right:1px solid green;">
         <el-table :data="formData.newPlanList"
                   highlight-current-row
                   style="font-size: 12px;color: black;"
@@ -80,11 +80,13 @@
                            size="mini"
                            round
                            type="text"
+                           :disabled="scope.row!==formData.selectRow"
                            @click="onSavePlanAndItmes(scope.row)"></el-button>
                 <el-button icon="el-icon-error"
                            size="mini"
                            round
                            type="text"
+                           :disabled="formData.selectRow!==scope.row"
                            @click="onRemovePlan(scope.row)"></el-button>
               </el-button-group>
             </template>
@@ -327,7 +329,6 @@ export default {
       }
     },
     loadNewPlanItemList (planId) {
-
       Promise.all([
         purchasePlanApi.getById(planId)
       ])
