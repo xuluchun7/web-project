@@ -111,7 +111,7 @@ import UUID from "es6-uuid";
 import { mapGetters } from "vuex";
 export default {
   props: ["operation", "visible"],
-  data() {
+  data () {
     return {
       loading: false,
       books: {},
@@ -143,7 +143,8 @@ export default {
       ]
     };
   },
-  created() {
+  created () {
+    this.formItem = this.creatItem();
     this.formItem.operation = this.operation;
     this.loading = true;
     this.formItem.arriveOrganizationId = this.userOrgId;
@@ -196,18 +197,18 @@ export default {
     })
   },
   watch: {
-    operation(curl, old) {
+    operation (curl, old) {
       this.formItem.operation = curl;
     }
   },
   methods: {
-    onSubmitClick(name) {
+    onSubmitClick (name) {
       this.formItem.books = this.books.id;
       this.$refs[name].validate(valid => {
         if (valid) {
           Promise.all([billApi.save(this.formItem)])
             .then(([response]) => {
-              this.formItem.id = UUID(32, 36);
+              this.formItem = this.creatItem();
               //重置表单，允许多次操作
               this.$message({
                 message: this.$t("message.saveAndContinue"),
@@ -221,7 +222,7 @@ export default {
         }
       });
     },
-    creatItem() {
+    creatItem () {
       return {
         id: UUID(32, 36),
         serial: "",
@@ -261,12 +262,12 @@ export default {
       };
     },
 
-    formReset(name) {
+    formReset (name) {
       this.$refs[name].resetFields();
-      this.formItem.id = UUID(32, 36);
+      this.formItem = this.creatItem();
     },
-    load() {},
-    onWarehouseChanged(value) {
+    load () { },
+    onWarehouseChanged (value) {
       let item = this.formData.warehouseList.find(it => {
         return it.id === value;
       });
@@ -275,7 +276,7 @@ export default {
         this.formItem.accountPeriod = item.currentYearMonth;
       }
     },
-    onArriveChanged(label, value) {
+    onArriveChanged (label, value) {
       this.formData.warehouseList = [];
       let search = "organization.organizationId:eq:{orgid};control:eq:5".format(
         {
@@ -297,7 +298,7 @@ export default {
             this.formItem.accountPeriod = this.formData.warehouseList[0].currentYearMonth;
           }
         })
-        .catch(error => {});
+        .catch(error => { });
     }
   }
 };

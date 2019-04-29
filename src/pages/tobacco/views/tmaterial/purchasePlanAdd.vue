@@ -14,7 +14,6 @@
                          @onchange="organizationOnchange"
                          style="width:100%" />
     </el-form-item>
-
     <el-form-item :label="$t('tobacco.tmaterial.purchasePlan.supplierName')"
                   prop="supplierId">
       <el-autocomplete class="inline-input"
@@ -37,10 +36,7 @@
                          :name.sync="formItem.receiverName"
                          style="width:100%" />
     </el-form-item>
-    <el-form-item :label="$t('tobacco.tmaterial.purchasePlan.control')">
-      <el-input v-bind:placeholder="$t('base.pleaseInput')"
-                v-model="formItem.control" />
-    </el-form-item>
+
     <el-form-item :label="$t('tobacco.tmaterial.purchasePlan.author')">
       <el-input v-bind:placeholder="$t('base.pleaseInput')"
                 v-model="formItem.author" />

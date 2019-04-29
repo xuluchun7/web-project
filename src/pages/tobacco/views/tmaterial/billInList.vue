@@ -368,14 +368,14 @@ const status = [
 export default {
   directives: { elDragDialog },
   filters: {
-    capitalizeState: function(value) {
+    capitalizeState: function (value) {
       let item = status.find(it => {
         return it.value === value;
       });
       return item ? item.label : "";
     }
   },
-  data() {
+  data () {
     return {
       statusList: status,
       childForm: {
@@ -401,7 +401,7 @@ export default {
           {
             text: this.$t("base.yesterday"),
 
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
@@ -410,7 +410,7 @@ export default {
           },
           {
             text: this.$t("base.threeMonth"),
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
@@ -462,10 +462,11 @@ export default {
       }
     };
   },
-  created() {
+  created () {
     this.formData.operation = this.$route.query.operation;
     this.formData.title = this.$route.query.title;
     this.formData.balance = this.$route.query.balance;
+    this.searchData.organizationId = this.userOrgId;
   },
   components: {
     OrganizationForm: () => import("@/components/Organization"),
@@ -481,7 +482,7 @@ export default {
     })
   },
   watch: {
-    $route(to, from) {
+    $route (to, from) {
       if (
         to.meta.file !== undefined &&
         to.meta.file.indexOf("billInList") !== -1
@@ -494,7 +495,7 @@ export default {
     }
   },
   methods: {
-    onAuditClick(billId) {
+    onAuditClick (billId) {
       this.$confirm(
         "数据记账后，将计入库存，且不可修改，是否继续？",
         "记账确认",
@@ -534,7 +535,7 @@ export default {
           });
         });
     },
-    onDeleteBillItemClick(row) {
+    onDeleteBillItemClick (row) {
       this.$confirm(
         this.$t("message.deleteConfirm"),
         this.$t("base.titleTip"),
@@ -553,7 +554,7 @@ export default {
               });
               this.handleCurrentChange(row);
             })
-            .catch(error => {});
+            .catch(error => { });
         })
         .catch(() => {
           this.$message({
@@ -562,7 +563,7 @@ export default {
           });
         });
     },
-    editButtonClick(selectRow, isEdit) {
+    editButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -571,7 +572,7 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    deleteButtonClick() {
+    deleteButtonClick () {
       if (
         this.formData.selectRow === null ||
         this.formData.selectRow === undefined
@@ -592,9 +593,9 @@ export default {
           this.formData.selectRow = null;
           this.onSearchButtonClick();
         })
-        .catch(error => {});
+        .catch(error => { });
     },
-    deleteButtonConfirm() {
+    deleteButtonConfirm () {
       this.$confirm(
         this.$t("message.deleteConfirm"),
         this.$t("base.titleTip"),
@@ -614,7 +615,7 @@ export default {
           });
         });
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       if (val !== undefined && val !== null) {
         this.formData.selectRow = val;
         this.childForm.detailForm = true;
@@ -629,12 +630,12 @@ export default {
           .then(([response]) => {
             this.formData.billItemList = response.content;
           })
-          .catch(error => {});
+          .catch(error => { });
       } else {
         this.childForm.detailForm = false;
       }
     },
-    onSearchButtonClick() {
+    onSearchButtonClick () {
       this.childForm.detailForm = false;
       if (
         this.searchData.organizationId === undefined ||
@@ -725,35 +726,35 @@ export default {
             position: "bottom-right"
           });
         })
-        .catch(error => {});
+        .catch(error => { });
     },
 
-    onPageChange(index) {
+    onPageChange (index) {
       if (this.formData.pagination.currentPage !== index) {
         this.formData.pagination.currentPage = index;
         this.onSearchButtonClick();
       }
     },
-    onPageSizeChange(size) {
+    onPageSizeChange (size) {
       if (this.formData.pagination.pageSize !== size) {
         this.formData.pagination.pageSize = size;
         this.onSearchButtonClick();
       }
     },
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName ({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
         return "warning-row";
       } else {
         return "success-row";
       }
     },
-    handleClose(done) {
+    handleClose (done) {
       this.childForm.addForm = false;
       this.childForm.editForm = false;
       this.onSearchButtonClick();
       done();
     },
-    onResetButtonClick() {
+    onResetButtonClick () {
       //重置数据
     }
   }
