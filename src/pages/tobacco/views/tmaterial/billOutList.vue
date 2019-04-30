@@ -53,7 +53,7 @@
                               range-separator="至"
                               start-placeholder="开始日期"
                               end-placeholder="结束日期"
-                              value-format='yyyy-MM-dd'
+                              value-format='yyyyMMdd'
                               :picker-options="dateoptions">
               </el-date-picker>
 
@@ -145,9 +145,13 @@
                          fixed="left"
                          show-overflow-tooltip
                          :label="this.$t('tobacco.tmaterial.bill.serial')" />
-
+        <el-table-column prop="title"
+                         width="200"
+                         fixed="left"
+                         show-overflow-tooltip
+                         :label="this.$t('tobacco.tmaterial.bill.title')" />
         <el-table-column prop="date"
-                         width="100"
+                         width="200"
                          :label="this.$t('tobacco.tmaterial.bill.date')">
           <template slot-scope="scope">
             {{scope.row.date|parseDate('YYYY-MM-DD')}}
@@ -347,8 +351,10 @@ import { mapGetters } from "vuex";
 import stockApi from "../../api/tmaterial/apiStock.ts";
 const status = [
   { value: 0, label: "编辑" },
-  { value: 5, label: "记账" },
-  { value: 7, label: "作废" }
+  { value: 1, label: "已提交" },
+  { value: 3, label: "作废账" },
+  { value: 5, label: "已确认" },
+  { value: 7, label: "已记账" }
 ];
 export default {
   directives: { elDragDialog },

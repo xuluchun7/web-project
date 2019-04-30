@@ -31,6 +31,7 @@
             <el-button type='primary'
                        @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
             <el-button type='primary'
+                       v-if="false"
                        @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
           </el-button-group>
         </div>
@@ -123,7 +124,8 @@
           <el-table border
                     height="180"
                     :data="formData.itemList"
-                    class="subTable">
+                    class="subTable"
+                    :header-cell-style="{background:'wheat',color:'black'}">
             <el-table-column prop="serial"
                              :label="this.$t('tobacco.tmaterial.rosterItem.serial')" />
             <el-table-column prop="materialName"
@@ -136,8 +138,8 @@
                              :label="this.$t('tobacco.tmaterial.rosterItem.actualAmount')" />
             <el-table-column prop="standardPrice"
                              :label="this.$t('tobacco.tmaterial.rosterItem.standardPrice')" />
-            <el-table-column prop="standadMoney"
-                             :label="this.$t('tobacco.tmaterial.rosterItem.standadMoney')" />
+            <el-table-column prop="standardMoney"
+                             :label="this.$t('tobacco.tmaterial.rosterItem.standardMoney')" />
             <el-table-column prop="money"
                              :label="this.$t('tobacco.tmaterial.rosterItem.money')" />
             <el-table-column prop="actualMoney"

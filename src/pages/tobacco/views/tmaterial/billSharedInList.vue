@@ -33,7 +33,7 @@
                               range-separator="至"
                               start-placeholder="开始日期"
                               end-placeholder="结束日期"
-                              value-format='yyyy-MM-dd'
+                              value-format='yyyyMMdd'
                               :picker-options="dateoptions">
               </el-date-picker>
 

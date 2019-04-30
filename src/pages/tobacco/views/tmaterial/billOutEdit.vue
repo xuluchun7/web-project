@@ -147,9 +147,11 @@ export default {
         code: [{ required: true, message: "编码不能为空", trigger: "blur" }]
       },
       statusList: [
-        { value: 0, label: "编辑" },
-        { value: 5, label: "确认" },
-        { value: 7, label: "作废" }
+       { value: 0, label: "编辑" },
+  { value: 1, label: "已提交" },
+  { value: 3, label: "作废账" },
+  { value: 5, label: "已确认" },
+  { value: 7, label: "已记账" }
       ],
       placeholder: {
         deliveryOrganizationName: "",

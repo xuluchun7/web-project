@@ -2210,7 +2210,7 @@ export default {
       amount: '预发数量',
       actualAmount: '实发数量',
       standardPrice: '参考单价',
-      standadMoney: '参考金额',
+      standardMoney: '参考金额',
       money: '预计金额',
       actualMoney: '实际金额',
       desc: '描述',

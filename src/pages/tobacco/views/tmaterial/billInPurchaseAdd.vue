@@ -339,14 +339,23 @@ export default {
       this.formItem.organizationCode = this.userOrgId;
       this.formItem.books = this.books.id;
       let item = this.formData.billItemList.find(it => {
-        return util.isNullOrEmpty(it.exp);
+        return util.isNullOrEmpty(it.exp) || it.confirmAmount < it.amount;
       });
       if (item) {
-        this.$notify({
-          title: "警告",
-          message: item.materialName + "===>有效期未设置",
-          type: "warning"
-        });
+        if (util.isNullOrEmpty(item.exp)) {
+          this.$notify({
+            title: "警告",
+            message: `[${item.materialName}]有效期未设置`,
+            type: "warning"
+          });
+        } else {
+          this.$notify({
+            title: "警告",
+            message: `[${item.materialName}] 可用量${item.confirmAmount}`,
+            type: "warning"
+          });
+        }
+
         return;
       }
       let serial = 1;

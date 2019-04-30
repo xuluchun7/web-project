@@ -56,25 +56,33 @@
         </el-table-column>
         <el-table-column prop="farmerName"
                          fixed
+                         width="80"
                          :label="this.$t('tobacco.tmaterial.rosterDetails.farmerName')" />
         <el-table-column prop="identity"
                          fixed
+                         width="165"
                          :label="this.$t('tobacco.tmaterial.rosterDetails.identity')" />
         <el-table-column prop="address"
                          fixed
+                         show-overflow-tooltip
                          :label="this.$t('tobacco.tmaterial.rosterDetails.address')" />
         <el-table-column prop="bankNo"
                          fixed
+                         width="170"
                          :label="this.$t('tobacco.tmaterial.rosterDetails.bankNo')" />
         <el-table-column prop="area"
                          fixed
+                         width="80"
                          :label="this.$t('tobacco.tmaterial.rosterDetails.area')" />
-        <el-table-column prop="actualArea"
-                         fixed
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.actualArea')" />
+
         <el-table-column prop="expectArea"
                          fixed
+                         width="100"
                          :label="this.$t('tobacco.tmaterial.rosterDetails.expectArea')" />
+        <el-table-column prop="actualArea"
+                         fixed
+                         width="80"
+                         :label="this.$t('tobacco.tmaterial.rosterDetails.actualArea')" />
         <el-table-column v-for="item in formData.materialList"
                          :key=item.id
                          :label="item.materialName">
