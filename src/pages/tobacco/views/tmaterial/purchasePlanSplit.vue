@@ -60,7 +60,7 @@
           </el-table>
         </el-collapse-item>
       </el-collapse>
-      <div style="float:left;">
+      <div style="float:left;border-right:1px solid green;">
         <el-table :data="formData.newPlanList"
                   highlight-current-row
                   style="font-size: 12px;color: black;"
@@ -80,11 +80,13 @@
                            size="mini"
                            round
                            type="text"
+                           :disabled="scope.row!==formData.selectRow"
                            @click="onSavePlanAndItmes(scope.row)"></el-button>
                 <el-button icon="el-icon-error"
                            size="mini"
                            round
                            type="text"
+                           :disabled="formData.selectRow!==scope.row"
                            @click="onRemovePlan(scope.row)"></el-button>
               </el-button-group>
             </template>
@@ -171,7 +173,7 @@ import UUID from "es6-uuid";
 import moment from "moment";
 export default {
   props: ["item"],
-  data() {
+  data () {
     return {
       addOrg: [],
       childForm: {
@@ -195,7 +197,7 @@ export default {
           {
             text: this.$t("base.yesterday"),
 
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
@@ -204,7 +206,7 @@ export default {
           },
           {
             text: this.$t("base.threeMonth"),
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
@@ -237,7 +239,7 @@ export default {
       }
     };
   },
-  created() {
+  created () {
     console.log("进入分解界面");
     this.load();
   },
@@ -254,13 +256,13 @@ export default {
     })
   },
   watch: {
-    item(curVal, oldVal) {
+    item (curVal, oldVal) {
       this.formItem = JSON.parse(JSON.stringify(curVal));
       this.load();
     }
   },
   methods: {
-    onSavePlanAndItmes(row) {
+    onSavePlanAndItmes (row) {
       Promise.all([purchasePlanApi.saveAll(row, this.formData.newPlanItemList)])
         .then(([response]) => {
           this.$message({
@@ -269,9 +271,9 @@ export default {
           });
           this.onSearchButtonClick();
         })
-        .catch(error => {});
+        .catch(error => { });
     },
-    onRemovePlan(row) {
+    onRemovePlan (row) {
       Promise.all([
         purchasePlanApi.removeAll(row, this.formData.newPlanItemList)
       ])
@@ -292,9 +294,9 @@ export default {
           });
           console.log(this.formData.newPlanList);
         })
-        .catch(error => {});
+        .catch(error => { });
     },
-    onPlanSelected(currentRow, oldCurrentRow) {
+    onPlanSelected (currentRow, oldCurrentRow) {
       this.formData.newPlanItemList = [];
       if (currentRow) {
         let item = this.formData.newPlanList.find(it => {
@@ -316,7 +318,7 @@ export default {
                 "亩";
               this.loadNewPlanItemList(item.id);
             })
-            .catch(error => {});
+            .catch(error => { });
         } else {
           this.formData.newPlanItemList = [];
         }
@@ -326,8 +328,10 @@ export default {
         this.formData.selectRow = {};
       }
     },
-    loadNewPlanItemList(planId) {
-      Promise.all([purchasePlanApi.getById(planId)])
+    loadNewPlanItemList (planId) {
+      Promise.all([
+        purchasePlanApi.getById(planId)
+      ])
         .then(([response]) => {
           Promise.all([
             purchasePlanItemApi.getAll({
@@ -347,7 +351,7 @@ export default {
           this.createItmes(planId);
         });
     },
-    createItmes(planId) {
+    createItmes (planId) {
       this.formData.purchasePlanItemList.forEach(item => {
         let newItem = JSON.parse(JSON.stringify(item));
         newItem.purchasePlan = planId;
@@ -365,18 +369,18 @@ export default {
           .then(([response]) => {
             newItem.amount = (this.formData.itemArea * response).toFixed(2);
           })
-          .catch(error => {});
+          .catch(error => { });
 
         this.formData.newPlanItemList.push(newItem);
       });
     },
 
-    orgSelectChange(value) {
+    orgSelectChange (value) {
       var name = this.formData.orgChildList.find(item => {
         return item.id === value;
       }).name;
     },
-    load() {
+    load () {
       if (this.item) {
         this.parentForm = JSON.parse(JSON.stringify(this.item));
         Promise.all([
@@ -406,14 +410,14 @@ export default {
             this.formData.orgChildList = orgResponse.content;
             this.formData.newPlanList = planResponse.content;
           })
-          .catch(error => {});
+          .catch(error => { });
       } else {
         this.parentForm = this.item;
       }
       this.formData.purchasePlanItemList = [];
       this.onSearchButtonClick();
     },
-    editButtonClick(selectRow, isEdit) {
+    editButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -422,7 +426,7 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    deleteButtonClick() {
+    deleteButtonClick () {
       if (
         this.formData.selectRow === null ||
         this.formData.selectRow === undefined
@@ -443,9 +447,9 @@ export default {
           this.formData.selectRow = null;
           this.onSearchButtonClick();
         })
-        .catch(error => {});
+        .catch(error => { });
     },
-    deleteButtonConfirm() {
+    deleteButtonConfirm () {
       this.$confirm(
         this.$t("message.deleteConfirm"),
         this.$t("base.titleTip"),
@@ -465,7 +469,7 @@ export default {
           });
         });
     },
-    addButtonOnClick() {
+    addButtonOnClick () {
       this.addOrg.forEach(value => {
         let plan = this.formData.newPlanList.filter(plan => {
           return plan.receiverId === value;
@@ -481,7 +485,7 @@ export default {
         console.log(this.formData.newPlanList);
       });
     },
-    createNewPlanByOrg(org) {
+    createNewPlanByOrg (org) {
       let uid = UUID(32, 36);
       let newPlan = JSON.parse(JSON.stringify(this.parentForm));
       newPlan.id = uid;
@@ -496,10 +500,10 @@ export default {
       newPlan.receiverName = org.name;
       return newPlan;
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.formData.selectRow = val;
     },
-    onSearchButtonClick() {
+    onSearchButtonClick () {
       Promise.all([
         purchasePlanItemApi.getAll({
           size: this.formData.pagination.pageSize,
@@ -519,29 +523,29 @@ export default {
             position: "bottom-right"
           });
         })
-        .catch(error => {});
+        .catch(error => { });
     },
 
-    onPageChange(index) {
+    onPageChange (index) {
       if (this.formData.pagination.currentPage !== index) {
         this.formData.pagination.currentPage = index;
         this.onSearchButtonClick();
       }
     },
-    onPageSizeChange(size) {
+    onPageSizeChange (size) {
       if (this.formData.pagination.pageSize !== size) {
         this.formData.pagination.pageSize = size;
         this.onSearchButtonClick();
       }
     },
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName ({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
         return "warning-row";
       } else {
         return "success-row";
       }
     },
-    handleClose(done) {
+    handleClose (done) {
       this.childForm.addForm = false;
       this.childForm.editForm = false;
       this.onSearchButtonClick();
