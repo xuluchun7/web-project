@@ -57,7 +57,12 @@
         <el-table-column prop="farmerName"
                          fixed
                          width="80"
-                         :label="this.$t('tobacco.tmaterial.rosterDetails.farmerName')" />
+                         :label="this.$t('tobacco.tmaterial.rosterDetails.farmerName')">
+          <template slot-scope="scope">
+            <el-button type="text"
+                       @click="onShowPhoto(scope.row)">{{scope.row.farmerName}}</el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="identity"
                          fixed
                          width="165"
@@ -211,6 +216,41 @@ export default {
         return item.amount.toFixed(2) + " " + item.measureName;
       }
       return "0.00";
+    },
+    onShowPhoto(row) {
+      //如果是生产环境，前缀要发生变化
+      let isProduction = process.env.NODE_ENV === "production";
+      this.photoLoading = true;
+      this.formData.photoList = [];
+      if (
+        row.pictures === undefined ||
+        row.pictures === "" ||
+        row.pictures === null
+      ) {
+        this.$message({
+          type: "info",
+          message: "没有可用照片"
+        });
+        return;
+      }
+      let pps = row.pictures.split(",");
+      if (pps.length > 0) {
+        let pts = [];
+        for (var item of pps) {
+          let root = "";
+          root = path.join("/upload", row.filePath);
+          root = path.join(root, item);
+          let rootPath = process.env.VUE_APP_API_URL;
+          if (isProduction) {
+            rootPath = "";
+          }
+          root = "{rootPath}{path}".format({ path: root, rootPath: rootPath });
+          pts.push(root);
+        }
+        this.formData.photoList = pts;
+        this.childForm.showPic = true;
+      }
+      this.photoLoading = false;
     }
   },
   watch: {
