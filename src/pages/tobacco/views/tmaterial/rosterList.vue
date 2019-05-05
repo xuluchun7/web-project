@@ -40,11 +40,13 @@
         <el-table highlight-current-row
                   border
                   @current-change="handleCurrentChange"
+                  @expand-change="onExpandChange"
                   :data="formData.rosterList"
                   style="width: 100%"
                   :row-class-name="tableRowClassName">
           <el-table-column type="expand"
-                           fixed="left">
+                           fixed="left"
+                           v-if="false">
             <template slot-scope="props">
               <el-form class="cas-group cas-flex-3">
                 <el-form-item :label="$t('tobacco.tmaterial.roster.serial')"
@@ -58,11 +60,42 @@
               </el-form>
             </template>
           </el-table-column>
+          <el-table-column type="expand"
+                           fixed="left">
+            <template slot-scope="props">
+              <el-table border
+                        :data="props.row.children"
+                        style="padding:30px;font-size: 12px;color: black;">
+                <el-table-column prop="serial"
+                                 :label="$t('tobacco.tmaterial.rosterItem.serial')" />
+                <el-table-column prop="materialName"
+                                 :label="$t('tobacco.tmaterial.rosterItem.materialName')" />
+                <el-table-column prop="standardAmount"
+                                 :label="$t('tobacco.tmaterial.rosterItem.standardAmount')" />
+                <el-table-column prop="amount"
+                                 :label="$t('tobacco.tmaterial.rosterItem.amount')" />
+                <el-table-column prop="actualAmount"
+                                 :label="$t('tobacco.tmaterial.rosterItem.actualAmount')" />
+                <el-table-column prop="standardPrice"
+                                 :label="$t('tobacco.tmaterial.rosterItem.standardPrice')" />
+                <el-table-column prop="standardMoney"
+                                 :label="$t('tobacco.tmaterial.rosterItem.standardMoney')" />
+                <el-table-column prop="money"
+                                 :label="$t('tobacco.tmaterial.rosterItem.money')" />
+                <el-table-column prop="actualMoney"
+                                 :label="$t('tobacco.tmaterial.rosterItem.actualMoney')" />
+                <el-table-column prop="desc"
+                                 :label="$t('tobacco.tmaterial.rosterItem.desc')" />
+              </el-table>
+
+            </template>
+
+          </el-table-column>
+          <el-table-column prop="title"
+                           :label="this.$t('tobacco.tmaterial.roster.title')" />
           <el-table-column prop="annual"
                            :label="this.$t('tobacco.tmaterial.roster.annual')" />
 
-          <el-table-column prop="title"
-                           :label="this.$t('tobacco.tmaterial.roster.title')" />
           <el-table-column prop="date"
                            :label="this.$t('tobacco.tmaterial.roster.date')">
             <template slot-scope="scope">
@@ -105,51 +138,6 @@
           </el-table-column>
         </el-table>
       </main>
-      <transition name="fade"
-                  v-if="childForm.detailForm"
-                  enter-active-class="animated fadeInUp"
-                  leave-active-class="animated fadeOut"
-                  :duration="200">
-        <div class="floatDetail">
-          <nav>
-            <a @click="childForm.detailForm=false">
-              <el-tooltip class="item"
-                          effect="dark"
-                          content="点击隐藏"
-                          placement="top-start">
-                <span>物资明细</span>
-              </el-tooltip>
-            </a>
-          </nav>
-          <el-table border
-                    height="180"
-                    :data="formData.itemList"
-                    class="subTable"
-                    :header-cell-style="{background:'wheat',color:'black'}">
-            <el-table-column prop="serial"
-                             :label="this.$t('tobacco.tmaterial.rosterItem.serial')" />
-            <el-table-column prop="materialName"
-                             :label="this.$t('tobacco.tmaterial.rosterItem.materialName')" />
-            <el-table-column prop="standardAmount"
-                             :label="this.$t('tobacco.tmaterial.rosterItem.standardAmount')" />
-            <el-table-column prop="amount"
-                             :label="this.$t('tobacco.tmaterial.rosterItem.amount')" />
-            <el-table-column prop="actualAmount"
-                             :label="this.$t('tobacco.tmaterial.rosterItem.actualAmount')" />
-            <el-table-column prop="standardPrice"
-                             :label="this.$t('tobacco.tmaterial.rosterItem.standardPrice')" />
-            <el-table-column prop="standardMoney"
-                             :label="this.$t('tobacco.tmaterial.rosterItem.standardMoney')" />
-            <el-table-column prop="money"
-                             :label="this.$t('tobacco.tmaterial.rosterItem.money')" />
-            <el-table-column prop="actualMoney"
-                             :label="this.$t('tobacco.tmaterial.rosterItem.actualMoney')" />
-            <el-table-column prop="desc"
-                             :label="this.$t('tobacco.tmaterial.rosterItem.desc')" />
-          </el-table>
-
-        </div>
-      </transition>
       <div class='footerPanel'>
         <el-pagination :page-size='formData.pagination.pageSize'
                        :total='formData.pagination.total'
@@ -274,22 +262,21 @@ export default {
     },
     handleCurrentChange(val) {
       this.formData.selectRow = val;
-      if (val !== undefined && val !== null) {
-        this.childForm.detailForm = true;
+    },
+    onExpandChange(row, expandedRows, update) {
+      if (row.children === undefined) {
         Promise.all([
           rosterItemApi.getAll({
             size: 500,
             page: 0,
             sort: "serial,desc",
-            search: "rosterId:eq:" + val.id
+            search: "rosterId:eq:" + row.id
           })
         ])
           .then(([response]) => {
-            this.formData.itemList = response.content;
+            row.children = response.content;
           })
           .catch(error => {});
-      } else {
-        this.childForm.detailForm = false;
       }
     },
     onSearchButtonClick() {

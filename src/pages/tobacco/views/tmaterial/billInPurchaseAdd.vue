@@ -143,14 +143,16 @@
                          :label="this.$t('tobacco.tmaterial.billItem.measureName')"
                          show-overflow-tooltip />
         <el-table-column prop="mfg"
+                         width="200"
                          :label="this.$t('tobacco.tmaterial.billItem.mfg')">
           <template slot-scope="scope">
-            <span v-if=" scope.row.mfg">
-              {{ scope.row.mfg|parseDate('YYYY-MM-DD') }}
-            </span>
-            <span v-else>
-              未设置
-            </span>
+            <el-date-picker v-model="scope.row.mfg"
+                            style="width:100%"
+                            type="date"
+                            format="yyyy-MM-dd"
+                            :clearable="false"
+                            placeholder="选择生产日期">
+            </el-date-picker>
           </template>
         </el-table-column>
         <el-table-column prop="exp"
@@ -176,6 +178,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="price"
+                         v-if="false"
                          :label="this.$t('tobacco.tmaterial.billItem.price')">
           <template slot-scope="scope">
             <el-input v-model="scope.row.price"
@@ -184,6 +187,7 @@
         </el-table-column>
 
         <el-table-column prop="money"
+                         v-if="false"
                          :label="this.$t('tobacco.tmaterial.billItem.money')">
           <template slot-scope="scope">
             <el-input v-model="scope.row.money"
@@ -339,7 +343,11 @@ export default {
       this.formItem.organizationCode = this.userOrgId;
       this.formItem.books = this.books.id;
       let item = this.formData.billItemList.find(it => {
-        return util.isNullOrEmpty(it.exp) || it.confirmAmount < it.amount;
+        return (
+          util.isNullOrEmpty(it.exp) ||
+          it.confirmAmount < it.amount ||
+          it.amount <= 0
+        );
       });
       if (item) {
         if (util.isNullOrEmpty(item.exp)) {
@@ -351,7 +359,9 @@ export default {
         } else {
           this.$notify({
             title: "警告",
-            message: `[${item.materialName}] 可用量${item.confirmAmount}`,
+            message: `[${item.materialName}] 可用量${
+              item.confirmAmount
+            }且入库数量必须大于0`,
             type: "warning"
           });
         }
@@ -386,6 +396,10 @@ export default {
         })
         .catch(error => {
           console.log(error);
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
         });
     },
     onNextClick(name) {
@@ -524,6 +538,8 @@ export default {
             it.confirmAmount = it.amount - it.confirmAmount;
             it.amount = it.confirmAmount;
             it.id = UUID(32, 36);
+            it.confirmAmount = it.confirmAmount.toFixed(2);
+            it.amount = it.amount.toFixed(2);
           });
           this.formData.billItemList = list;
         })

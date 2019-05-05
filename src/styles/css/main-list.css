@@ -47,7 +47,9 @@
 .el-table .success-row {
     background: white;
 }
-
+.el-table td {
+  padding: 2px 0!important;
+}
 @media only screen and (min-width: 1367px) {
     .mainPanel {
         display: flex;

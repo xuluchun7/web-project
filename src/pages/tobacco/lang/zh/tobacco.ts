@@ -2175,7 +2175,7 @@ export default {
       villageNames: '村组名称',
       annual: '年度',
       desc: '描述',
-      buttonDetails: '花名册详情',
+      buttonDetails: '物资申请详情',
       buttonVoided: '作废'
     },
     rosterDetails: {

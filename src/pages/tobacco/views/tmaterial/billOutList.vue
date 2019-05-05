@@ -97,10 +97,12 @@
       <el-table highlight-current-row
                 border
                 @current-change="handleCurrentChange"
+                @expand-change="onExpandChange"
                 :data="formData.billList"
                 style="width: 100%"
                 :row-class-name="tableRowClassName">
         <el-table-column type="expand"
+                         v-if="false"
                          fixed="left">
           <template slot-scope="props">
             <el-form class="cas-group cas-flex-3">
@@ -140,6 +142,79 @@
             </el-form>
           </template>
         </el-table-column>
+        <el-table-column type="expand"
+                         fixed="left">
+          <template slot-scope="props">
+            <el-table border
+                      :data="props.row.children"
+                      style="padding:30px;font-size: 12px;color: black;">
+
+              <el-table-column prop="serial"
+                               :label="$t('tobacco.tmaterial.billItem.serial')"
+                               show-overflow-tooltip />
+
+              <el-table-column prop="materialCode"
+                               :label="$t('tobacco.tmaterial.billItem.materialCode')"
+                               show-overflow-tooltip />
+              <el-table-column prop="materialName"
+                               :label="$t('tobacco.tmaterial.billItem.materialName')"
+                               show-overflow-tooltip />
+
+              <el-table-column prop="measureName"
+                               :label="$t('tobacco.tmaterial.billItem.measureName')"
+                               show-overflow-tooltip />
+              <el-table-column prop="mfg"
+                               v-if="false"
+                               :label="$t('tobacco.tmaterial.billItem.mfg')">
+                <template slot-scope="scope">
+                  <span v-if=" scope.row.mfg">
+                    {{ scope.row.mfg|parseDate('YYYY-MM-DD') }}
+                  </span>
+                  <span v-else>
+                    未设置
+                  </span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="exp"
+                               :label="$t('tobacco.tmaterial.billItem.exp')">
+                <template slot-scope="scope">
+                  <span v-if=" scope.row.exp">
+                    {{ scope.row.exp|parseDate('YYYY-MM-DD') }}
+                  </span>
+                  <span v-else>
+                    不限
+                  </span>
+
+                </template>
+              </el-table-column>
+              <el-table-column prop="price"
+                               :label="$t('tobacco.tmaterial.billItem.price')" />
+
+              <el-table-column prop="amount"
+                               :label="$t('tobacco.tmaterial.billItem.amount')" />
+
+              <el-table-column prop="money"
+                               :label="$t('tobacco.tmaterial.billItem.money')" />
+
+              <el-table-column width="100">
+
+                <template slot-scope="scope">
+
+                  <el-button type="text"
+                             size="small"
+                             v-if="false"
+                             :disabled="formData.selectRow?formData.selectRow.control===5:true"
+                             @click="onDeleteBillItemClick(scope.row)">{{$t('base.buttonDelete')}}</el-button>
+                  <el-button type="text"
+                             size="small"
+                             :disabled="formData.selectRow?formData.selectRow.control===5:true"
+                             v-if="false"
+                             @click="onEditItemClick(scope.row)">{{$t('base.buttonEdit')}}</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </template>
+        </el-table-column>
         <el-table-column prop="serial"
                          width="200"
                          fixed="left"
@@ -177,7 +252,7 @@
                          width="100"
                          :label="this.$t('tobacco.tmaterial.bill.accountPeriod')" />
         <el-table-column prop="control"
-                         width="60"
+                         width="80"
                          :label="this.$t('tobacco.tmaterial.bill.control')">
           <template slot-scope="scope">
             {{scope.row.control|capitalizeState}}
@@ -224,69 +299,6 @@
                   height="280"
                   :header-cell-style="{background:'wheat',color:'black'}">
 
-          <el-table-column prop="serial"
-                           :label="this.$t('tobacco.tmaterial.billItem.serial')"
-                           show-overflow-tooltip />
-
-          <el-table-column prop="materialCode"
-                           :label="this.$t('tobacco.tmaterial.billItem.materialCode')"
-                           show-overflow-tooltip />
-          <el-table-column prop="materialName"
-                           :label="this.$t('tobacco.tmaterial.billItem.materialName')"
-                           show-overflow-tooltip />
-
-          <el-table-column prop="measureName"
-                           :label="this.$t('tobacco.tmaterial.billItem.measureName')"
-                           show-overflow-tooltip />
-          <el-table-column prop="mfg"
-                           v-if="false"
-                           :label="this.$t('tobacco.tmaterial.billItem.mfg')">
-            <template slot-scope="scope">
-              <span v-if=" scope.row.mfg">
-                {{ scope.row.mfg|parseDate('YYYY-MM-DD') }}
-              </span>
-              <span v-else>
-                未设置
-              </span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="exp"
-                           :label="this.$t('tobacco.tmaterial.billItem.exp')">
-            <template slot-scope="scope">
-              <span v-if=" scope.row.exp">
-                {{ scope.row.exp|parseDate('YYYY-MM-DD') }}
-              </span>
-              <span v-else>
-                不限
-              </span>
-
-            </template>
-          </el-table-column>
-          <el-table-column prop="price"
-                           :label="this.$t('tobacco.tmaterial.billItem.price')" />
-
-          <el-table-column prop="amount"
-                           :label="this.$t('tobacco.tmaterial.billItem.amount')" />
-
-          <el-table-column prop="money"
-                           :label="this.$t('tobacco.tmaterial.billItem.money')" />
-
-          <el-table-column width="100">
-
-            <template slot-scope="scope">
-
-              <el-button type="text"
-                         size="small"
-                         v-if="false"
-                         :disabled="formData.selectRow?formData.selectRow.control===5:true"
-                         @click="onDeleteBillItemClick(scope.row)">{{$t('base.buttonDelete')}}</el-button>
-              <el-button type="text"
-                         size="small"
-                         :disabled="formData.selectRow?formData.selectRow.control===5:true"
-                         v-if="false"
-                         @click="onEditItemClick(scope.row)">{{$t('base.buttonEdit')}}</el-button>
-            </template>
-          </el-table-column>
         </el-table>
 
       </div>
@@ -514,7 +526,7 @@ export default {
                 type: "info",
                 message: this.$t("message.deleteOk")
               });
-              this.handleCurrentChange(row);
+              this.onExpandChange(row, null, true);
             })
             .catch(error => {});
         })
@@ -578,23 +590,22 @@ export default {
         });
     },
     handleCurrentChange(val) {
-      if (val !== undefined && val !== null) {
-        this.formData.selectRow = val;
-        this.childForm.detailForm = true;
+      this.formData.selectRow = val;
+    },
+    onExpandChange(row, expandedRows, update) {
+      if (row.children === undefined) {
         Promise.all([
           billItemApi.getAll({
             size: 500,
             page: 0,
             sort: "serial,desc",
-            search: "billId:eq:" + val.id
+            search: "billId:eq:" + row.id
           })
         ])
           .then(([response]) => {
-            this.formData.billItemList = response.content;
+            row.children = response.content;
           })
           .catch(error => {});
-      } else {
-        this.childForm.detailForm = false;
       }
     },
     onSearchButtonClick() {

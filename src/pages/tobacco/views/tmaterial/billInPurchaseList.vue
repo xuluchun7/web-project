@@ -105,55 +105,116 @@
       <el-table highlight-current-row
                 border
                 @current-change="handleCurrentChange"
+                @expand-change="onExpandChange"
                 :data="formData.billList"
                 style="width: 100%"
                 :row-class-name="tableRowClassName">
         <el-table-column type="expand"
+                         v-if="false"
                          fixed="left">
           <template slot-scope="props">
             <el-form class="cas-group cas-flex-3">
-              <el-form-item :label="$t('tobacco.tmaterial.bill.barcode')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.barcode')">
                 {{props.row.barcode}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.author')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.author')">
                 {{props.row.author}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.deliveryInfo')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.deliveryInfo')">
                 {{props.row.deliveryInfo}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.arriveInfo')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.arriveInfo')">
                 {{props.row.arriveInfo}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillBarcode')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillBarcode')">
                 {{props.row.refBillBarcode}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillInfo')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.refBillInfo')">
                 {{props.row.refBillInfo}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.print')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.print')">
                 {{props.row.print}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.itemCount')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.itemCount')">
                 {{props.row.itemCount}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.itemMoneys')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.itemMoneys')">
                 {{props.row.itemMoney}}
               </el-form-item>
-              <el-form-item :label="$t('tobacco.tmaterial.bill.desc')"
-                            prop="deliver">
+              <el-form-item :label="$t('tobacco.tmaterial.bill.desc')">
                 {{props.row.desc}}
               </el-form-item>
             </el-form>
           </template>
+        </el-table-column>
+        <el-table-column type="expand"
+                         fixed="left">
+          <template slot-scope="props">
+            <el-table border
+                      :data="props.row.children"
+                      style="padding:30px;font-size: 12px;color: black;">
+
+              <el-table-column prop="serial"
+                               width="60"
+                               :label="$t('tobacco.tmaterial.billItem.serial')"
+                               show-overflow-tooltip />
+
+              <el-table-column prop="materialCode"
+                               :label="$t('tobacco.tmaterial.billItem.materialCode')"
+                               show-overflow-tooltip />
+              <el-table-column prop="materialName"
+                               :label="$t('tobacco.tmaterial.billItem.materialName')"
+                               show-overflow-tooltip />
+
+              <el-table-column prop="measureName"
+                               :label="$t('tobacco.tmaterial.billItem.measureName')"
+                               show-overflow-tooltip />
+              <el-table-column prop="mfg"
+                               :label="$t('tobacco.tmaterial.billItem.mfg')">
+                <template slot-scope="scope">
+                  <span v-if=" scope.row.mfg">
+                    {{ scope.row.mfg|parseDate('YYYY-MM-DD') }}
+                  </span>
+                  <span v-else>
+                    未设置
+                  </span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="exp"
+                               :label="$t('tobacco.tmaterial.billItem.exp')">
+                <template slot-scope="scope">
+                  <span v-if=" scope.row.exp">
+                    {{ scope.row.exp|parseDate('YYYY-MM-DD') }}
+                  </span>
+                  <span v-else>
+                    不限
+                  </span>
+
+                </template>
+              </el-table-column>
+              <el-table-column prop="price"
+                               :label="$t('tobacco.tmaterial.billItem.price')" />
+
+              <el-table-column prop="amount"
+                               :label="$t('tobacco.tmaterial.billItem.amount')" />
+
+              <el-table-column prop="money"
+                               :label="$t('tobacco.tmaterial.billItem.money')" />
+
+              <el-table-column width="100">
+
+                <template slot-scope="scope">
+
+                  <el-button type="text"
+                             size="small"
+                             :disabled="formData.selectRow?formData.selectRow.control===5:true"
+                             @click="onDeleteBillItemClick(scope.row)">{{$t('base.buttonDelete')}}</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+
+          </template>
+
         </el-table-column>
         <el-table-column prop="serial"
                          width="200"
@@ -218,94 +279,6 @@
       </el-table>
 
     </main>
-    <transition name="fade"
-                v-if="childForm.detailForm"
-                enter-active-class="animated fadeInUp"
-                leave-active-class="animated fadeOut"
-                :duration="200">
-      <div class="floatDetail">
-        <nav>
-          <a @click="childForm.detailForm=false">
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="点击隐藏"
-                        placement="top-start">
-              <span>物资明细</span>
-            </el-tooltip>
-          </a>
-        </nav>
-        <el-table border
-                  height="280"
-                  :data="formData.billItemList"
-                  class="subTable"
-                  :header-cell-style="{background:'wheat',color:'black'}">
-
-          <el-table-column prop="serial"
-                           :label="this.$t('tobacco.tmaterial.billItem.serial')"
-                           show-overflow-tooltip />
-
-          <el-table-column prop="materialCode"
-                           :label="this.$t('tobacco.tmaterial.billItem.materialCode')"
-                           show-overflow-tooltip />
-          <el-table-column prop="materialName"
-                           :label="this.$t('tobacco.tmaterial.billItem.materialName')"
-                           show-overflow-tooltip />
-
-          <el-table-column prop="measureName"
-                           :label="this.$t('tobacco.tmaterial.billItem.measureName')"
-                           show-overflow-tooltip />
-          <el-table-column prop="mfg"
-                           :label="this.$t('tobacco.tmaterial.billItem.mfg')">
-            <template slot-scope="scope">
-              <span v-if=" scope.row.mfg">
-                {{ scope.row.mfg|parseDate('YYYY-MM-DD') }}
-              </span>
-              <span v-else>
-                未设置
-              </span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="exp"
-                           :label="this.$t('tobacco.tmaterial.billItem.exp')">
-            <template slot-scope="scope">
-              <span v-if=" scope.row.exp">
-                {{ scope.row.exp|parseDate('YYYY-MM-DD') }}
-              </span>
-              <span v-else>
-                不限
-              </span>
-
-            </template>
-          </el-table-column>
-          <el-table-column prop="price"
-                           :label="this.$t('tobacco.tmaterial.billItem.price')" />
-
-          <el-table-column prop="amount"
-                           :label="this.$t('tobacco.tmaterial.billItem.amount')" />
-
-          <el-table-column prop="money"
-                           :label="this.$t('tobacco.tmaterial.billItem.money')" />
-
-          <el-table-column width="100">
-            <template slot="header"
-                      slot-scope="scope">
-              <el-button size="small"
-                         v-if="formData.selectRow?formData.selectRow.control<5:false"
-                         @click="childForm.billItemForm=true">{{$t('tobacco.tmaterial.bill.buttonInsertDetail')}}
-              </el-button>
-            </template>
-            <template slot-scope="scope">
-
-              <el-button type="text"
-                         size="small"
-                         :disabled="formData.selectRow?formData.selectRow.control===5:true"
-                         @click="onDeleteBillItemClick(scope.row)">{{$t('base.buttonDelete')}}</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-
-      </div>
-    </transition>
     <div class='footerPanel'>
       <el-pagination :page-size='formData.pagination.pageSize'
                      :total='formData.pagination.total'
@@ -510,7 +483,7 @@ export default {
                 type: "info",
                 message: this.$t("message.deleteOk")
               });
-              this.handleCurrentChange(row);
+              this.onExpandChange(row, null, true);
             })
             .catch(error => {});
         })
@@ -574,23 +547,22 @@ export default {
         });
     },
     handleCurrentChange(val) {
-      if (val !== undefined && val !== null) {
-        this.formData.selectRow = val;
-        this.childForm.detailForm = true;
+      this.formData.selectRow = val;
+    },
+    onExpandChange(row, expandedRows, update) {
+      if (row.children === undefined || update === true) {
         Promise.all([
           billItemApi.getAll({
             size: 500,
             page: 0,
             sort: "serial,desc",
-            search: "billId:eq:" + val.id
+            search: "billId:eq:" + row.id
           })
         ])
           .then(([response]) => {
-            this.formData.billItemList = response.content;
+            row.children = response.content;
           })
           .catch(error => {});
-      } else {
-        this.childForm.detailForm = false;
       }
     },
     onSearchButtonClick() {
