@@ -163,7 +163,7 @@ import purchasePlanApi from "../../api/tmaterial/apiPurchasePlan.ts";
 import purchasePlanItemApi from "../../api/tmaterial/apiPurchasePlanItem.ts";
 import { mapGetters } from "vuex";
 export default {
-  data() {
+  data () {
     return {
       expandKeys: [] /** 新增 **/,
       loading: true,
@@ -190,7 +190,7 @@ export default {
           {
             text: this.$t("base.yesterday"),
 
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
@@ -199,7 +199,7 @@ export default {
           },
           {
             text: this.$t("base.threeMonth"),
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
@@ -224,7 +224,7 @@ export default {
       }
     };
   },
-  created() {
+  created () {
     this.onSearchButtonClick();
   },
   computed: {
@@ -242,7 +242,7 @@ export default {
     "split-form": SplitForm
   },
   methods: {
-    expandChange(row, expandedRows) {
+    expandChange (row, expandedRows) {
       console.log(row);
       if (this.expandKeys.indexOf(row.id) >= 0) {
         //收起当前行
@@ -267,13 +267,13 @@ export default {
           _this.expandKeys.shift(); /** 新增 **/
           _this.expandKeys.push(row.id); /** 新增 **/
         })
-        .catch(error => {});
+        .catch(error => { });
       if (expandedRows.length > 1) {
         //只展开当前选项
         expandedRows.shift();
       }
     },
-    editButtonClick(selectRow, isEdit) {
+    editButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -282,7 +282,7 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    itemsManageButtonClick(selectRow, isEdit) {
+    itemsManageButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.itemsForm = true;
@@ -291,12 +291,12 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    splitButtonClick(selectRow, isEdit) {
+    splitButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       this.childForm.splitForm = true;
       this.childForm.isEdit = isEdit;
     },
-    deleteButtonClick() {
+    deleteButtonClick () {
       if (
         this.formData.selectRow === null ||
         this.formData.selectRow === undefined
@@ -317,9 +317,9 @@ export default {
           this.formData.selectRow = null;
           this.onSearchButtonClick();
         })
-        .catch(error => {});
+        .catch(error => { });
     },
-    deleteButtonConfirm() {
+    deleteButtonConfirm () {
       this.$confirm(
         this.$t("message.deleteConfirm"),
         this.$t("base.titleTip"),
@@ -339,10 +339,10 @@ export default {
           });
         });
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.formData.selectRow = val;
     },
-    onSearchButtonClick() {
+    onSearchButtonClick () {
       Promise.all([
         purchasePlanApi.getAll({
           size: this.formData.pagination.pageSize,
@@ -350,7 +350,7 @@ export default {
           contains: ":{keyword}:true".format({
             keyword: this.formData.pagination.keyword
           }),
-          search: "organization.organizationId:eq:{orgId}:or;receiverId:{orgId}".format(
+          search: "organization.organizationId:eq:{orgId}:or;receiverId:eq:{orgId}".format(
             {
               orgId: this.userOrgId
             }
@@ -367,29 +367,29 @@ export default {
             position: "bottom-right"
           });
         })
-        .catch(error => {});
+        .catch(error => { });
     },
 
-    onPageChange(index) {
+    onPageChange (index) {
       if (this.formData.pagination.currentPage !== index) {
         this.formData.pagination.currentPage = index;
         this.onSearchButtonClick();
       }
     },
-    onPageSizeChange(size) {
+    onPageSizeChange (size) {
       if (this.formData.pagination.pageSize !== size) {
         this.formData.pagination.pageSize = size;
         this.onSearchButtonClick();
       }
     },
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName ({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
         return "warning-row";
       } else {
         return "success-row";
       }
     },
-    handleClose(done) {
+    handleClose (done) {
       this.childForm.addForm = false;
       this.childForm.editForm = false;
       this.onSearchButtonClick();
@@ -397,7 +397,7 @@ export default {
     }
   },
   filters: {
-    controlFormat: function(key) {
+    controlFormat: function (key) {
       let item = purchasePlanApi.CONTROL_LIST.find(it => {
         return it.key === key;
       });

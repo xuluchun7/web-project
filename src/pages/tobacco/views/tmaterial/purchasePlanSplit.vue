@@ -271,7 +271,12 @@ export default {
           });
           this.onSearchButtonClick();
         })
-        .catch(error => { });
+        .catch(error => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
     },
     onRemovePlan (row) {
       Promise.all([
