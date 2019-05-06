@@ -412,6 +412,7 @@ import billItemApi from "../../api/tmaterial/apiBillItem";
 import hrFarmerApi from "../../api/thuman/api_hrFarmer";
 import plantPlanApi from "../../api/tfarm/api_plantPlan";
 import { mapGetters } from "vuex";
+const path = require("path");
 const status = [
   { value: 0, label: "编辑" },
   { value: 5, label: "记账" },

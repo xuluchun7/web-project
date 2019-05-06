@@ -361,6 +361,7 @@ import billApi from "../../api/tmaterial/apiBillOut";
 import billItemApi from "../../api/tmaterial/apiBillItem";
 import { mapGetters } from "vuex";
 import stockApi from "../../api/tmaterial/apiStock.ts";
+const path = require("path");
 const status = [
   { value: 0, label: "编辑" },
   { value: 1, label: "已提交" },

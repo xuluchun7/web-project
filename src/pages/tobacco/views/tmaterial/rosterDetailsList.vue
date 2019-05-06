@@ -113,6 +113,21 @@
                      layout="total, sizes, prev, pager, next, jumper"
                      placement='top'></el-pagination>
     </div>
+    <template>
+      <el-dialog :visible.sync="childForm.showPic">
+        <el-carousel indicator-position="outside"
+                     v-loading="photoLoading"
+                     type="card"
+                     height="400px">
+          <el-carousel-item v-for="(item, index)  in formData.photoList"
+                            :key="index"
+                            style="text-align:center">
+            <img :src="item"
+                 style=" width: auto;height: auto;max-height: 100%;  ">
+          </el-carousel-item>
+        </el-carousel>
+      </el-dialog>
+    </template>
   </div>
 </template>
 <script>
@@ -120,15 +135,18 @@ const AddForm = () => import("./rosterDetailsAdd.vue");
 const EditForm = () => import("./rosterDetailsEdit.vue");
 import rosterDetailsApi from "../../api/tmaterial/apiRosterDetails";
 import rosterStandardApi from "../../api/tmaterial/apiRosterStandard";
+const path = require("path");
 export default {
   props: ["roster", "visible"],
   data() {
     return {
+      photoLoading: false,
       childForm: {
         addForm: false,
         editForm: false,
         viewForm: false,
-        isEdit: false
+        isEdit: false,
+        showPic: false
       },
       searchData: {},
       formData: {
@@ -142,7 +160,8 @@ export default {
           keyword: "",
           pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
-        rowSelection: []
+        rowSelection: [],
+        photoList: []
       }
     };
   },
