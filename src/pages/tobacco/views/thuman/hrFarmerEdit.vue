@@ -72,13 +72,13 @@
         </el-form-item>
       </el-col>
 
-      <el-col :span="16">
+      <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.bankName')">
           <el-input v-bind:placeholder="$t('base.pleaseInput')"
                     v-model="formItem.bankName" />
         </el-form-item>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="16">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.bankAccount')">
           <el-input v-bind:placeholder="$t('base.pleaseInput')"
                     v-model="formItem.bankAccount" />
@@ -141,8 +141,7 @@
                     v-model="formItem.labour" />
         </el-form-item>
       </el-col>
-      <el-col :span="8"
-              style="height: 47px">
+      <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.plant')">
           <el-select v-model='formItem.plant'
                      style="width:100%">
@@ -155,16 +154,14 @@
         </el-form-item>
       </el-col>
 
-      <el-col :span="8"
-              style="height: 47px">
+      <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.plowland')"
                       prop='plowland'>
           <el-input v-bind:placeholder="$t('0.0')"
                     v-model="formItem.plowland" />
         </el-form-item>
       </el-col>
-      <el-col :span="8"
-              style="height: 47px">
+      <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrEmployee.position')">
           <el-select v-model='education.positionId'
                      multiple
@@ -179,26 +176,26 @@
           </el-select>
         </el-form-item>
       </el-col>
-
+      <!--
       <el-col :span="8">
-        <!--  <el-form-item :label="$t('tobacco.thuman.hrFarmer.jobType')">
+          <el-form-item :label="$t('tobacco.thuman.hrFarmer.jobType')">
         <el-select v-model='formItem.jobTypeId' style="width:100%">
             <el-option value='-' key='-'>{{ $t('base.all') }} </el-option>
             <el-option v-for="item in  jobType.jobTypeList" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
         </el-select>
-        </el-form-item> -->
+        </el-form-item> 
       </el-col>
       <el-col :span="8">
-        <!-- <el-form-item :label="$t('tobacco.thuman.hrFarmer.SmokeGroup')">
+        <el-form-item :label="$t('tobacco.thuman.hrFarmer.SmokeGroup')">
             <el-select v-model='formItem.team' style="width:100%">
                 <el-option value='-' key='-'>{{ $t('base.all') }} </el-option>
                 <el-option v-for="item in teamGroup.teamList" :key="item.id" :label="item.name" :value="item.id">
                 </el-option>
             </el-select>
-        </el-form-item> -->
+        </el-form-item>
       </el-col>
-
+ -->
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.author')">
           <el-input v-bind:placeholder="$t('base.pleaseInput')"
@@ -383,15 +380,22 @@ export default {
       .catch(error => {});
     this.load();
   },
-   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   components: {
     OrganizationForm
   },
   methods: {
     load() {
       this.formItem = JSON.parse(JSON.stringify(this.item));
+      this.formItem.education = this.formItem.education
+        ? this.formItem.education.id
+        : "SC_E00";
       var list = [];
       for (var x in this.formItem.positionList) {
         list.push(this.formItem.positionList[x].id);
@@ -468,8 +472,9 @@ export default {
   },
   watch: {
     item(curVal, oldVal) {
-      this.formItem = JSON.parse(JSON.stringify(curVal));
-      this.load();
+      if (curVal) {
+        this.load();
+      }
     }
   }
 };
