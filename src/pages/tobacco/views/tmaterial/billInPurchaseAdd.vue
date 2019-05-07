@@ -497,7 +497,7 @@ export default {
             contains: "serial,title,author,date:{keyword}:true".format({
               keyword: query
             }),
-            search: "organization.organizationId:eq:{orgId}:or;receiverId:{orgId}".format(
+            search: "organization.organizationId:eq:{orgId}:or;receiverId:eq:{orgId}".format(
               {
                 orgId: this.userOrgId
               }
