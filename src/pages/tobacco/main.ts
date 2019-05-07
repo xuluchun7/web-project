@@ -79,6 +79,12 @@ new Vue({
   i18n,
   render: h => h(App),
   created() {
+    if (window.screen.width <= 600)
+      document.write('<body style="zoom: 50%">');
+    else if (window.screen.width <= 800)
+      document.write('<body style="zoom: 60%">');
+    else if (window.screen.width <= 1024)
+      document.write('<body style="zoom: 65%">');
     const loading = this.$loading({
       lock: true,
       text: '正在加载系统参数',

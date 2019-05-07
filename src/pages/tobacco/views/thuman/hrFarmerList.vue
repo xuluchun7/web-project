@@ -192,9 +192,6 @@
         <!-- <el-table-column type="index" fixed="left">
         </el-table-column> -->
         <!-- <el-table-column prop="id" :label="this.$t('tobacco.thuman.hrFarmer.id')" /> -->
-        <el-table-column prop="number"
-                         :label="this.$t('tobacco.thuman.hrFarmer.number')"
-                         width='160' />
 
         <el-table-column prop="name"
                          fixed="left"
@@ -206,7 +203,16 @@
                          :label="this.$t('tobacco.thuman.hrFarmer.identity')"
                          show-overflow-tooltip
                          width='180' />
-
+        <el-table-column prop="number"
+                         :label="this.$t('tobacco.thuman.hrFarmer.number')"
+                         width='160' />
+        <el-table-column prop="phone"
+                         :label="this.$t('tobacco.thuman.hrFarmer.phone')"
+                         show-overflow-tooltip
+                         width='120' />
+        <el-table-column prop="address"
+                         :label="this.$t('tobacco.thuman.hrFarmer.address')"
+                         show-overflow-tooltip />
         <!--  <el-table-column prop="birth" :label="this.$t('tobacco.thuman.hrFarmer.birth')" /> -->
         <el-table-column prop="organization.organizationName"
                          :label="this.$t('org.organizationName')"
@@ -214,21 +220,12 @@
         <el-table-column prop="organization.districtName"
                          :label="this.$t('org.districtName')"
                          show-overflow-tooltip />
-        <el-table-column prop="phone"
-                         :label="this.$t('tobacco.thuman.hrFarmer.phone')"
-                         show-overflow-tooltip
-                         fixed="left"
-                         width='120' />
-        <el-table-column prop="address"
-                         :label="this.$t('tobacco.thuman.hrFarmer.address')"
-                         show-overflow-tooltip />
 
         <el-table-column prop="bankName"
                          :label="this.$t('tobacco.thuman.hrFarmer.bankName')"
                          show-overflow-tooltip
                          width='100' />
         <el-table-column prop="bankAccount"
-                         fixed="left"
                          :label="this.$t('tobacco.thuman.hrFarmer.bankAccount')"
                          show-overflow-tooltip
                          width='180' />
@@ -546,7 +543,11 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   components: {
     "add-form": AddForm,

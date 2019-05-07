@@ -102,7 +102,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item :label="$t('org.districtName')">
-          <organization-form root="51"
+          <organization-form :root="userDistrictId"
                              @onchange="directiveOnchange"
                              model="district"
                              style="width:100%" />
