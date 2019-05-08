@@ -27,6 +27,14 @@
                     v-model="formItem.name" />
         </el-form-item>
       </el-col>
+
+      <el-col :span="8">
+        <el-form-item :label="$t('tobacco.thuman.hrFarmer.identity')"
+                      prop='identity'>
+          <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                    v-model="formItem.identity" />
+        </el-form-item>
+      </el-col>
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.sex')">
           <el-select v-model="formItem.sex"
@@ -41,13 +49,6 @@
         </el-form-item>
       </el-col>
 
-      <el-col :span="8">
-        <el-form-item :label="$t('tobacco.thuman.hrFarmer.identity')"
-                      prop='identity'>
-          <el-input v-bind:placeholder="$t('base.pleaseInput')"
-                    v-model="formItem.identity" />
-        </el-form-item>
-      </el-col>
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.birth')">
           <el-date-picker alue-format="yyyy-MM-dd"
@@ -248,7 +249,7 @@ import categoryApi from "../../api/basic/api_category";
 import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
-  data() {
+  data () {
     //验证手机号
     let checkPhones = (rule, value, callback) => {
       let phoneNum = this.formItem.phone;
@@ -356,7 +357,7 @@ export default {
       }
     };
   },
-  created() {
+  created () {
     Promise.all([
       // categoryApi.getAll({ search: 'lead:EQ:SC_F' }),
       categoryApi.getAll({ search: "lead:EQ:SC_S" }),
@@ -377,7 +378,7 @@ export default {
         //this.teamGroup.teamList = SmokeGroupResponse.content;
         this.education.positionList = positionResponse.content;
       })
-      .catch(error => {});
+      .catch(error => { });
     this.load();
   },
   computed: {
@@ -391,8 +392,9 @@ export default {
     OrganizationForm
   },
   methods: {
-    load() {
+    load () {
       this.formItem = JSON.parse(JSON.stringify(this.item));
+      this.formItem.sex = this.formItem.sex.id;
       this.formItem.education = this.formItem.education
         ? this.formItem.education.id
         : "SC_E00";
@@ -411,19 +413,19 @@ export default {
       this.formItem.districtOrder = this.formItem.organization.districtOrder;
       this.formItem.districtCode = this.formItem.organization.districtCode;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange (label, value, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationName = label;
       this.formItem.organizationOrder = 0;
       this.formItem.organizationCode = value;
     },
-    directiveOnchange(label, value, values) {
+    directiveOnchange (label, value, values) {
       this.formItem.districtId = value;
       this.formItem.districtName = label;
       this.formItem.districtOrder = 0;
       this.formItem.districtCode = value;
     },
-    onSubmitClick(name) {
+    onSubmitClick (name) {
       this.$refs[name].validate(valid => {
         //进行前端检验
         if (valid) {
@@ -456,7 +458,7 @@ export default {
               this.$emit("update:visible", false);
               this.$emit("refresh");
             })
-            .catch(error => {});
+            .catch(error => { });
         } else {
           this.$message({
             message: this.$t("message.formValidate"),
@@ -466,12 +468,12 @@ export default {
       });
     },
 
-    formReset(name) {
+    formReset (name) {
       this.$refs[name].resetFields();
     }
   },
   watch: {
-    item(curVal, oldVal) {
+    item (curVal, oldVal) {
       if (curVal) {
         this.load();
       }
