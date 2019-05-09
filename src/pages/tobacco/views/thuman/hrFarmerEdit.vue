@@ -403,12 +403,12 @@ export default {
       }
       this.formItem.technician = JSON.stringify(this.formItem.technician);
       this.education.positionId = list;
-      Object.assign(this.formItem, this.formItem.organization);
-      // this.formItem.organizationId = this.formItem.organization.organizationId;
+      this.formItem = Object.assign(this.formItem, this.formItem.organization);
+      //this.formItem.organizationId = this.formItem.organization.organizationId;
       // this.formItem.organizationName = this.formItem.organization.organizationName;
       // this.formItem.organizationOrder = this.formItem.organization.organizationOrder;
       // this.formItem.organizationCode = this.formItem.organization.organizationCode;
-      // this.formItem.districtId = this.formItem.organization.districtId;
+      //this.formItem.districtId = this.formItem.organization.districtId;
       // this.formItem.districtName = this.formItem.organization.districtName;
       // this.formItem.districtOrder = this.formItem.organization.districtOrder;
       // this.formItem.districtCode = this.formItem.organization.districtCode;
