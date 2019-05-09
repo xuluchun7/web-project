@@ -95,7 +95,6 @@
       <el-col :span="8">
         <el-form-item :label="$t('org.districtName')">
           <organization-form :root="userDistrictId"
-                            
                              @onchange="directiveOnchange"
                              model="district"
                              style="width:100%" />
@@ -387,7 +386,6 @@ export default {
   methods: {
     load () {
       this.formItem = JSON.parse(JSON.stringify(this.item));
-      this.formItem.sex = this.formItem.sex.id;
       this.formItem.education = this.formItem.education
         ? this.formItem.education.id
         : "SC_E00";
