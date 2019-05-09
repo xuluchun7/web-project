@@ -21,7 +21,7 @@ const getters = {
   errorLogs: state => state.errorLog.logs,
   districtId: (state) => {
     if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.districtId)) {
-      return '51';
+      return '';
     }
     else {
       return state.user.user.detail.districtId;
@@ -29,18 +29,16 @@ const getters = {
   },
   districtName: (state) => {
     if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.districtName)) {
-      return '四川省';
+      return '未设置';
     }
     else {
       return state.user.user.detail.districtName;
     }
   },
   organizationId: (state) => {
-    // console.log('当前用户信息', state);
-    // console.log(state.user.user === undefined, state.user.user === null, state.user.user.detail === undefined, state.user.user.detail === null);
-    // console.log(state.user.user, state.user.user.detail, util.isNullOrEmpty(state.user.user.detail.organizationId));
+
     if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.organizationId)) {
-      return '1151';
+      return '';
     }
     else {
       return state.user.user.detail.organizationId;
@@ -48,7 +46,7 @@ const getters = {
   },
   organizationName: (state) => {
     if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.organizationName)) {
-      return '四川省烟草公司';
+      return '未设置';
     }
     else {
       return state.user.user.detail.organizationName;

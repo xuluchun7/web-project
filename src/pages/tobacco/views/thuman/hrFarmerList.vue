@@ -518,7 +518,7 @@ export default {
           pageSize: 10,
           total: 0,
           keyword: "",
-          pageSizeOpts: [10, 20, 30, 50, 100, 200, 500]
+          pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: []
       }

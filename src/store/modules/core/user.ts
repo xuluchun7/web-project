@@ -23,6 +23,7 @@ const searchTree = (item, id) => {
 
 import { setUser } from '@/utils/userUtils';
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import Vue from 'vue';
 @Module({
   // dynamic: true,
   name: 'user'
@@ -83,7 +84,8 @@ export default class user extends VuexModule {
   SET_USER_DETAIL(userDetail: any) {
     this.user.organization = {} as Organization;
     if (userDetail !== undefined) {
-      this.user.detail = userDetail;
+      Vue.set(this.user, 'detail', userDetail);
+      //this.user.detail = userDetail;
 
       this.user.organization.id = userDetail.organizationId;
       this.user.organization.code = userDetail.organizationId;
