@@ -4,15 +4,8 @@
            :rules="ruleValidate"
            ref="formValidate">
     <el-row>
-      <el-col :span="24">
-        <el-form-item :label="$t('tobacco.thuman.hrFarmer.title')"
-                      prop="title">
-          <el-input v-bind:placeholder="$t('base.pleaseInput')"
-                    v-model="formItem.title" />
-        </el-form-item>
-      </el-col>
 
-      <el-col :span="24">
+      <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.number')"
                       prop="number">
           <el-input v-bind:placeholder="$t('base.pleaseInput')"
@@ -35,6 +28,9 @@
                     v-model="formItem.identity" />
         </el-form-item>
       </el-col>
+    </el-row>
+    <el-row>
+
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.sex')">
           <el-select v-model="formItem.sex"
@@ -58,13 +54,6 @@
                           style="width:100%"></el-date-picker>
         </el-form-item>
       </el-col>
-
-      <el-col :span="8">
-        <el-form-item :label="$t('tobacco.thuman.hrEmployee.email')">
-          <el-input v-bind:placeholder="$t('base.pleaseInput')"
-                    v-model="formItem.email" />
-        </el-form-item>
-      </el-col>
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.phone')"
                       prop='phone'>
@@ -72,27 +61,29 @@
                     v-model.number="formItem.phone" />
         </el-form-item>
       </el-col>
-
+    </el-row>
+    <el-row>
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.bankName')">
           <el-input v-bind:placeholder="$t('base.pleaseInput')"
                     v-model="formItem.bankName" />
         </el-form-item>
       </el-col>
-      <el-col :span="16">
+      <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.bankAccount')">
           <el-input v-bind:placeholder="$t('base.pleaseInput')"
                     v-model="formItem.bankAccount" />
         </el-form-item>
       </el-col>
 
-      <el-col :span="24">
+      <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.address')">
           <el-input v-bind:placeholder="$t('base.pleaseInput')"
                     v-model="formItem.address" />
         </el-form-item>
       </el-col>
-
+    </el-row>
+    <el-row>
       <el-col :span="8">
         <el-form-item :label="$t('org.organizationName')">
           <organization-form :root="userOrgId"
@@ -111,6 +102,14 @@
         </el-form-item>
       </el-col>
 
+      <el-col :span="8">
+        <el-form-item :label="$t('tobacco.thuman.hrEmployee.email')">
+          <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                    v-model="formItem.email" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.education')">
           <el-select v-model='formItem.education'
@@ -143,6 +142,8 @@
                     v-model="formItem.labour" />
         </el-form-item>
       </el-col>
+    </el-row>
+    <el-row>
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.plant')">
           <el-select v-model='formItem.plant'
@@ -178,26 +179,8 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <!--
-      <el-col :span="8">
-          <el-form-item :label="$t('tobacco.thuman.hrFarmer.jobType')">
-        <el-select v-model='formItem.jobTypeId' style="width:100%">
-            <el-option value='-' key='-'>{{ $t('base.all') }} </el-option>
-            <el-option v-for="item in  jobType.jobTypeList" :key="item.id" :label="item.name" :value="item.id">
-            </el-option>
-        </el-select>
-        </el-form-item> 
-      </el-col>
-      <el-col :span="8">
-        <el-form-item :label="$t('tobacco.thuman.hrFarmer.SmokeGroup')">
-            <el-select v-model='formItem.team' style="width:100%">
-                <el-option value='-' key='-'>{{ $t('base.all') }} </el-option>
-                <el-option v-for="item in teamGroup.teamList" :key="item.id" :label="item.name" :value="item.id">
-                </el-option>
-            </el-select>
-        </el-form-item>
-      </el-col>
- -->
+    </el-row>
+    <el-row>
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.author')">
           <el-input v-bind:placeholder="$t('base.pleaseInput')"
@@ -214,7 +197,7 @@
         </el-form-item>
       </el-col>
 
-      <el-col :span="24">
+      <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.facilities')">
           <el-input type="textarea"
                     :rows="2"
@@ -223,8 +206,17 @@
           </el-input>
         </el-form-item>
       </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="8">
+        <el-form-item :label="$t('tobacco.thuman.hrFarmer.title')"
+                      prop="title">
+          <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                    v-model="formItem.title" />
+        </el-form-item>
+      </el-col>
 
-      <el-col :span="24">
+      <el-col :span="16">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.desc')">
           <el-input type="textarea"
                     :rows="2"
@@ -395,7 +387,6 @@ export default {
   methods: {
     load() {
       this.formItem = JSON.parse(JSON.stringify(this.item));
-      this.formItem.sex = this.formItem.sex.id;
       this.formItem.education = this.formItem.education
         ? this.formItem.education.id
         : "SC_E00";
