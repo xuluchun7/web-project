@@ -248,7 +248,11 @@ export default {
     this.formItem.month = new Date().getMonth() + 1;
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   components: {
     OrganizationForm
@@ -271,7 +275,7 @@ export default {
             });
         }
       },*/
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;

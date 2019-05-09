@@ -250,7 +250,11 @@ export default {
     this.load();
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   components: {
     OrganizationForm
@@ -293,7 +297,7 @@ export default {
       this.formItem.organizationName = this.formItem.organization.organizationName;
       this.formItem.organizationOrder = this.formItem.organization.organizationOrder;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;

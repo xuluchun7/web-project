@@ -165,17 +165,16 @@ export default {
     this.searchData.annual = this.$store.state.system.annual + "";
   },
   computed: {
-    computed: {
-      ...mapGetters({
-        userDistrictId: "districtId",
-        userOrgId: "organizationId",
-        organizationName: "organizationName"
-      })
-    },
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    }),
     annual() {
       return this.$store.state.system.annual;
     }
   },
+
   components: {
     OrganizationForm
   },

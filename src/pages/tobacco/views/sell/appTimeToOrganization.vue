@@ -60,7 +60,11 @@ export default {
     OrganizationForm
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   watch: {
     item(curVal, oldVal) {
@@ -91,7 +95,7 @@ export default {
         })
         .catch(error => {});
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.organizationId = value;
     },
     onSubmitClick(name) {

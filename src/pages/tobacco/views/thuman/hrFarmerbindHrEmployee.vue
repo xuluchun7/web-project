@@ -152,15 +152,19 @@ export default {
       this.searchData.orgId = this.userOrgId;
     }
   },
- computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-    },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   components: { OrganizationForm },
   methods: {
     handleCurrentChange(val) {
       this.formData.selectRow = val;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.orgId = value;
     },
     onSearchButtonClick() {

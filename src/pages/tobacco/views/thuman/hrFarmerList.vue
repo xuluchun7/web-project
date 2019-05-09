@@ -646,7 +646,7 @@ export default {
         })
         .catch(error => {});
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.orgId = value;
     },
     directiveOnchange(label, value, values) {

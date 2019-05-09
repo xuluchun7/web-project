@@ -89,7 +89,7 @@ export default {
     this.load();
   },
   methods: {
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;
@@ -140,9 +140,13 @@ export default {
       this.load();
     }
   },
- computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   components: {
     OrganizationForm
   }

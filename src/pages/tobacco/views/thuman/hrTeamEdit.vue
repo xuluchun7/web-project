@@ -320,7 +320,7 @@ export default {
     formReset(name) {
       this.$refs[name].resetFields();
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;
@@ -361,9 +361,13 @@ export default {
   components: {
     OrganizationForm
   },
-   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  }
 };
 </script>
 <style scoped>

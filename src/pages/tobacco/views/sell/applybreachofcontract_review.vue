@@ -64,7 +64,12 @@ export default {
     OrganizationForm
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName",  userName:"userName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   created() {
     this.formItem.examineDate = new Date();
@@ -75,7 +80,7 @@ export default {
       this.acceptData = JSON.parse(JSON.stringify(this.item));
       this.formItem.id = this.acceptData.id;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;

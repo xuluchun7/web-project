@@ -102,7 +102,7 @@ export default {
   },
   created() {},
   computed: {
-     ...mapGetters({
+    ...mapGetters({
       userDistrictId: "districtId",
       userOrgId: "organizationId",
       organizationName: "organizationName",
@@ -229,7 +229,7 @@ export default {
       this.currentPackage = 0;
       this.isOverflow = false;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;

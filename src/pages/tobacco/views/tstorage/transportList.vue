@@ -526,7 +526,11 @@ export default {
     "edit-form2": EditForm2
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   methods: {
     onExpandClick() {
@@ -801,7 +805,7 @@ export default {
       root = "{rootPath}{path}".format({ path: root, rootPath: rootPath });
       return root;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.organizationId = value;
       this.searchData.organizationCode = value;
       this.searchData.organizationName = label;

@@ -278,7 +278,7 @@ export default {
     OrganizationForm
   },
   methods: {
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.organizationId = value;
       this.searchData.organizationCode = value;
       this.searchData.organizationName = label;

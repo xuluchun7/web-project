@@ -149,10 +149,10 @@ export default {
       cantEdit: false, //判断能否进行编辑
       controllist: [],
       formItem: {
-        organizationId:this.userOrgId,
+        organizationId: this.userOrgId,
         organizationName: this.organizationName,
         organizationOrder: "",
-        organizationCode:this.userOrgId,
+        organizationCode: this.userOrgId,
         applyPerson: this.userName,
         applyDate: "",
         contractNumber: "",
@@ -175,7 +175,12 @@ export default {
     OrganizationForm
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName",  userName:"userName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   created() {
     this.load();
@@ -186,7 +191,7 @@ export default {
       .catch(error => {});
   },
   methods: {
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;

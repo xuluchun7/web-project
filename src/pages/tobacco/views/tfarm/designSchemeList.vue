@@ -337,7 +337,7 @@ export default {
         return "success-row";
       }
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       console.info(value);
       this.searchData.orgId = value;
 

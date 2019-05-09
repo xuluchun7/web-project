@@ -9,7 +9,7 @@ module.exports = (file: string) => {
         .default;
     }
   } catch (err) {
-    //console.log(err);
+    console.log(err);
     return require('@/components/errorPage/404.vue').default;
   }
 }; // vue-loader at least v13.0.0+

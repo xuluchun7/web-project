@@ -136,7 +136,7 @@
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.labour')"
                       prop='labour'>
-          <el-input v-bind:placeholder="$t('0')"
+          <el-input placeholder="0"
                     v-model="formItem.labour" />
         </el-form-item>
       </el-col>
@@ -156,7 +156,7 @@
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.plowland')"
                       prop='plowland'>
-          <el-input v-bind:placeholder="$t('0.0')"
+          <el-input placeholder="0.0"
                     v-model="formItem.plowland" />
         </el-form-item>
       </el-col>
@@ -243,7 +243,7 @@ import hrFarmerApi from "../../api/thuman/api_hrFarmer";
 import categoryApi from "../../api/basic/api_category";
 import { mapGetters } from "vuex";
 export default {
-  data () {
+  data() {
     //验证手机号
     let checkPhones = (rule, value, callback) => {
       let phoneNum = this.formItem.phone;
@@ -364,7 +364,7 @@ export default {
       }
     };
   },
-  created () {
+  created() {
     Promise.all([
       //categoryApi.getAll({ search: 'lead:EQ:SC_F' }),
       categoryApi.getAll({ search: "lead:EQ:SC_S", sort: "id" }),
@@ -385,7 +385,7 @@ export default {
         //this.teamGroup.teamList = SmokeGroupResponse.content;
         this.education.positionList = positionResponse.content;
       })
-      .catch(error => { });
+      .catch(error => {});
   },
   computed: {
     ...mapGetters({
@@ -399,19 +399,19 @@ export default {
     OrganizationForm
   },
   methods: {
-    organizationOnchange (label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationName = label;
       this.formItem.organizationOrder = 0;
       this.formItem.organizationCode = value;
     },
-    directiveOnchange (label, value, values) {
+    directiveOnchange(label, value, values) {
       this.formItem.districtId = value;
       this.formItem.districtName = label;
       this.formItem.districtOrder = 0;
       this.formItem.districtCode = value;
     },
-    onSubmitClick (name) {
+    onSubmitClick(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
           if (
@@ -462,7 +462,7 @@ export default {
       });
     },
 
-    formReset (name) {
+    formReset(name) {
       this.$refs[name].resetFields();
     }
   }

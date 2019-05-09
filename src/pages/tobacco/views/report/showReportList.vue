@@ -459,7 +459,7 @@ export default {
       root = "{rootPath}{path}".format({ path: root, rootPath: rootPath });
       return root;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       let param = this.formData.componentData.find(function(item) {
         return item.type === "organization";
       });

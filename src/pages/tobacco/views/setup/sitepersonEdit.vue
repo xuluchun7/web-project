@@ -131,9 +131,13 @@ export default {
   components: {
     OrganizationForm
   },
- computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   methods: {
     load() {
       this.formItem = JSON.parse(JSON.stringify(this.item));
@@ -142,7 +146,7 @@ export default {
       this.formItem.organizationName = this.formItem.organization.organizationName;
       this.formItem.organizationOrder = this.formItem.organization.organizationOrder;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;

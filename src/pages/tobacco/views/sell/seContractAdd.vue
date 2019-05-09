@@ -595,7 +595,7 @@ export default {
       this.formItem.typeId = value;
       this.formItem.typeName = label;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationName = label;
       this.formItem.organizationOrder = 0;

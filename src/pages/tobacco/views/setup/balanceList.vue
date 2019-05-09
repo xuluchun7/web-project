@@ -595,7 +595,7 @@ export default {
           });
         });
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.orgId = value;
     },
     onSearchButtonClick() {

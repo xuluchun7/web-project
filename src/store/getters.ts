@@ -36,6 +36,9 @@ const getters = {
     }
   },
   organizationId: (state) => {
+    console.log('当前用户信息', state);
+    console.log(state.user.user === undefined, state.user.user === null, state.user.user.detail === undefined, state.user.user.detail === null);
+    console.log(state.user.user, state.user.user.detail, util.isNullOrEmpty(state.user.user.detail.organizationId));
     if (state.user.user === undefined || state.user.user === null || state.user.user.detail === undefined || state.user.user.detail === null || util.isNullOrEmpty(state.user.user.detail.organizationId)) {
       return '1151';
     }

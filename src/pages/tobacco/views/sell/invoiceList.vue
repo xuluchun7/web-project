@@ -436,7 +436,7 @@ export default {
         this.expandIcon = "el-icon-arrow-left";
       }
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.orgId = value;
     },
     handleCurrentChange(val) {

@@ -96,7 +96,7 @@
       <el-col :span="8">
         <el-form-item :label="$t('org.organizationName')">
           <organization-form :root="userOrgId"
-                             :orgId='formItem.organizationId'
+                             :orgId.sync='formItem.organizationId'
                              @onchange="organizationOnchange"
                              style="width:100%" />
         </el-form-item>
@@ -105,6 +105,7 @@
         <el-form-item :label="$t('org.districtName')">
           <organization-form :root="userDistrictId"
                              @onchange="directiveOnchange"
+                             :orgId.sync='formItem.districtId'
                              model="district"
                              style="width:100%" />
         </el-form-item>
@@ -138,7 +139,7 @@
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.labour')"
                       prop='labour'>
-          <el-input v-bind:placeholder="$t('0')"
+          <el-input placeholder="0"
                     v-model="formItem.labour" />
         </el-form-item>
       </el-col>
@@ -158,7 +159,7 @@
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.plowland')"
                       prop='plowland'>
-          <el-input v-bind:placeholder="$t('0.0')"
+          <el-input placeholder="0.0"
                     v-model="formItem.plowland" />
         </el-form-item>
       </el-col>
@@ -249,7 +250,7 @@ import categoryApi from "../../api/basic/api_category";
 import { mapGetters } from "vuex";
 export default {
   props: ["item", "isEdit", "visible"],
-  data () {
+  data() {
     //验证手机号
     let checkPhones = (rule, value, callback) => {
       let phoneNum = this.formItem.phone;
@@ -357,7 +358,7 @@ export default {
       }
     };
   },
-  created () {
+  created() {
     Promise.all([
       // categoryApi.getAll({ search: 'lead:EQ:SC_F' }),
       categoryApi.getAll({ search: "lead:EQ:SC_S" }),
@@ -378,7 +379,7 @@ export default {
         //this.teamGroup.teamList = SmokeGroupResponse.content;
         this.education.positionList = positionResponse.content;
       })
-      .catch(error => { });
+      .catch(error => {});
     this.load();
   },
   computed: {
@@ -392,7 +393,7 @@ export default {
     OrganizationForm
   },
   methods: {
-    load () {
+    load() {
       this.formItem = JSON.parse(JSON.stringify(this.item));
       this.formItem.sex = this.formItem.sex.id;
       this.formItem.education = this.formItem.education
@@ -411,28 +412,29 @@ export default {
       }
       this.formItem.technician = JSON.stringify(this.formItem.technician);
       this.education.positionId = list;
-      this.formItem.organizationId = this.formItem.organization.organizationId;
-      this.formItem.organizationName = this.formItem.organization.organizationName;
-      this.formItem.organizationOrder = this.formItem.organization.organizationOrder;
-      this.formItem.organizationCode = this.formItem.organization.organizationCode;
-      this.formItem.districtId = this.formItem.organization.districtId;
-      this.formItem.districtName = this.formItem.organization.districtName;
-      this.formItem.districtOrder = this.formItem.organization.districtOrder;
-      this.formItem.districtCode = this.formItem.organization.districtCode;
+      Object.assign(this.formItem, this.formItem.organization);
+      // this.formItem.organizationId = this.formItem.organization.organizationId;
+      // this.formItem.organizationName = this.formItem.organization.organizationName;
+      // this.formItem.organizationOrder = this.formItem.organization.organizationOrder;
+      // this.formItem.organizationCode = this.formItem.organization.organizationCode;
+      // this.formItem.districtId = this.formItem.organization.districtId;
+      // this.formItem.districtName = this.formItem.organization.districtName;
+      // this.formItem.districtOrder = this.formItem.organization.districtOrder;
+      // this.formItem.districtCode = this.formItem.organization.districtCode;
     },
-    organizationOnchange (label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationName = label;
       this.formItem.organizationOrder = 0;
       this.formItem.organizationCode = value;
     },
-    directiveOnchange (label, value, values) {
+    directiveOnchange(label, value, values) {
       this.formItem.districtId = value;
       this.formItem.districtName = label;
       this.formItem.districtOrder = 0;
       this.formItem.districtCode = value;
     },
-    onSubmitClick (name) {
+    onSubmitClick(name) {
       this.$refs[name].validate(valid => {
         //进行前端检验
         if (valid) {
@@ -465,7 +467,7 @@ export default {
               this.$emit("update:visible", false);
               this.$emit("refresh");
             })
-            .catch(error => { });
+            .catch(error => {});
         } else {
           this.$message({
             message: this.$t("message.formValidate"),
@@ -475,12 +477,12 @@ export default {
       });
     },
 
-    formReset (name) {
+    formReset(name) {
       this.$refs[name].resetFields();
     }
   },
   watch: {
-    item (curVal, oldVal) {
+    item(curVal, oldVal) {
       if (curVal) {
         this.load();
       }

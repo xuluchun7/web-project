@@ -123,9 +123,13 @@ export default {
       }
     };
   },
- computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   created() {
     this.formItem.businessYear = new Date().getFullYear().toString();
     this.formItem.tobaccoYear = new Date().getFullYear().toString();
@@ -143,7 +147,7 @@ export default {
   },
 
   methods: {
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;

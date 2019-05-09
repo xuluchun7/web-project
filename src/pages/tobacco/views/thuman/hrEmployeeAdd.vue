@@ -318,7 +318,7 @@ export default {
         seconds;
       return currentdate;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationName = label;
       this.formItem.organizationOrder = "0";
