@@ -391,6 +391,13 @@ export default {
       this.formItem.education = this.formItem.education
         ? this.formItem.education.id
         : "SC_E00";
+      this.formItem.sex = this.formItem.sex ? this.formItem.sex.id : "SC_S00";
+      this.formItem.income = this.formItem.income
+        ? this.formItem.income.id
+        : "SC_I00";
+      this.formItem.plant = this.formItem.plant
+        ? this.formItem.plant.id
+        : "SC_P00";
       var list = [];
       for (var x in this.formItem.positionList) {
         list.push(this.formItem.positionList[x].id);
