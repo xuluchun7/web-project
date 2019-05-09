@@ -4,6 +4,7 @@ import store from './store';
 import router from './router';
 import Element from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import i18n from '@/lang/index'; // 国际化
 import '@/utils/stringUtils';
 Vue.use(Element, {
   size: screen.width > 1366 ? 'small' : 'mini', // set element-ui default size 'large' | 'medium' | 'small' | 'mini'
@@ -18,6 +19,7 @@ import apiUser from '@/api/base/apiUser';
 new Vue({
   store,
   router,
+  i18n,
   render: h => h(App),
   beforeCreate() { },
   data() {
@@ -32,7 +34,7 @@ new Vue({
       background: 'rgba(0, 0, 0, 0.8)'
     });
     console.log(
-      '当前系统时间:' + util.dateFormat(new Date(), 'YYYY-MM-DD HH:MM:SS')
+      '当前系统时间:' + util.dateFormat(new Date(), 'YYYY-MM-DD HH:mm:ss')
     );
     //如果直接进入登陆
     if (window.location.pathname === '/login.html') {
@@ -79,9 +81,8 @@ new Vue({
           this.$store.dispatch('FedLogOut');
           this.loadingInstance.text =
             '请确认权限是否正确，5秒后跳转到登陆界面';
-          console.log(this.$store);
           setTimeout(() => {
-            window.location.href = '/login.html';
+            //  window.location.href = '/login.html';
           }, 5000);
         }
       } else {
