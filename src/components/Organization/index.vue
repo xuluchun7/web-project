@@ -113,7 +113,7 @@ export default {
       if (!this.showRoot) {
         return;
       }
-      if (orgId === "" || orgId === undefined) {
+      if (orgId === "" || orgId === undefined || orgId === null) {
         this.selectedOptions.push(rootOrgId);
       } else {
         let arr = [];

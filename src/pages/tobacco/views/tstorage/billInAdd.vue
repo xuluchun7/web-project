@@ -308,8 +308,9 @@ export default {
     ...mapGetters({
       userDistrictId: "districtId",
       userOrgId: "organizationId",
-      organizationName: "organizationName", userName: "userName"
-    }),
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   created() {
     this.load();
@@ -381,13 +382,13 @@ export default {
         })
         .catch(error => {});
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;
       this.formItem.organizationOrder = "0";
     },
-    sourceOrganizationOnchange(label, value, values) {
+    sourceorganizationOnchange(label, value, labels, values) {
       this.formItem.sourceOrganizationId = value;
       this.formItem.sourceOrganizationCode = value;
       this.formItem.sourceOrganizationName = label;

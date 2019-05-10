@@ -248,7 +248,7 @@ export default {
     typeVarietyGradeSelect
   },
   methods: {
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organization.organizationId = value;
       this.formItem.organizationId = value;
       this.formItem.organization.organizationCode = value;

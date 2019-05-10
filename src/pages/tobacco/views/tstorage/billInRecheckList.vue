@@ -416,7 +416,11 @@ export default {
     this.onSearchButtonClick();
   },
   computed: {
-          ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   components: {
     OrganizationForm,
@@ -657,7 +661,7 @@ export default {
           });
         });
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.organizationId = value;
       this.searchData.organizationCode = value;
       this.searchData.organizationName = label;

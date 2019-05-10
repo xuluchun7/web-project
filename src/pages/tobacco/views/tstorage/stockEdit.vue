@@ -333,9 +333,13 @@ export default {
     "type-grade-select": typeGradeSelect,
     typeVarietyGradeSelect
   },
- computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   created() {
     //获取账套数据
     Promise.all([
@@ -407,7 +411,7 @@ export default {
         })
         .catch(error => {});
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;

@@ -247,7 +247,7 @@ export default {
     OrganizationForm
   },
   methods: {
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.orgId = value;
     },
     editButtonClick(selectRow, isEdit) {

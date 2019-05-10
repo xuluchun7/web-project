@@ -357,7 +357,12 @@ export default {
     statusSelect
   },
   computed: {
-    ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName",userName:'userName'})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName",
+      userName: "userName"
+    })
   },
   created() {
     this.load();
@@ -462,7 +467,7 @@ export default {
       this.formItem.organizationName = this.formItem.organization.organizationName;
       this.formItem.organizationOrder = this.formItem.organization.organizationOrder;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.sourceOrganizationId = value;
       this.formItem.sourceOrganizationCode = value;
       this.formItem.sourceOrganizationName = label;

@@ -39,8 +39,7 @@
       <el-dropdown class="avatar-container right-menu-item"
                    trigger="click">
         <div class="avatar-wrapper">
-          <span class="el-dropdown-link userinfo-inner"
-                >
+          <span class="el-dropdown-link userinfo-inner">
             {{username}}
             <i class="el-icon-arrow-down el-icon--right" />
           </span>
@@ -90,6 +89,7 @@ import API from "@/api/base/apiUser";
 import ChangePassword from "@/components/Profile/changePassword.vue";
 import personal from "@/components/Profile/personal.vue";
 import { getSystemId, setSystemId } from "@/utils/cookieUtils";
+import util from "@/utils/util";
 import store from "@/store/index";
 import App from "@/store/modules/core/app";
 import User from "@/store/modules/core/user";
@@ -119,8 +119,6 @@ export default {
       return app.sidebar;
     },
     avatar() {
-      user.user.avatar;
-
       if (util.isNullOrEmpty(user.user.avatar)) {
         return "@/styles/image/head.jpg";
       } else {
@@ -128,6 +126,9 @@ export default {
       }
     },
     username() {
+      if (util.isNullOrEmpty(user.user.userName)) {
+        return "";
+      }
       let length = user.user.userName.length;
       if (length <= 7) {
         return user.user.userName;

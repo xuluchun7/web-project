@@ -458,7 +458,7 @@ export default {
         })
         .catch(error => {});
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.sourceOrganizationId = value;
       this.formItem.sourceOrganizationCode = value;
       this.formItem.sourceOrganizationName = label;

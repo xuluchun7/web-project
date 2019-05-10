@@ -459,7 +459,7 @@ export default {
     handleCurrentChange(val) {
       this.formData.selectRow = val;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.orgId = value;
     },
     onExpandClick() {

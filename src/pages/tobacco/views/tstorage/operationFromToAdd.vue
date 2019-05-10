@@ -103,13 +103,13 @@ export default {
     this.load();
   },
   methods: {
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationName = label;
       this.formItem.warehouseId = "";
       this.formItem.warehouseName = "";
     },
-    threeOrganizationOnchange(label, value, values) {
+    threeorganizationOnchange(label, value, labels, values) {
       this.formItem.threeOrganizationId = value;
       this.formItem.threeOrganizationName = label;
       this.formItem.threeWarehouseId = "";

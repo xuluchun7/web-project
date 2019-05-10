@@ -580,7 +580,7 @@ export default {
         })
         .catch(error => {});
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.organizationId = value;
     },
     handleCurrentChange(val) {

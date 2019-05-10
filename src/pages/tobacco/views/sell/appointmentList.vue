@@ -377,7 +377,7 @@ export default {
       }
       this.photoLoading = false;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.orgId = value;
     },
     editButtonClick(selectRow, isEdit) {

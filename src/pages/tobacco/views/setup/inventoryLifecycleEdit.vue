@@ -102,9 +102,13 @@ export default {
   components: {
     OrganizationForm
   },
-   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
-        },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
+  },
   created() {
     Promise.all([categoryApi.getAll({ search: "lead:EQ:ST_LF" })])
       .then(([response]) => {
@@ -122,7 +126,7 @@ export default {
       this.formItem.organizationName = this.formItem.organization.organizationName;
       this.formItem.organizationOrder = this.formItem.organization.organizationOrder;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationCode = value;
       this.formItem.organizationName = label;

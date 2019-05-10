@@ -379,7 +379,7 @@ export default {
     onSystemChanged() {
       this.formData.pagination.currentPage = 1;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       console.info(value);
       this.searchData.orgId = value;
     },

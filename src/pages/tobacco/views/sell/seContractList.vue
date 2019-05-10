@@ -442,7 +442,11 @@ export default {
     }
   },
   computed: {
-      ...mapGetters({ userDistrictId: "districtId", userOrgId: "organizationId",organizationName: "organizationName"})
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   },
   // 组件
   components: {
@@ -462,7 +466,7 @@ export default {
         this.expandIcon = "el-icon-arrow-left";
       }
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.orgId = value;
     },
     formatDate(date) {

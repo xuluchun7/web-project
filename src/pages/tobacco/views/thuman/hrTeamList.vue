@@ -310,7 +310,7 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.organizationId = value;
     },
     deleteButtonClick() {

@@ -255,7 +255,7 @@ export default {
       root = "{rootPath}{path}".format({ path: root, rootPath: rootPath });
       return root;
     },
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.organizationid = value;
       this.searchData.organizationcode = value;
       this.searchData.organizationname = label;

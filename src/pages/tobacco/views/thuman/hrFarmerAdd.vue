@@ -136,7 +136,7 @@
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.labour')"
                       prop='labour'>
-          <el-input v-bind:placeholder="$t('0')"
+          <el-input placeholder="0"
                     v-model="formItem.labour" />
         </el-form-item>
       </el-col>
@@ -156,7 +156,7 @@
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.thuman.hrFarmer.plowland')"
                       prop='plowland'>
-          <el-input v-bind:placeholder="$t('0.0')"
+          <el-input placeholder="0.0"
                     v-model="formItem.plowland" />
         </el-form-item>
       </el-col>
@@ -399,7 +399,7 @@ export default {
     OrganizationForm
   },
   methods: {
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.formItem.organizationId = value;
       this.formItem.organizationName = label;
       this.formItem.organizationOrder = 0;

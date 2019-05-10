@@ -245,7 +245,7 @@ export default {
   },
 
   methods: {
-    organizationOnchange(label, value, values) {
+    organizationOnchange(label, value, labels, values) {
       this.searchData.organizationId = value;
     },
     editButtonClick(selectRow, isEdit) {
