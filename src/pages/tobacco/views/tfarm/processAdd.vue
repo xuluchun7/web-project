@@ -87,6 +87,12 @@
                             value-format="yyyy-MM-dd"
                             :placeholder="$t('base.pleaseSelect')" />
           </el-form-item>
+          <el-form-item label="填报频率">
+            <el-select v-model="formItem.frequency" placeholder="请选择固化频率">
+              <el-option label="日" :value="1"></el-option>
+              <el-option label="周" :value="2"></el-option>
+            </el-select>
+          </el-form-item>
         </div>
       </el-collapse-item>
       <el-collapse-item title="高级设置"
@@ -242,8 +248,7 @@
 import processApi from "../../api/tfarm/apiProcess";
 import designSchemeApi from "../../api/tfarm/apiDesignScheme";
 import designSchemeClassifyApi from "../../api/tfarm/apiDesignSchemeClassify";
-import { mapGetters } from "vuex";
-export default {
+import { mapGetters } from "vuex";export default {
   props: ["item", "visible"],
   data() {
     return {
@@ -278,7 +283,9 @@ export default {
         desc: "",
         organizationId: "",
         organizationCode: "",
-        organizationName: ""
+        organizationName: "",
+        frequency:0
+
       },
       formData: {
         classifyList: [],
@@ -312,22 +319,20 @@ export default {
       );
       this.formItem.begin = this.formItem.begin.toString();
     }
-
-    this.formItem.organizationId = this.userOrgId;
+  this.formItem.organizationId = this.userOrgId;
     this.formItem.organizationCode = this.userOrgId;
     this.formItem.organizationName = this.organizationName;
     this.formItem.lead = this.item === undefined ? undefined : this.item.lead;
     this.load();
   },
-  computed: {
+ computed: {
     ...mapGetters({
       userDistrictId: "districtId",
       userOrgId: "organizationId",
       organizationName: "organizationName",
       userName: "userName"
     })
-  },
-  watch: {
+  },  watch: {
     item(curVal, oldVal) {
       let cache = [];
       this.formItem = JSON.parse(
@@ -398,6 +403,7 @@ export default {
     onSubmitClick(name) {
       //由于前面的环节可能自动添加此属性
       this.formItem.parent = undefined;
+      console.log(this.formItem)
       this.$refs[name].validate(valid => {
         if (valid) {
           Promise.all([processApi.saveOrUpdate(this.formItem)])

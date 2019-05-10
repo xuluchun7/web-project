@@ -61,6 +61,7 @@
 
           <el-table-column prop="label"
                            :label="$t('tobacco.tfarm.processAttr.collectionContent')" />
+
         </el-table>
       </el-col>
       <el-col :span="15"
@@ -220,10 +221,61 @@
                           v-model="processAttrItem.weight" />
               </el-form-item>
             </el-col>
+            <!--计算指标-->
             <el-col :span="12">
               <el-form-item :label="$t('tobacco.tfarm.processAttr.formula')">
-                <el-input v-bind:placeholder="$t('base.pleaseInput')"
-                          v-model="processAttrItem.formula" />
+                <el-popover ref="popover"
+                            v-model="visible2"
+                            placement="top"
+                            title="请选择计算方式"
+                            width="300"
+                            trigger="focus"
+                            :disabled="processAttrItem.id===undefined">
+                  <el-form label-width="90
+          px">
+                    <el-form-item label="首项:">
+                      <el-select v-model="formElements.first">
+                        <el-option v-for="item in selectform"
+                                   :value='item.attrId'
+                                   :key='item.attrId'
+                                   :label="item.label" />
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="计算方式:">
+                      <el-select v-model="formElements.method"
+                                 @change="processAttrChange($event)">
+                        <el-option v-for="item in operational"
+                                   :value='item.id'
+                                   :key='item.id'
+                                   :label="item.label" />
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="末项:"
+                                  v-show="lastShow">
+                      <el-select v-model="formElements.last">
+                        <el-option v-for="item in selectform"
+                                   :value='item.attrId'
+                                   :key='item.attrId'
+                                   :label="item.label" />
+                      </el-select>
+                    </el-form-item>
+                    <div style="text-align: right; margin: 0">
+                      <el-button size="mini"
+                                 type="text"
+                                 @click="deleteMethod">取消</el-button>
+                      <el-button type="primary"
+                                 size="mini"
+                                 @click="saveMethod">确定</el-button>
+                    </div>
+                  </el-form>
+                  <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                            v-model="processAttrItem.formula"
+                            @focus="focuspopover"
+                            @blur="blurInput"
+                            :disabled="processAttrItem.id===undefined"
+                            slot="reference" />
+                </el-popover>
+
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -254,6 +306,7 @@
         </el-form>
       </el-col>
     </el-row>
+
   </div>
 </template>
 <script>
@@ -268,6 +321,38 @@ export default {
   props: ["item", "visible"],
   data() {
     return {
+      type: "",
+      inputValue: "",
+      visible2: false,
+      lastShow: false,
+      formElements: {
+        first: "",
+        method: "",
+        last: ""
+      },
+      operational: [
+        {
+          label: "累加",
+          id: 0
+        },
+        {
+          label: "加",
+          id: 1
+        },
+        {
+          label: "减",
+          id: 2
+        },
+        {
+          label: "乘",
+          id: 3
+        },
+        {
+          label: "除",
+          id: 4
+        }
+      ],
+      selectform: [],
       formItem: {
         processId: "",
         label: "",
@@ -324,6 +409,7 @@ export default {
     };
   },
   created() {
+    console.log(this.visible);
     this.formItem.processId = this.item.id;
     this.formItem.processCode = this.item.code;
     this.formItem.designSchemeId = this.item.designSchemeId;
@@ -348,15 +434,155 @@ export default {
   },
   components: {},
   watch: {
+    selectform(curVal, oldVal) {
+      console.log("新数据", curVal);
+      console.log("老数据", oldVal);
+    },
     item(curVal, oldVal) {
       this.processAttrItem = {};
       this.$refs.singleTable.setCurrentRow(undefined);
+      console.log(curVal);
       this.formItem.processId = curVal.id;
       //加载已经有数据
       this.loadExsitAttr();
     }
   },
   methods: {
+    blurInput() {
+      this.visible2 = false;
+      // this.selectform=[]
+    },
+    deleteMethod() {
+      this.visible2 = false;
+      this.formElements.first = "";
+      this.formElements.last = "";
+      this.formElements.method = "";
+    },
+    focuspopover() {
+      this.visible2 = true;
+      if (
+        this.processAttrItem.formula !== null &&
+        this.processAttrItem.formula !== "" &&
+        this.processAttrItem.formula !== undefined
+      ) {
+        var a = this.processAttrItem.formula;
+        var obj = eval("(" + a + ")");
+        console.log(1);
+        console.log(obj);
+        this.formElements.first = obj.choose1;
+        this.formElements.method = obj.type;
+        this.formElements.last = obj.choose2;
+        console.log(obj.choose1);
+        console.log(this.selectform);
+        console.log(this.formElements.first);
+        console.log(this.processAttrItem.formula);
+      } else {
+        this.formElements.first = "";
+        this.formElements.last = "";
+        this.formElements.method = "";
+      }
+      if (this.processAttrItem.id === undefined) {
+        this.selectform = [];
+      }
+      console.log(this.processAttrItem.id);
+    },
+    saveMethod() {
+      if (this.type === 0) {
+        if (
+          this.formElements.first !== "" &&
+          this.formElements.method !== "" &&
+          this.formElements.first !== undefined &&
+          this.formElements.method !== undefined
+        ) {
+          this.visible2 = false;
+          this.processAttrItem.formula =
+            '{"choose1":' +
+            this.formElements.first +
+            "," +
+            '"type":' +
+            this.formElements.method +
+            "}";
+          this.formElements.first = "";
+          this.formElements.last = "";
+          this.formElements.method = "";
+          // this.selectform = []
+          console.log(this.inputValue);
+        } else {
+          console.log(1111);
+          this.$message({
+            type: "info",
+            message: "数据项不能为空"
+          });
+        }
+      } else {
+        if (
+          this.formElements.first !== "" &&
+          this.formElements.method !== "" &&
+          this.formElements.last !== "" &&
+          this.formElements.first !== undefined &&
+          this.formElements.method !== undefined &&
+          this.formElements.last !== undefined
+        ) {
+          this.visible2 = false;
+          this.processAttrItem.formula =
+            '{"choose1":' +
+            this.formElements.first +
+            "," +
+            '"type":' +
+            this.formElements.method +
+            "," +
+            '"choose2":' +
+            this.formElements.last +
+            "}";
+          this.formElements.first = "";
+          this.formElements.last = "";
+          this.formElements.method = "";
+          // this.selectform = []
+          console.log(this.inputValue);
+        } else {
+          console.log(1111);
+          this.$message({
+            type: "info",
+            message: "数据项不能为空"
+          });
+        }
+      }
+    },
+    processAttrChange(val) {
+      console.log(val);
+      this.type = val;
+      if (val === 0) {
+        this.lastShow = false;
+      } else {
+        this.lastShow = true;
+      }
+    },
+    onComponentsSelect(row) {
+      console.log("选中行", row);
+      console.log("www", this.formData.processAttrList);
+
+      if (row === undefined || row === null) {
+        this.processAttrItem = {};
+      } else {
+        this.processAttrItem = row;
+        if (this.selectform.length !== 0) {
+          this.selectform = [];
+        }
+        for (var j = 0; j < this.formData.processAttrList.length; j++) {
+          if (this.formData.processAttrList[j].id !== row.id) {
+            if (
+              this.formData.processAttrList[j].dataType === "int" ||
+              this.formData.processAttrList[j].dataType === "double"
+            ) {
+              this.selectform.push(this.formData.processAttrList[j]);
+            }
+          }
+        }
+        this.visible2 = false;
+        console.log("111", this.selectform);
+      }
+    },
+
     onComponentsChange(value) {
       let it = this.formData.processComponentsList.find(item => {
         return item.id === value;
@@ -471,14 +697,7 @@ export default {
     formReset(name) {
       this.$refs[name].resetFields();
     },
-    onComponentsSelect(row) {
-      //console.log("选中行", row);
-      if (row === undefined || row === null) {
-        this.processAttrItem = {};
-      } else {
-        this.processAttrItem = row;
-      }
-    },
+
     loadExsitAttr() {
       Promise.all([processAttrApi.getByProcessId(this.formItem.processId)])
         .then(([response]) => {

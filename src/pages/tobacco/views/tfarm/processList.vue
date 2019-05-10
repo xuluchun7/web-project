@@ -134,7 +134,6 @@
                  width="40%">
         <report-form :item.sync=formData.viewSelect
                      :visible.sync="childForm.reportForm" />
-
       </el-dialog>
     </template>
   </div>

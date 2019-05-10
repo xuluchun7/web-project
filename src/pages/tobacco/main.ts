@@ -4,7 +4,6 @@ import 'normalize.css/normalize.css'; // A modern alternative to CSS resets
 import Element from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
-
 import '@/styles/scss/element-variables.scss';
 import '@/styles/index.scss'; // global css
 import '@/styles/font/iconfont.css'; // 引入ICONFONT图标
@@ -38,8 +37,8 @@ import echarts from 'echarts';
 Vue.component('v-chart', ECharts);
 Vue.prototype.$echarts = echarts;
 Vue.use(BaiduMap, {
-  // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
-  ak: process.env.VUE_APP_BAIDU_KEY
+    // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
+    ak: process.env.VUE_APP_BAIDU_KEY
 });
 Vue.config.productionTip = false;
 Vue.use(utilsPlugin);
@@ -47,59 +46,59 @@ Vue.use(global_variable);
 Vue.use(fullscreen);
 Vue.use(Avue);
 Vue.use(Element, {
-  size: screen.width > 1366 ? 'medium' : 'small', // set element-ui default size 'large' | 'medium' | 'small' | 'mini'
-  i18n: (key, value) => {
-    i18n.t(key, value);
-  },
-  zIndex: 3000
+    size: screen.width > 1366 ? 'medium' : 'small', // set element-ui default size 'large' | 'medium' | 'small' | 'mini'
+    i18n: (key, value) => {
+        i18n.t(key, value);
+    },
+    zIndex: 3000
 });
 // register global utility filters.
 Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key]);
+    Vue.filter(key, filters[key]);
 });
 Object.keys(langFilters).forEach(key => {
-  Vue.filter(key, langFilters[key]);
+    Vue.filter(key, langFilters[key]);
 });
 Object.keys(longFilters).forEach(key => {
-  Vue.filter(key, longFilters[key]);
+    Vue.filter(key, longFilters[key]);
 });
 //动态注入store,实现与基础分支分离.此处可以循环注入多个，按需配置
 store.registerModule('system', require('./store/modules/configure.js').default);
 //动态注入语言包,此处只注入中文语言包，基目的是规范显示内容
 i18n.mergeLocaleMessage('zh', {
-  tobacco: require('./lang/zh/tobacco').default
+    tobacco: require('./lang/zh/tobacco').default
 });
 i18n.mergeLocaleMessage('zh', {
-  constant: require('./lang/zh/constant').default
+    constant: require('./lang/zh/constant').default
 });
 
 new Vue({
-  router,
-  store,
-  i18n,
-  render: h => h(App),
-  created() {
-    if (window.screen.width <= 600)
-      document.write('<body style="zoom: 50%">');
-    else if (window.screen.width <= 800)
-      document.write('<body style="zoom: 60%">');
-    else if (window.screen.width <= 1024)
-      document.write('<body style="zoom: 65%">');
-    const loading = this.$loading({
-      lock: true,
-      text: '正在加载系统参数',
-      spinner: 'el-icon-loading',
-      background: 'rgba(0, 0, 0, 0.7)'
-    });
-    this.$store
-      .dispatch('system/checkAnnual')
-      .then(response => {
-        loading.close();
-      })
-      .catch(ex => {
-        console.log('设置年度失败:');
-        console.log(ex);
-        // loading.close();
-      });
-  }
+    router,
+    store,
+    i18n,
+    render: h => h(App),
+    created() {
+        if (window.screen.width <= 600)
+            document.write('<body style="zoom: 50%">');
+        else if (window.screen.width <= 800)
+            document.write('<body style="zoom: 60%">');
+        else if (window.screen.width <= 1024)
+            document.write('<body style="zoom: 65%">');
+        const loading = this.$loading({
+            lock: true,
+            text: '正在加载系统参数',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+        });
+        this.$store
+            .dispatch('system/checkAnnual')
+            .then(response => {
+                loading.close();
+            })
+            .catch(ex => {
+                console.log('设置年度失败:');
+                console.log(ex);
+                // loading.close();
+            });
+    }
 }).$mount('#app');
