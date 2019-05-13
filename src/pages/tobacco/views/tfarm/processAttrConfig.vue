@@ -58,10 +58,14 @@
                   @current-change="onComponentsSelect"
                   :data="formData.processAttrList"
                   style="width: 100%">
-
           <el-table-column prop="label"
                            :label="$t('tobacco.tfarm.processAttr.collectionContent')" />
-
+          <el-table-column align="right">
+            <template slot="header">
+              <el-button type="danger"
+                         @click="deleleAll">{{ $t('tobacco.common.btnAllDelete') }}</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </el-col>
       <el-col :span="15"
@@ -704,6 +708,19 @@ export default {
           this.formData.processAttrList = response.sort(function(a, b) {
             return a.position - b.position;
           });
+        })
+        .catch(error => {});
+    },
+    deleleAll() {
+      Promise.all([
+        processAttrApi.deleteAllAttrByProcessId(this.formItem.processId)
+      ])
+        .then(([response]) => {
+          this.$message({
+            type: "info",
+            message: this.$t(response)
+          });
+          this.loadExsitAttr();
         })
         .catch(error => {});
     }

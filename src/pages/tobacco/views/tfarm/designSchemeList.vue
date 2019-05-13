@@ -189,6 +189,7 @@ import organizationApi from "@/api/xbasic//apiOrganization";
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 import constant from "../../lang/zh/constant";
 import { mapGetters } from "vuex";
+import { Number } from "../../../../filters";
 export default {
   data() {
     return {
@@ -300,7 +301,7 @@ export default {
         }
       })
       .catch(error => {});
-
+    console.info(this.formData.levelList);
     this.onSearchButtonClick();
   },
   computed: {
@@ -383,7 +384,7 @@ export default {
       if (cl === undefined) {
         return false;
       } else {
-        return this.formData.currentLevel.depth < cl.depth;
+        return parseInt(this.formData.currentLevel.depth) < parseInt(cl.depth);
       }
     },
     formatLevel(item) {
@@ -457,9 +458,12 @@ export default {
       let search = "startAnnual:eq:{annual};".format({
         annual: this.searchData.annual
       });
-      search = "organization.organizationId:eq:{organizationId};".format({
-        organizationId: this.userOrgId
-      });
+      search = "organization.organizationId:eq:{organizationId};startAnnual:EQ:{startAnnual}".format(
+        {
+          organizationId: this.userOrgId,
+          startAnnual: this.searchData.annual
+        }
+      );
       if (this.searchData.classify !== "-") {
         search += "classify.id:eq:" + this.searchData.classify;
       }
@@ -486,6 +490,7 @@ export default {
         .catch(error => {});
     },
     loadChild(node, resolve) {
+      console.info(node);
       if (node.level === 0) {
         return resolve([
           {
@@ -498,6 +503,7 @@ export default {
       if (node.level > 1) return resolve([]);
 
       let current = node.data.id;
+      console.info(current);
       Promise.all([
         organizationApi.getAll({
           search: "lead:eq:" + current
@@ -512,9 +518,12 @@ export default {
               return it.id === this.formData.viewSelect.minLevel;
             });
             //还要到下一级
-            if (minLevel !== undefined && minLevel.depth >= tmp.level.depth) {
+            if (
+              minLevel !== undefined &&
+              parseInt(minLevel.depth) >= parseInt(tmp.level.depth)
+            ) {
               response.content.forEach(item => {
-                if (minLevel.depth === tmp.level.depth) {
+                if (parseInt(minLevel.depth) === parseInt(tmp.level.depth)) {
                   item.children = undefined;
                 } else {
                   item.children = [];

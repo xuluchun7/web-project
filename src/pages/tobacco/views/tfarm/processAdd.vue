@@ -88,9 +88,14 @@
                             :placeholder="$t('base.pleaseSelect')" />
           </el-form-item>
           <el-form-item label="填报频率">
-            <el-select v-model="formItem.frequency" placeholder="请选择固化频率">
-              <el-option label="日" :value="1"></el-option>
-              <el-option label="周" :value="2"></el-option>
+            <el-select v-model="formItem.frequency"
+                       placeholder="请选择固化频率">
+              <el-option label="日"
+                         :value="1"></el-option>
+              <el-option label="周"
+                         :value="2"></el-option>
+              <el-option label="不定"
+                         :value="3"></el-option>
             </el-select>
           </el-form-item>
         </div>
@@ -214,12 +219,14 @@
         <div class=" cas-flex-2 cas-group">
           <el-form-item :label="$t('tobacco.tfarm.process.icon')">
             <el-upload class="avatar-uploader"
-                       action="https://jsonplaceholder.typicode.com/posts/"
+                       :action="uploadUrl"
+                       :headers="header"
                        :show-file-list="false"
+                       accept="image/jpeg,image/gif,image/png"
                        :on-success="handleAvatarSuccess"
                        :before-upload="beforeAvatarUpload">
               <img v-if="formItem.icon"
-                   :src="formItem.icon"
+                   :src="iconShow"
                    class="avatar">
               <i v-else
                  class="el-icon-plus avatar-uploader-icon"></i>
@@ -246,12 +253,19 @@
 </template>
 <script>
 import processApi from "../../api/tfarm/apiProcess";
+import { getToken } from "@/utils/cookieUtils";
 import designSchemeApi from "../../api/tfarm/apiDesignScheme";
 import designSchemeClassifyApi from "../../api/tfarm/apiDesignSchemeClassify";
-import { mapGetters } from "vuex";export default {
+import { mapGetters } from "vuex";
+export default {
   props: ["item", "visible"],
   data() {
     return {
+      uploadUrl: this.getRootPath(),
+      iconShow: "",
+      header: {
+        Authorization: getToken()
+      },
       activeNames: ["1"],
       formItem: {
         lead: undefined,
@@ -284,8 +298,7 @@ import { mapGetters } from "vuex";export default {
         organizationId: "",
         organizationCode: "",
         organizationName: "",
-        frequency:0
-
+        frequency: 1
       },
       formData: {
         classifyList: [],
@@ -302,6 +315,7 @@ import { mapGetters } from "vuex";export default {
     };
   },
   created() {
+    console.info(this.getImgApi());
     if (this.item !== undefined) {
       let cache = [];
       this.formItem = JSON.parse(
@@ -319,20 +333,23 @@ import { mapGetters } from "vuex";export default {
       );
       this.formItem.begin = this.formItem.begin.toString();
     }
-  this.formItem.organizationId = this.userOrgId;
+    this.formItem.organizationId = this.userOrgId;
     this.formItem.organizationCode = this.userOrgId;
     this.formItem.organizationName = this.organizationName;
     this.formItem.lead = this.item === undefined ? undefined : this.item.lead;
+    this.iconShow = this.getImgApi() + this.formItem.icon;
+    console.info(this.iconShow);
     this.load();
   },
- computed: {
+  computed: {
     ...mapGetters({
       userDistrictId: "districtId",
       userOrgId: "organizationId",
       organizationName: "organizationName",
       userName: "userName"
     })
-  },  watch: {
+  },
+  watch: {
     item(curVal, oldVal) {
       let cache = [];
       this.formItem = JSON.parse(
@@ -349,9 +366,26 @@ import { mapGetters } from "vuex";export default {
         })
       );
       this.formItem.begin = this.formItem.begin.toString();
+      this.iconShow = this.getImgApi() + this.formItem.icon;
     }
   },
   methods: {
+    getImgApi() {
+      let isProduction = process.env.NODE_ENV === "production";
+      let rootPath = process.env.VUE_APP_API_URL;
+      if (isProduction) {
+        rootPath = "";
+      }
+      return rootPath + "/tobacco/api/tfarm/process/IoReadImage/";
+    },
+    getRootPath() {
+      let isProduction = process.env.NODE_ENV === "production";
+      let rootPath = process.env.VUE_APP_API_URL;
+      if (isProduction) {
+        rootPath = "";
+      }
+      return rootPath + "/tobacco/api/tfarm/process/upload/icon";
+    },
     load() {
       Promise.all([
         designSchemeClassifyApi.getAll({
@@ -362,7 +396,11 @@ import { mapGetters } from "vuex";export default {
         designSchemeApi.getAll({
           size: 500,
           page: 0,
-          search: "startAnnual:eq:" + this.$store.state.system.annual.toString()
+          search:
+            "startAnnual:eq:" +
+            this.$store.state.system.annual.toString() +
+            ";organization.organizationId:EQ:" +
+            this.formItem.organizationId
         })
       ])
         .then(([response, designResponse]) => {
@@ -403,7 +441,7 @@ import { mapGetters } from "vuex";export default {
     onSubmitClick(name) {
       //由于前面的环节可能自动添加此属性
       this.formItem.parent = undefined;
-      console.log(this.formItem)
+      console.log(this.formItem);
       this.$refs[name].validate(valid => {
         if (valid) {
           Promise.all([processApi.saveOrUpdate(this.formItem)])
@@ -436,17 +474,23 @@ import { mapGetters } from "vuex";export default {
       this.$refs[name].resetFields();
     },
     handleAvatarSuccess(res, file) {
-      this.formItem.icon = URL.createObjectURL(file.raw);
+      this.iconShow = URL.createObjectURL(file.raw);
+      this.formItem.icon = res.data.path;
+      console.info(this.formItem.icon);
+      this.$message({
+        message: "上传成功",
+        type: "success"
+      });
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
+      const isJPG = file.type === "image/jpeg" || "image/gif" || "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+        this.$message.error("上传文件只能是图片格式!");
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传图片大小不能超过 2MB!");
       }
       return isJPG && isLt2M;
     }

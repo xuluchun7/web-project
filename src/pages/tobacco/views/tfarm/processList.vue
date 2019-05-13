@@ -275,7 +275,11 @@ export default {
       designSchemeApi.getAll({
         size: 500,
         page: 0,
-        search: "startAnnual:eq:" + this.$store.state.system.annual.toString()
+        search:
+          "startAnnual:eq:" +
+          this.$store.state.system.annual.toString() +
+          ";organization.organizationId:EQ:" +
+          this.$store.state.user.user.organization.id
       })
     ])
       .then(([response, levelResponse, designResponse]) => {
