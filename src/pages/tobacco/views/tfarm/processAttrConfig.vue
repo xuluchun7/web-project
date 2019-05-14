@@ -164,7 +164,6 @@
               </el-form-item>
             </el-col>
           </el-row>
-
           <el-form-item :label="$t('tobacco.tfarm.processAttr.hintInput')">
             <el-input v-bind:placeholder="$t('base.pleaseInput')"
                       v-model="processAttrItem.hintInput" />
@@ -174,6 +173,24 @@
                       v-model="processAttrItem.hintPoint" />
           </el-form-item>
           <el-row>
+            <el-col :span="8">
+              <el-form-item :label="$t('tobacco.tfarm.processAttr.dataSourceType')">
+                <el-select v-model="processAttrItem.dataSourceType">
+                  <el-option v-for="item in formData.dataSourceList"
+                             :value='item.key'
+                             :key='item.key'
+                             :label="item.label" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="16">
+              <el-form-item :label="$t('tobacco.tfarm.processAttr.dataSource')">
+                <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                          v-model="processAttrItem.dataSource"
+                          :readonly="processAttrItem.dataSourceType===1"
+                          @focus="onSetDatasource" />
+              </el-form-item>
+            </el-col>
             <el-col :span="8">
               <el-form-item :label="$t('tobacco.tfarm.processAttr.require')">
                 <el-select v-model="processAttrItem.require">
@@ -306,13 +323,96 @@
             </el-button>
 
           </el-form-item>
+          <template>
+            <el-dialog title="设置数据源"
+                       :visible.sync="formData.setDatasourceForm"
+                       top="10px"
+                       append-to-body>
+              <el-form :model="enumItem"
+                       label-width="80px"
+                       :rules="ruleValidateOfDataSource"
+                       class="flex"
+                       ref="enumForm">
 
+                <el-form-item :label="$t('tobacco.tfarm.processAttrEnum.key')">
+                  <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                            prop="key"
+                            v-model="enumItem.key" />
+                </el-form-item>
+                <el-form-item :label="$t('tobacco.tfarm.processAttrEnum.value')">
+                  <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                            prop="value"
+                            v-model="enumItem.value" />
+                </el-form-item>
+                <el-form-item :label="$t('tobacco.tfarm.processAttrEnum.point')">
+                  <el-input v-bind:placeholder="$t('base.pleaseInput')"
+                            v-model="enumItem.point" />
+                </el-form-item>
+                <el-form-item label="默认">
+                  <el-select v-model="enumItem.default">
+                    <el-option v-for="item in formData.trueOrFalse"
+                               :value='item.key'
+                               :key='item.key'
+                               :label="item.label" />
+                  </el-select>
+                </el-form-item>
+
+                <el-form-item style="width:100%">
+                  <el-button type="primary"
+                             style="float: right"
+                             @click="onAtrEnumSubmitClick('enumForm')">{{ $t('base.buttonSave') }}
+                  </el-button>
+                </el-form-item>
+              </el-form>
+              <el-table highlight-current-row
+                        border
+                        :data="formData.enumList"
+                        style="width: 100%;minHeight:200px;minWidth:600px">
+                <el-table-column type="index">
+                </el-table-column>
+
+                <el-table-column prop="key"
+                                 :label="this.$t('tobacco.tfarm.processAttrEnum.key')" />
+                <el-table-column prop="value"
+                                 :label="this.$t('tobacco.tfarm.processAttrEnum.value')" />
+                <el-table-column prop="point"
+                                 :label="this.$t('tobacco.tfarm.processAttrEnum.point')" />
+                <el-table-column prop="default"
+                                 label="默认">
+                  <template slot-scope="slot">
+                    {{slot.row.default?"是":"否"}}
+                  </template>
+                </el-table-column>
+
+                <el-table-column fixed="right"
+                                 :label="$t('base.titleOperation')"
+                                 width="100">
+                  <template slot-scope="scope">
+
+                    <el-tooltip class="item"
+                                effect="dark"
+                                :content="$t('base.buttonDelete')"
+                                placement="bottom">
+                      <el-button icon="el-icon-minus"
+                                 type="text"
+                                 size="small"
+                                 @click="onAtrEnumDeleteClick(scope.row.key)" />
+                    </el-tooltip>
+                  </template>
+
+                </el-table-column>
+              </el-table>
+
+            </el-dialog>
+
+          </template>
         </el-form>
       </el-col>
     </el-row>
 
   </div>
 </template>
+
 <script>
 import processApi from "../../api/tfarm/apiProcess";
 import categoryApi from "../../api/basic/api_category";
@@ -325,6 +425,7 @@ export default {
   props: ["item", "visible"],
   data() {
     return {
+      enumItem: {},
       type: "",
       inputValue: "",
       visible2: false,
@@ -364,6 +465,15 @@ export default {
       },
       processAttrItem: {},
       formData: {
+        dataSourceList: [
+          { key: 0, label: "未设置" },
+          { key: 1, label: "手动指定" },
+          { key: 2, label: "接口" },
+          { key: 3, label: "文本值" }
+        ],
+        trueOrFalse: [{ key: true, label: "是" }, { key: false, label: "否" }],
+        enumList: [],
+        setDatasourceForm: false,
         processComponentsList: [],
         classifyList: [],
         activeAttrList: [],
@@ -409,6 +519,10 @@ export default {
         label: [
           { required: true, message: "采集名称必须输入", trigger: "blur" }
         ]
+      },
+      ruleValidateOfDataSource: {
+        key: [{ required: true, message: "编码不能为空", trigger: "blur" }],
+        value: [{ required: true, message: "显示值不能为空", trigger: "blur" }]
       }
     };
   },
@@ -452,6 +566,29 @@ export default {
     }
   },
   methods: {
+    onSetDatasource() {
+      console.info(123);
+      if (this.processAttrItem.dataSourceType === 1) {
+        this.formData.setDatasourceForm = true;
+        this.createAttrEnum();
+        try {
+          this.formData.enumList = [];
+          this.formData.enumList = JSON.parse(this.formItem.dataSource);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+    createAttrEnum() {
+      return (this.enumItem = {
+        attrId: this.formItem.attrId,
+        enumId: "",
+        key: "",
+        value: "",
+        default: false,
+        point: 0
+      });
+    },
     blurInput() {
       this.visible2 = false;
       // this.selectform=[]
@@ -664,6 +801,32 @@ export default {
         }
       });
     },
+    onAtrEnumSubmitClick(name) {
+      this.$refs[name].validate(valid => {
+        if (valid) {
+          let index = this.formData.enumList.findIndex(item => {
+            return item.key === this.enumItem.key;
+          });
+          if (index === -1) {
+            this.formData.enumList.push(this.enumItem);
+            this.processAttrItem.dataSource = JSON.stringify(
+              this.formData.enumList
+            );
+            this.createAttrEnum();
+          } else {
+            this.$message({
+              message: this.$t("编码已经存在"),
+              type: "info"
+            });
+          }
+        } else {
+          this.$message({
+            message: this.$t("message.formValidate"),
+            type: "warn"
+          });
+        }
+      });
+    },
     onDeleteClick(name) {
       //  this.$refs.singleTable.setCurrentRow(undefined);
       this.$confirm(
@@ -723,9 +886,22 @@ export default {
           this.loadExsitAttr();
         })
         .catch(error => {});
+    },
+    onAtrEnumDeleteClick(key) {
+      let index = this.formData.enumList.findIndex(item => {
+        return item.key === this.enumItem.key;
+      });
+      this.formData.enumList.splice(index, 1);
     }
   }
 };
 </script>
 <style>
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex > div {
+  width: 50%;
+}
 </style>

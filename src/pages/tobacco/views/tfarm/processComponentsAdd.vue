@@ -309,7 +309,8 @@ export default {
         dataSourceList: [
           { key: 0, label: "未设置" },
           { key: 1, label: "手动指定" },
-          { key: 2, label: "接口" }
+          { key: 2, label: "接口" },
+          { key: 3, label: "文本值" }
         ],
         classifyList: [],
         setDatasourceForm: false,
@@ -347,6 +348,7 @@ export default {
       if (this.formItem.dataSourceType === 1) {
         this.formData.setDatasourceForm = true;
         this.createAttrEnum();
+        console.info(this.enumItem);
         try {
           this.formData.enumList = [];
           this.formData.enumList = JSON.parse(this.formItem.dataSource);

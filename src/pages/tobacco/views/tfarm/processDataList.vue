@@ -587,12 +587,20 @@ export default {
             );
           });
           //如果动态列没有请求过，请求一次
+          console.info(item);
           if (item === undefined && orginProcessData.length > 0) {
             item = this.onLoadAttr(orginProcessData[0].processId);
           }
+          console.info(item);
+          console.info(orginProcessData);
           orginProcessData.forEach(item => {
+            console.info(item);
             let columns = [];
+            var index = 0;
             item.dataItemEntityList.forEach(it => {
+              console.info(it.attrId);
+              console.info(it.dataType);
+              console.info(index++);
               switch (it.dataType) {
                 case "string":
                   columns[it.attrId] = it.display ? it.display : it.valueText;
@@ -626,9 +634,12 @@ export default {
                   break;
               }
             });
+            console.info(item);
             item.columns = columns;
           });
           this.formData.processDataList = orginProcessData;
+          console.info("================");
+          console.info(item !== undefined);
           if (item !== undefined) item.data = orginProcessData;
           this.formData.pagination.total = total;
           this.$notify({
@@ -651,10 +662,12 @@ export default {
         designSchemeCode: this.$route.query.designScheme,
         processCode: this.$route.query.process
       };
+      console.info(item);
       this.formData.attrrMap.push(item);
       this.formData.dynamicColumns = attrList.filter(t => {
         return t.classify !== "SC_PD01";
       });
+      console.info(item);
       return item;
     },
     onPageChange(index) {
@@ -692,6 +705,7 @@ export default {
           it.processCode === that.$route.query.process
         );
       });
+      console.info(item);
       if (item === undefined) {
         this.formData.dynamicColumns = [];
       } else {
