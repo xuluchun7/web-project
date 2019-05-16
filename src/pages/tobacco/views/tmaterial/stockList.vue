@@ -155,7 +155,7 @@ import stockApi from "../../api/tmaterial/apiStock.ts";
 import warehouseApi from "../../api/tmaterial/apiWarehouse";
 import { mapGetters } from "vuex";
 export default {
-  data() {
+  data () {
     return {
       childForm: {
         addForm: false,
@@ -179,7 +179,7 @@ export default {
           {
             text: this.$t("base.yesterday"),
 
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
@@ -188,7 +188,7 @@ export default {
           },
           {
             text: this.$t("base.threeMonth"),
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
@@ -224,8 +224,8 @@ export default {
     };
   },
 
-  created() {
-    this.searchData.organizationId = this.userOrgId;
+  created () {
+    this.load();
   },
   components: {
     "add-form": AddForm,
@@ -234,9 +234,12 @@ export default {
     OrganizationForm: () => import("@/components/Organization")
   },
   methods: {
-    onSelectChanged(label, value) {
+    load () {
+      this.searchData.organizationId = this.userOrgId;
+    },
+    onSelectChanged (label, value) {
       this.formData.warehouseList = [];
-      let search = "organization.organizationId:eq:{orgid};control:eq:5".format(
+      let search = "organization.organizationId:like:{orgid};control:eq:5".format(
         {
           orgid: value
         }
@@ -256,9 +259,9 @@ export default {
             this.searchData.warehouseId = this.formData.warehouseList[0].id;
           }
         })
-        .catch(error => {});
+        .catch(error => { });
     },
-    editButtonClick(selectRow, isEdit) {
+    editButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -267,7 +270,7 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    deleteButtonClick() {
+    deleteButtonClick () {
       if (
         this.formData.selectRow === null ||
         this.formData.selectRow === undefined
@@ -288,9 +291,9 @@ export default {
           this.formData.selectRow = null;
           this.onSearchButtonClick();
         })
-        .catch(error => {});
+        .catch(error => { });
     },
-    deleteButtonConfirm() {
+    deleteButtonConfirm () {
       this.$confirm(
         this.$t("message.deleteConfirm"),
         this.$t("base.titleTip"),
@@ -310,10 +313,10 @@ export default {
           });
         });
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.formData.selectRow = val;
     },
-    onSearchButtonClick() {
+    onSearchButtonClick () {
       Promise.all([
         stockApi.getAll({
           size: this.formData.pagination.pageSize,
@@ -338,29 +341,29 @@ export default {
             position: "bottom-right"
           });
         })
-        .catch(error => {});
+        .catch(error => { });
     },
 
-    onPageChange(index) {
+    onPageChange (index) {
       if (this.formData.pagination.currentPage !== index) {
         this.formData.pagination.currentPage = index;
         this.onSearchButtonClick();
       }
     },
-    onPageSizeChange(size) {
+    onPageSizeChange (size) {
       if (this.formData.pagination.pageSize !== size) {
         this.formData.pagination.pageSize = size;
         this.onSearchButtonClick();
       }
     },
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName ({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
         return "warning-row";
       } else {
         return "success-row";
       }
     },
-    handleClose(done) {
+    handleClose (done) {
       this.childForm.addForm = false;
       this.childForm.initForm = false;
       this.childForm.editForm = false;
