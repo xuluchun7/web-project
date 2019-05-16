@@ -264,7 +264,6 @@ import { parseDate } from "@/filters/index.ts";
 import categoryApi from "../../api/basic/api_category";
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 import { mapGetters } from "vuex";
-import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
