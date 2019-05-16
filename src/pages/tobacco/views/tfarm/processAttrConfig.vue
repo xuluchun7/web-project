@@ -573,7 +573,7 @@ export default {
         this.createAttrEnum();
         try {
           this.formData.enumList = [];
-          this.formData.enumList = JSON.parse(this.formItem.dataSource);
+          this.formData.enumList = JSON.parse(this.processAttrItem.dataSource);
         } catch (error) {
           console.log(error);
         }
