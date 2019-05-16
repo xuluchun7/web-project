@@ -18,7 +18,8 @@ export default {
         selectGrade: '选择烟叶等级',
         selectArea: '选择烟叶价区',
         selectStatus: '选择烟叶形态',
-        unitInfo: '株数单位：株 面积单位：亩 数量单位：公斤'
+        unitInfo: '株数单位：株 面积单位：亩 数量单位：公斤',
+        selectFile: '选择文件'
     },
     basic: {
         annual: {
@@ -1677,6 +1678,15 @@ export default {
         }
     },
     tmisc: {
+        technology: {
+            code: '编码',
+            annual: '年度',
+            name: '名称',
+            author: '作者',
+            date: '日期',
+            control: '启用状态',
+            type: '类型'
+        },
         appraise: {
             annual: '年度',
             serial: '序号',
