@@ -8,18 +8,19 @@
         <el-form inline>
 
           <el-form-item :label="$t('tobacco.tmaterial.materialUnit.material')">
-            <el-autocomplete class="inline-input"
-                             style="width:250px"
-                             :value="searchData.material.name"
-                             :fetch-suggestions="querySearch"
-                             placeholder="请输入物资名称"
-                             @select="handleSelect">
-              <template slot-scope="{ item }">
-                <div style="width:100%;">{{ item.name }}</div>
-                <span style="float: left;  color: #8492a6; font-size: 10px">{{ item.code }}</span>
-                <span style="float: right; color: #8492a6; font-size: 10px">&nbsp;&nbsp;{{ item.title }}</span>
-              </template>
-            </el-autocomplete>
+            <el-select v-model="searchData.material"
+                       style="width:300px !important"
+                       filterable
+                       clearable
+                       placeholder="请选择">
+              <el-option v-for="item in searchData.materialList"
+                         :key="item.id"
+                         :label="item.name"
+                         :value="item.id">
+                <span style="float: left;">{{ item.name }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.code }}</span>
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item :label="$t('base.keywords')">
             <el-input v-bind:placeholder="$t('base.ipKeywords')"
@@ -133,7 +134,7 @@ const EditForm = () => import("./materialUnitEdit.vue");
 import materialUnitApi from "../../api/tmaterial/apiMaterialUnit";
 import materialApi from "../../api/tmaterial/apiMaterial";
 export default {
-  data() {
+  data () {
     return {
       childForm: {
         addForm: false,
@@ -156,7 +157,7 @@ export default {
           {
             text: this.$t("base.yesterday"),
 
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
@@ -165,7 +166,7 @@ export default {
           },
           {
             text: this.$t("base.threeMonth"),
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
@@ -175,10 +176,7 @@ export default {
         ]
       },
       searchData: {
-        material: {
-          id: "",
-          name: ""
-        },
+        material: "",
         desc: "",
         materialList: []
       },
@@ -196,38 +194,20 @@ export default {
       }
     };
   },
-  created() {
+  created () {
     Promise.all([materialApi.getAll({ size: 500 })])
       .then(([materialResponse]) => {
         this.searchData.materialList = materialResponse.content;
       })
-      .catch(error => {});
+      .catch(error => { });
   },
   components: {
     "add-form": AddForm,
     "edit-form": EditForm
   },
   methods: {
-    querySearch(queryString, cb) {
-      var materials = this.searchData.materialList;
-      var results = queryString
-        ? materials.filter(this.createFilter(queryString))
-        : materials;
-      // 调用 callback 返回建议列表的数据
-      cb(results);
-    },
-    createFilter(queryString) {
-      return material => {
-        return (
-          material.name.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
-        );
-      };
-    },
-    handleSelect(item) {
-      var ele = JSON.parse(JSON.stringify(item));
-      this.searchData.material = ele;
-    },
-    editButtonClick(selectRow, isEdit) {
+
+    editButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -236,7 +216,7 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    deleteButtonClick() {
+    deleteButtonClick () {
       if (
         this.formData.selectRow === null ||
         this.formData.selectRow === undefined
@@ -257,9 +237,9 @@ export default {
           this.formData.selectRow = null;
           this.onSearchButtonClick();
         })
-        .catch(error => {});
+        .catch(error => { });
     },
-    deleteButtonConfirm() {
+    deleteButtonConfirm () {
       this.$confirm(
         this.$t("message.deleteConfirm"),
         this.$t("base.titleTip"),
@@ -279,19 +259,19 @@ export default {
           });
         });
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.formData.selectRow = val;
     },
-    onSearchButtonClick() {
+    onSearchButtonClick () {
       console.log(this.searchData);
       let search = "";
       if (
-        this.searchData.material.id !== "" &&
-        this.searchData.material.id !== undefined &&
-        this.searchData.material.id !== null
+        this.searchData.material !== "" &&
+        this.searchData.material !== undefined &&
+        this.searchData.material !== null
       ) {
         this.search = "material.id:eq:{material};".format({
-          material: this.searchData.material.id
+          material: this.searchData.material
         });
       }
       console.log(this.search);
@@ -315,29 +295,29 @@ export default {
             position: "bottom-right"
           });
         })
-        .catch(error => {});
+        .catch(error => { });
     },
 
-    onPageChange(index) {
+    onPageChange (index) {
       if (this.formData.pagination.currentPage !== index) {
         this.formData.pagination.currentPage = index;
         this.onSearchButtonClick();
       }
     },
-    onPageSizeChange(size) {
+    onPageSizeChange (size) {
       if (this.formData.pagination.pageSize !== size) {
         this.formData.pagination.pageSize = size;
         this.onSearchButtonClick();
       }
     },
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName ({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
         return "warning-row";
       } else {
         return "success-row";
       }
     },
-    handleClose(done) {
+    handleClose (done) {
       this.childForm.addForm = false;
       this.childForm.editForm = false;
       this.onSearchButtonClick();

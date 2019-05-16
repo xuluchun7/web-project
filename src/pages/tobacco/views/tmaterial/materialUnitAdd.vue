@@ -7,6 +7,7 @@
     <el-form-item :label="$t('tobacco.tmaterial.materialUnit.material')">
       <el-select v-model="formItem.material"
                  filterable
+                 clearable
                  placeholder="请选择">
         <el-option v-for="item in formData.materialList"
                    :key="item.id"
