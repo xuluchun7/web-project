@@ -308,7 +308,7 @@ import deliveryApi from "../../api/tsell/api_delivery";
 import receiptApi from "../../api/tsell/api_receipt";
 import { mapGetters } from "vuex";
 // import util from '@/utils/util';
-
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -358,7 +358,7 @@ export default {
           ]
         }, */
       searchData: {
-        annual: this.dateFormat(new Date(), "yyyy"),
+        annual: parseDate(new Date(), "yyyy"),
         date: "",
         begindate: "",
         enddate: "",

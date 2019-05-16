@@ -291,6 +291,7 @@ import balanceAssignAliasApi from "../../api/setup/api_balanceAssignAlias";
 import categoryApi from "../../api/basic/api_category";
 import lineRoleAliasApi from "../../api/setup/api_lineRoleAlias";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -303,39 +304,7 @@ export default {
         parameterForm: false,
         isEdit: false
       },
-      dateoptions: {
-        shortcuts: [
-          {
-            text: this.$t("base.today"),
-
-            onClick: picker => {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: this.$t("base.yesterday"),
-
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: this.$t("base.oneWeek"),
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      },
+      dateoptions: this.GLOBAL.pageSizeOpts,
       searchData: {
         serial: "",
         number: "",
@@ -678,7 +647,7 @@ export default {
       if (date === "" || date === undefined || date === null) {
         return "未设置";
       }
-      return dateFormat(date, "YYYY-MM-DD");
+      return parseDate(date, "YYYY-MM-DD");
     },
     formateRoleId(roleId) {
       let roleName = "";

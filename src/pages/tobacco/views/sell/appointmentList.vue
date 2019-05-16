@@ -100,7 +100,7 @@
         <el-table-column :label="this.$t('tobacco.tsell.appointment.beginEnd')"
                          width="140px">
           <template slot-scope="scope">
-            {{scope.row.begin|parseDate('HH:MM:SS')}} -- {{scope.row.begin|end('HH:MM:SS')}}
+            {{scope.row.begin|parseDate('HH:mm:ss')}} -- {{scope.row.begin|end('HH:mm:ss')}}
           </template>
         </el-table-column>
 
@@ -206,7 +206,7 @@ const typeSelect = () => import("@/components/Tobacco/typeSelect");
 import appointmentApi from "../../api/tsell/api_appointment";
 import { mapGetters } from "vuex";
 const path = require("path");
-
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -264,9 +264,9 @@ export default {
       },
       searchData: {
         orgId: this.userOrgId,
-        annual: this.dateFormat(new Date(), "yyyy"),
-        beginDate: this.dateFormat(this.getFirstDate(), "yyyymmddHHMMss"),
-        endDate: this.dateFormat(this.getLastDate(), "yyyymmddHHMMss")
+        annual: parseDate(new Date(), "YYYYMMDD"),
+        beginDate: parseDate(this.getFirstDate(), "YYYYMMDDHHmmss"),
+        endDate: parseDate(this.getLastDate(), "YYYYMMDDdHHmmss")
       },
       formData: {
         appointmentList: [],

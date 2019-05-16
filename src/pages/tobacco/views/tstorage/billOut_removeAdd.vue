@@ -95,7 +95,7 @@
       <el-col :span="8">
         <el-form-item :label="$t('tobacco.tstorage.billOut.date')"
                       prop="date">
-          <el-date-picker value-format="yyyy-MM-dd HH:MM:SS"
+          <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
                           type="date"
                           v-model="formItem.date"
                           style="width:100%;"
@@ -269,7 +269,7 @@ import operationApi from "../../api/tstorage/api_operation";
 import booksApi from "../../api/tstorage/api_books";
 import categoryApi from "../../api/basic/api_category";
 import { mapGetters } from "vuex";
-
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -380,7 +380,7 @@ export default {
     this.formItem.month = new Date().getMonth();
     this.formItem.year = new Date().getFullYear().toString();
     this.formItem.tobaccoYear = new Date().getFullYear().toString();
-    this.formItem.date = this.dateFormat(new Date(), "YYYY-MM-DD HH:MM:SS");
+    this.formItem.date = parseDate(new Date(), "YYYY-MM-DD HH:mm:ss");
   },
   methods: {
     SourceOrganizationChange(value) {

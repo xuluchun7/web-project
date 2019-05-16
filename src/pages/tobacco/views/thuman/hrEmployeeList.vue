@@ -260,10 +260,11 @@ const EditForm = () => import("./hrEmployeeEdit.vue");
 const BindForm = () => import("./bindUser.vue");
 const OrganizationForm = () => import("@/components/Organization");
 const famerForm = () => import("./hrEmployee_showFarmer.vue");
-
+import { parseDate } from "@/filters/index.ts";
 import categoryApi from "../../api/basic/api_category";
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -529,7 +530,7 @@ export default {
       if (date === "" || date === undefined || date === null) {
         return "未设置";
       }
-      return dateFormat(date, "yyyy/mm/dd");
+      return parseDate(date, "yyyy/mm/dd");
     }
   }
 };

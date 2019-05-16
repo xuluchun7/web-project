@@ -97,6 +97,7 @@ const path = require("path");
 import statisticApi from "../../api/online/apiStatistic";
 import statisticParamApi from "../../api/online/apiStatisticParam";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -345,12 +346,12 @@ export default {
               this.$set(
                 this.searchData,
                 item.name,
-                this.dateFormat(new Date(), "YYYY-MM-DD")
+                parseDate((new Date(), "YYYY-MM-DD"))
               );
               this.$set(
                 this.templateData,
                 item.templateName,
-                this.dateFormat(new Date(), "YYYY-MM-DD")
+                parseDate((new Date(), "YYYY-MM-DD"))
               );
             } else if (item.type === "tobaccoType") {
               //烟叶类型组件

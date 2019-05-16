@@ -106,6 +106,7 @@ import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 import hrEmployeeRelation from "../../api/thuman/api_hrEmployeeRelation";
 import { mapGetters } from "vuex";
 const OrganizationForm = () => import("@/components/Organization");
+import { parseDate } from "@/filters/index.ts";
 export default {
   props: ["hrFarmerData", "visible", "organizeId", "searchInfo"],
   data() {
@@ -314,7 +315,7 @@ export default {
       if (date === "" || date === undefined || date === null) {
         return "未设置";
       }
-      return dateFormat(date, "YYYY-MM-DD");
+      return parseDate(date, "YYYY-MM-DD");
     },
     handleSelectionChange(val) {
       this.searchData.multipleSelection = val;

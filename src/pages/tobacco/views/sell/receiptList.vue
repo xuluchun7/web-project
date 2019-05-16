@@ -275,7 +275,7 @@ const EditForm = () => import("./receiptEdit.vue");
 import receiptApi from "../../api/tsell/api_receipt";
 import { mapGetters } from "vuex";
 const OrganizationForm = () => import("@/components/Organization");
-
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -365,8 +365,8 @@ export default {
       },
       formData: {
         beginAndEnd: [
-          this.dateFormat(this.getFirstDate(), "YYYY-MM-DD"),
-          this.dateFormat(this.getLastDate(), "YYYY-MM-DD")
+          parseDate(this.getFirstDate(), "YYYY-MM-DD"),
+          parseDate(this.getLastDate(), "YYYY-MM-DD")
         ],
         controlList: [
           { id: "1", name: "交售" },
@@ -474,8 +474,8 @@ export default {
       if (this.searchData.annual === null) {
         this.searchData.annual = "";
       }
-      let beginDate = this.dateFormat(this.formData.beginAndEnd[0], "yyyymmdd");
-      let endDate = this.dateFormat(this.formData.beginAndEnd[1], "yyyymmdd");
+      let beginDate = parseDate(this.formData.beginAndEnd[0], "YYYYMMDD");
+      let endDate = parseDate(this.formData.beginAndEnd[1], "YYYYMMDD");
 
       Promise.all([
         receiptApi.getAll({

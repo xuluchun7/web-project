@@ -54,7 +54,7 @@
           <el-date-picker v-model="formItem.date"
                           type="date"
                           style="width:100%;"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           :placeholder="$t('base.pleaseSelect')">
           </el-date-picker>
         </el-form-item>
@@ -120,7 +120,7 @@
           <el-date-picker v-model="formItem.begin"
                           type="date"
                           style="width:100%;"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           :placeholder="$t('base.pleaseSelect')">
           </el-date-picker>
         </el-form-item>
@@ -130,7 +130,7 @@
           <el-date-picker v-model="formItem.end"
                           type="date"
                           style="width:100%;"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           :placeholder="$t('base.pleaseSelect')">
           </el-date-picker>
         </el-form-item>
@@ -203,7 +203,7 @@ import partApi from "../../api/basic/api_part";
 import { mapGetters } from "vuex";
 const OrganizationForm = () => import("@/components/Organization");
 const typeSelect = () => import("@/components/Tobacco/typeSelect");
-
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -298,9 +298,9 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           console.log(this.formItem.date);
-          this.formItem.date = this.dateFormat(
+          this.formItem.date = parseDate(
             this.formItem.date,
-            "YYYY-MM-DD HH:MM:SS"
+            "YYYY-MM-DD HH:mm:ss"
           );
           const loading = this.$loading({
             lock: true,

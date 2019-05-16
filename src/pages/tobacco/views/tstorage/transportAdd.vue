@@ -89,7 +89,7 @@
         <el-form-item :label="$t('tobacco.tstorage.transport.date')"
                       prop="date">
           <el-date-picker v-model="formItem.date"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           type="date"
                           style="width:100%;"
                           :placeholder="$t('base.pleaseSelect')">
@@ -100,7 +100,7 @@
         <el-form-item :label="$t('tobacco.tstorage.transport.depart')"
                       prop="depart">
           <el-date-picker v-model="formItem.depart"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           type="date"
                           style="width:100%;"
                           :placeholder="$t('base.pleaseSelect')">
@@ -168,7 +168,7 @@
 const typeSelect = () => import("@/components/Tobacco/typeSelect");
 const OrganizationForm = () => import("@/components/Organization");
 const statusSelect = () => import("../components/statusSelect");
-
+import { parseDate } from "@/filters/index.ts";
 import transportApi from "../../api/tstorage/api_transport";
 import categoryApi from "../../api/basic/api_category";
 import vehicleApi from "../../api/tstorage/api_vehicle";
@@ -257,8 +257,8 @@ export default {
   created() {
     this.formItem.annual = new Date().getFullYear().toString();
     this.formItem.tyear = new Date().getFullYear().toString();
-    this.formItem.date = this.dateFormat(new Date(), "YYYY-MM-DD HH:MM:SS");
-    this.formItem.depart = this.dateFormat(new Date(), "YYYY-MM-DD HH:MM:SS");
+    this.formItem.date = parseDate(new Date(), "YYYY-MM-DD HH:mm:ss");
+    this.formItem.depart = parseDate(new Date(), "YYYY-MM-DD HH:mm:ss");
 
     Promise.all([categoryApi.getAll({ search: "lead:EQ:ST_TR" })])
       .then(([response]) => {

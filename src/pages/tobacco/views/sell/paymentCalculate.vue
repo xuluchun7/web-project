@@ -27,7 +27,7 @@
 </template>
 <script>
 // import paymentApi from '../../api/tsell/api_payment';
-
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -38,8 +38,8 @@ export default {
       },
       formData: {
         beginAndEnd: [
-          this.dateFormat(this.getFirstDate(), "YYYY-MM-DD"),
-          this.dateFormat(this.getLastDate(), "YYYY-MM-DD")
+         parseDate(this.getFirstDate(), "YYYY-MM-DD"),
+         parseDate(this.getLastDate(), "YYYY-MM-DD")
         ]
       }
     };

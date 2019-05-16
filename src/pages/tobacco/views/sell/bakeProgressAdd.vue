@@ -38,12 +38,13 @@
 <script>
 import bakeProgressApi from "../../api/tsell/api_bakeProgress";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   props: ["level"],
   data() {
     return {
       formItem: {
-        date: this.dateFormat(new Date(), "YYYY-MM-DD"),
+        date: parseDate(new Date(), "YYYY-MM-DD"),
         bakeAmount: 0,
         finishAmount: 0,
         topMatureAmount: 0,

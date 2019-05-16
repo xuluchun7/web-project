@@ -86,6 +86,7 @@ import seContractApi from "../../api/tsell/api_seContract";
 import categoryApi from "../../api/basic/api_category";
 import applybreachofcontractApi from "../../api/tsell/api_applybreachofcontract";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -139,8 +140,8 @@ export default {
     })
   },
   created() {
-    this.formItem.applyDate = this.dateFormat(new Date(), "YYYY-MM-DD ");
-    this.formItem.recoveryDate = this.dateFormat(new Date(), "YYYY-MM-DD ");
+    this.formItem.applyDate = parseDate(new Date(), "YYYY-MM-DD ");
+    this.formItem.recoveryDate = parseDate(new Date(), "YYYY-MM-DD ");
     Promise.all([categoryApi.getAll({ search: "lead:EQ:SG_A" })])
       .then(([response]) => {
         this.controllist = response.content;

@@ -196,6 +196,7 @@ const OrganizationForm = () => import("@/components/Organization");
 import hrTeamApi from "../../api/thuman/api_hrTeam";
 import categoryApi from "../../api/basic/api_category";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -413,7 +414,7 @@ export default {
         return this.$t("tobacco.thuman.hrTeam.unSet");
       }
       date = new Date(date);
-      return dateFormat(date, "YYYY-MM-DD");
+      return parseDate(date, "YYYY-MM-DD");
     },
     timeDifference(start, end) {
       if (end === "" || end === null) {

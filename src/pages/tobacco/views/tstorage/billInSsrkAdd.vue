@@ -279,7 +279,7 @@ import operationApi from "../../api/tstorage/api_operation";
 import booksApi from "../../api/tstorage/api_books";
 import categoryApi from "../../api/basic/api_category";
 import { mapGetters } from "vuex";
-
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -394,7 +394,7 @@ export default {
     this.getWhouse();
     this.formItem.annual = new Date().getFullYear().toString();
     this.formItem.tobaccoYear = new Date().getFullYear().toString();
-    this.formItem.date = this.dateFormat(new Date(), "YYYY-MM-DD");
+    this.formItem.date = parseDate(new Date(), "YYYY-MM-DD");
   },
   methods: {
     getTransportData() {

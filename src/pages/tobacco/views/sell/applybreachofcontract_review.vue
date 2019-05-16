@@ -10,7 +10,7 @@
     </el-form-item>
     <el-form-item :label="$t('tobacco.tsell.applybreachofcontract.examineDate')"
                   prop="examineDate">
-      <el-date-picker value-format="yyyy-MM-dd HH:MM:SS"
+      <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
                       v-model="formItem.examineDate"
                       type="date"
                       :placeholder="$t('base.pleaseSelect')"
@@ -41,6 +41,7 @@ const OrganizationForm = () => import("@/components/Organization");
 
 import applybreachofcontractApi from "../../api/tsell/api_applybreachofcontract";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   props: ["item", "isEdit", "visible"],
   data() {
@@ -88,9 +89,9 @@ export default {
     },
     onSubmitClick(name) {
       this.$refs[name].validate(valid => {
-        this.formItem.examineDate = this.dateFormat(
+        this.formItem.examineDate = parseDate(
           this.formItem.examineDate,
-          "YYYY-MM-DD HH:MM:SS"
+          "YYYY-MM-DD HH:mm:ss"
         );
         if (valid) {
           Promise.all([

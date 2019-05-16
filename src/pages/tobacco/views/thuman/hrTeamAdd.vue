@@ -159,7 +159,7 @@ import hrTeamApi from "../../api/thuman/api_hrTeam";
 import { mapGetters } from "vuex";
 
 const OrganizationForm = () => import("@/components/Organization");
-
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     //验证手机号
@@ -290,7 +290,7 @@ export default {
   },
   created() {
     this.formItem.date = this.getNowFormatDate();
-    this.formItem.start = this.dateFormat(new Date(), "YYYY-MM-DD");
+    this.formItem.start = parseDate(new Date(), "YYYY-MM-DD");
   },
   methods: {
     getNowFormatDate() {
@@ -377,7 +377,7 @@ export default {
       if (date === "" || date === undefined || date === null) {
         return "未设置";
       }
-      return this.dateFormat(date, "YYYY-MM-DD");
+      return parseDate(date, "YYYY-MM-DD");
     },
     checkNumber() {
       if (this.formItem.number === "") {

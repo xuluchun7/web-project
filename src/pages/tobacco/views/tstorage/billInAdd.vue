@@ -99,7 +99,7 @@
                       prop="date">
           <el-date-picker v-model="formItem.date"
                           type="date"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           style="width:100%;"
                           :placeholder="$t('base.pleaseSelect')">
           </el-date-picker>

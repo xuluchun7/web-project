@@ -16,7 +16,7 @@
                   prop="startTime">
 
       <el-time-picker v-model="formItem.startTime"
-                      value-format="HH:MM:SS"
+                      value-format="HH:mm:ss"
                       style="width:100%;"
                       :placeholder="$t('base.pleaseSelect')" />
 
@@ -24,7 +24,7 @@
     <el-form-item :label="$t('tobacco.tsell.appointmentTime.endTime')"
                   prop="endTime">
       <el-time-picker v-model="formItem.endTime"
-                      value-format="HH:MM:SS"
+                      value-format="HH:mm:ss"
                       style="width:100%;"
                       :placeholder="$t('base.pleaseSelect')" />
     </el-form-item>

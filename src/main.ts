@@ -82,7 +82,7 @@ new Vue({
           this.loadingInstance.text =
             '请确认权限是否正确，5秒后跳转到登陆界面';
           setTimeout(() => {
-            //  window.location.href = '/login.html';
+              window.location.href = '/login.html';
           }, 5000);
         }
       } else {
