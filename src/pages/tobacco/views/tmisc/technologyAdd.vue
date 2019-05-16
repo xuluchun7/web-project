@@ -69,7 +69,6 @@
                  :on-remove="handleRemove"
                  :on-success="uploadSuccess"
                  :file-list="fileList"
-                 :headers="header"
                  :auto-upload="false">
         <el-button slot="trigger"
                    size="small"
@@ -89,10 +88,6 @@ import technologyApi from "../../api/tmisc/apiTechnology";
 export default {
   data() {
     return {
-      uploadUrl: this.getRootPath(),
-      header: {
-        Authorization: getToken()
-      },
       fileList: [],
       formItem: {
         code: "",
@@ -120,14 +115,6 @@ export default {
     this.formItem.date = this.dateFormat(new Date(), "YYYY-MM-DD");
   },
   methods: {
-    getRootPath() {
-      let isProduction = process.env.NODE_ENV === "production";
-      let rootPath = process.env.VUE_APP_API_URL;
-      if (isProduction) {
-        rootPath = "";
-      }
-      return rootPath + "/zuul/user/online/statistic/upload/template";
-    },
     submitUpload() {
       this.$refs.upload.submit();
     },
@@ -164,7 +151,7 @@ export default {
       this.$refs[name].resetFields();
     },
     uploadSuccess(response, file, fileList) {
-      console.info(fileList.length);
+      console.info();
       // if (response.code !== 0) {
       //   this.$notify.error({
       //     title: "错误",
