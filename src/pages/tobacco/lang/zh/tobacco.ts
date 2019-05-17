@@ -2237,6 +2237,29 @@ export default {
             money: '标准金额',
             desc: '描述',
             rosterId: '花名册编码'
+        },
+        billApply: {
+            bookId: '账套',
+            annual: '年度',
+            serial: '序号',
+            code: '编码',
+            identity: '身份',
+            year: '年',
+            month: '月',
+            title: '标题',
+            author: '作者',
+            date: '日期',
+            operation: '单据类型',
+            countryId: '国家ID',
+            countryName: '国家名称',
+            singleNumber: '调运单号',
+            materialName: '申请物资名称',
+            materialNumber: '申请物资件数',
+            materialWeight: '申请物资重量',
+            materialSpecifications: '申请物资规格',
+            materialApplication: '申请物资用途',
+            applicationTime: '申请物资时间',
+            materialDetails: '申请物资明细'
         }
     }
 };

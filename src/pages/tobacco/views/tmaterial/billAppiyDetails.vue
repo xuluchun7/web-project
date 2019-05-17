@@ -1,0 +1,123 @@
+<template>
+    <div>
+        <el-form  >
+            <el-form-item>
+            <el-table
+                    :row-key="getRowKey"
+                    :data="formItem"
+                    style="width: 100%;"
+                    tooltip-effect="dark"
+                    ref="multipleTable"
+                    @selection-change="handleSelectionChange">
+                <el-table-column
+                        prop="date"
+                        :label="$t('base.date')"
+                        width="160">
+                </el-table-column>
+                <el-table-column
+                        prop="name"
+                        :label="$t('base.name')"
+                        width="160">
+                </el-table-column>
+                <el-table-column
+                        prop="code"
+                        :label="$t('base.code')"
+                        width="160">
+                </el-table-column>
+                <el-table-column
+                        type="selection"
+                        width="55"
+                        :reserve-selection="true">
+                </el-table-column>
+
+            </el-table>
+                <el-pagination
+                        background
+                        layout="prev, pager, next"
+                        :page-size="15"
+                        :total="length"
+                        @current-change="currentChange">
+                </el-pagination>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit">立即创建</el-button>
+            </el-form-item>
+        </el-form>
+
+    </div>
+</template>
+
+<script>
+    import apiMaterial from '../../api/tmaterial/apiMaterial'
+    export default {
+        props:['ArrmaterialDetails'],
+        data() {
+            return {
+                formItem:[],
+                radio: '1',
+                dataItem:[],
+                multipleSelection:[],
+                length:0,
+                num:0,
+            };
+        },
+        created() {
+            Promise.all([apiMaterial.getAll({
+                    size: 500,
+                    page: 0,
+                })])
+                .then(res=>{
+                    this.length=res[0].content.length
+                })
+
+            this.showApiMaterial()
+            this.toggleSelection(this.ArrmaterialDetails)
+        },
+        mounted(){
+            this.toggleSelection(this.ArrmaterialDetails)
+        },
+        components: {},
+        methods: {
+            getRowKey (row) {
+                return row.id
+            },
+            showApiMaterial(){
+                Promise.all([apiMaterial.getAll({
+                    size: 15,
+                    page: this.num,
+                    sort: "code",
+                })])
+                    .then(res=>{
+                        this.formItem=res[0].content
+                        for (var i in this.formItem){
+                            this.formItem[i].date=this.formItem[i].date.substring(0,10)
+                        }
+
+                    })
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                console.log(this.multipleSelection)
+            },
+            onSubmit(){
+                this.$emit('saveMaterialDetails',this.multipleSelection,false)
+            },
+            currentChange(a){
+                this.num=a-1
+                this.showApiMaterial()
+            },
+            toggleSelection(rows) {
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.multipleTable.toggleRowSelection(row);
+                    });
+                } else {
+                    this.$refs.multipleTable.clearSelection();
+                }
+                }
+        }
+    };
+</script>
+<style scoped>
+
+</style>
