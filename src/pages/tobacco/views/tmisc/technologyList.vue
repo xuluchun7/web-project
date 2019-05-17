@@ -21,8 +21,6 @@
                      @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
           <el-button type='primary'
                      @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
-          <el-button type='primary'
-                     @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>
         </el-button-group>
       </div>
     </div>
@@ -35,8 +33,8 @@
                 :row-class-name="tableRowClassName">
         <el-table-column type="index">
         </el-table-column>
-        <el-table-column prop="code"
-                         :label="this.$t('tobacco.tmisc.technology.code')" />
+        <el-table-column prop="organization.organizationName"
+                         :label="this.$t('tobacco.tmisc.technology.organizationName')" />
         <el-table-column prop="annual"
                          :label="this.$t('tobacco.tmisc.technology.annual')" />
         <el-table-column prop="name"
@@ -44,21 +42,38 @@
         <el-table-column prop="author"
                          :label="this.$t('tobacco.tmisc.technology.author')" />
         <el-table-column prop="date"
-                         :label="this.$t('tobacco.tmisc.technology.date')" />
+                         :label="this.$t('tobacco.tmisc.technology.date')">
+          <template slot-scope="scope">
+            {{scope.row.date|parseDate('YYYY-MM-DD')}}
+          </template>
+        </el-table-column>
         <el-table-column prop="control"
-                         :label="this.$t('tobacco.tmisc.technology.control')" />
+                         :label="this.$t('tobacco.tmisc.technology.control')">
+          <template slot-scope="slot">
+            {{slot.row.control|controlFilter}}
+          </template>
+        </el-table-column>
         <el-table-column prop="type"
                          :label="this.$t('tobacco.tmisc.technology.type')" />
         <el-table-column fixed="right"
                          :label="$t('base.titleOperation')"
-                         width="100">
+                         width="200">
           <template slot-scope="scope">
             <el-button @click="editButtonClick(scope.row,false)"
                        type="text"
                        size="small">{{$t('base.buttonView')}}</el-button>
             <el-button type="text"
                        size="small"
+                       :disabled="scope.row.organizationId !== userOrgId"
                        @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
+            <el-button type='text'
+                       size="small"
+                       :disabled="scope.row.control !== 1"
+                       @click='downloadXlsFile(scope.row)'>{{$t('base.buttonDown')}}</el-button>
+            <el-button type='text'
+                       size="small"
+                       :disabled="scope.row.organizationId !== userOrgId"
+                       @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -102,7 +117,10 @@
 <script>
 const AddForm = () => import("./technologyAdd.vue");
 const EditForm = () => import("./technologyEdit.vue");
+import constant from "../../lang/zh/constant";
 import technologyApi from "../../api/tmisc/apiTechnology";
+import { mapGetters } from "vuex";
+const path = require("path");
 export default {
   data() {
     return {
@@ -165,7 +183,48 @@ export default {
     "add-form": AddForm,
     "edit-form": EditForm
   },
+  filters: {
+    controlFilter: function(key) {
+      let it = constant.tmisc.technologyControlList.find(item => {
+        return item.key === key;
+      });
+      return it === undefined ? "" : it.value;
+    }
+  },
   methods: {
+    getfilePath(filepath) {
+      console.info(filepath);
+      let isProduction = process.env.NODE_ENV === "production"; //如果是生产环境，前缀要发生变化
+      if (filepath === undefined || filepath === "" || filepath === null) {
+        return "/404";
+      }
+      let pps = filepath;
+      let root = "";
+      root = path.join("/upload", pps);
+      let rootPath =
+        process.env.VUE_APP_API_URL != undefined
+          ? process.env.VUE_APP_API_URL
+          : window.location.origin;
+      if (isProduction) {
+        rootPath = "";
+      }
+      console.info(root);
+      root = "{rootPath}{path}".format({ path: root, rootPath: rootPath });
+      console.info(root);
+      return root;
+    },
+    downloadXlsFile(selectRow) {
+      console.info(selectRow.path);
+      var str = selectRow.name;
+      var x = new XMLHttpRequest();
+      var url = this.getfilePath(selectRow.path);
+      x.open("GET", url, true);
+      x.responseType = "blob";
+      x.onload = function(e) {
+        require("downloadjs")(x.response, str);
+      };
+      x.send();
+    },
     editButtonClick(selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
@@ -223,17 +282,17 @@ export default {
     },
     onSearchButtonClick() {
       Promise.all([
-        technologyApi.getAll({
+        technologyApi.getDownList({
           size: this.formData.pagination.pageSize,
           page: this.formData.pagination.currentPage - 1,
-          contains: ":{keyword}:true".format({
-            keyword: this.formData.pagination.keyword
-          }),
-          search: "".format({})
+          orgId: this.userOrgId,
+          fileName: ""
         })
       ])
         .then(([response]) => {
+          console.info(this.formData.technologyList);
           this.formData.technologyList = response.content;
+          console.info(this.formData.technologyList);
           this.formData.pagination.total = parseFloat(response.totalElements);
           this.$notify({
             title: this.$t("base.hint"),
@@ -270,6 +329,13 @@ export default {
       this.onSearchButtonClick();
       done();
     }
+  },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   }
 };
 </script>

@@ -19,6 +19,15 @@ export default {
   softDelete: (id) => {
     return API.DELETE(baseUrl + '/' + id);
   },
+  batchSave: (params, fileNames) => {
+    return API.POST(baseUrl + '/batch/' + fileNames, params);
+  },
+  getAll: (params) => {
+    return API.GET(baseUrl, params);
+  },
+  getDownList: (params) => {
+    return API.GET(baseUrl + "/getDownList", params);
+  }
 
 
 };

@@ -5,9 +5,10 @@
            ref="formValidate">
     <el-row>
       <el-col :span="12">
-        <el-form-item :label="$t('tobacco.tmisc.technology.code')">
+        <el-form-item :label="$t('tobacco.common.organization')">
           <el-input v-bind:placeholder="$t('base.pleaseInput')"
-                    v-model="formItem.code" />
+                    v-model="formItem.organizationName"
+                    readonly />
         </el-form-item>
       </el-col>
       <el-col :span="12">
@@ -21,15 +22,10 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item :label="$t('tobacco.tmisc.technology.name')">
-          <el-input v-bind:placeholder="$t('base.pleaseInput')"
-                    v-model="formItem.name" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
         <el-form-item :label="$t('tobacco.tmisc.technology.author')">
           <el-input v-bind:placeholder="$t('base.pleaseInput')"
-                    v-model="formItem.author" />
+                    v-model="formItem.author"
+                    readonly />
         </el-form-item>
       </el-col>
       <el-col :span="12">
@@ -46,11 +42,10 @@
         <el-form-item :label="$t('tobacco.tmisc.technology.control')">
           <el-select v-model='formItem.control'
                      style="width:100%">
-            <el-option v-for="item in  formData.control"
-                       :key="item.id"
-                       :label="item.name"
-                       :value="item.id">
-            </el-option>
+            <el-option v-for="item in $t('constant.tmisc.technologyControlList')"
+                       :value='item.key'
+                       :key='item.key'
+                       :label="item.value" />
           </el-select>
         </el-form-item>
       </el-col>
@@ -64,7 +59,8 @@
     <el-form-item :label="$t('tobacco.common.selectFile')">
       <el-upload class="upload-demo"
                  ref="upload"
-                 action="https://jsonplaceholder.typicode.com/posts/"
+                 :action="uploadUrl"
+                 :headers="header"
                  :on-preview="handlePreview"
                  :on-remove="handleRemove"
                  :on-success="uploadSuccess"
@@ -85,44 +81,68 @@
 </template>
 <script>
 import technologyApi from "../../api/tmisc/apiTechnology";
+import { getToken } from "@/utils/cookieUtils";
+import { mapGetters } from "vuex";
+import constant from "../../lang/zh/constant";
 export default {
   data() {
     return {
+      uploadIndex: 0,
+      uploadUrl: this.getRootPath(),
+      header: {
+        Authorization: getToken()
+      },
       fileList: [],
       formItem: {
         code: "",
         annual: 0,
         name: "",
-        author: "",
+        author: this.$store.state.user.user.userName,
         date: "",
         control: 3,
-        type: ""
+        type: "",
+        organizationName: "",
+        organizationId: "",
+        organizationCode: ""
       },
       ruleValidate: {
         code: [{ required: true, message: "编码不能为空", trigger: "blur" }]
       },
-      formData: {
-        control: [
-          { id: 1, name: "启用" },
-          { id: 2, name: "停用" },
-          { id: 3, name: "编辑" }
-        ]
-      }
+      formData: {}
     };
   },
+
   created() {
+    this.formItem.organizationName = this.organizationName;
+    this.formItem.organizationId = this.userOrgId;
+    this.formItem.organizationCode = this.userOrgId;
     this.formItem.annual = new Date().getFullYear().toString();
     this.formItem.date = this.dateFormat(new Date(), "YYYY-MM-DD");
   },
   methods: {
+    getRootPath() {
+      let isProduction = process.env.NODE_ENV === "production";
+      let rootPath = process.env.VUE_APP_API_URL;
+      if (isProduction) {
+        rootPath = "";
+      }
+      return rootPath + "/tobacco/api/tmisc/technology/upload";
+    },
     submitUpload() {
       this.$refs.upload.submit();
     },
     onSubmitClick(name) {
+      console.info(this.fileList);
+      let fileNames = [];
+      for (var x in this.fileList) {
+        fileNames.push(this.fileList[x].name);
+      }
       this.$refs[name].validate(valid => {
         if (valid) {
-          Promise.all([technologyApi.save(this.formItem)])
+          Promise.all([technologyApi.batchSave(this.formItem, fileNames)])
             .then(([response]) => {
+              this.uploadIndex = 0;
+              this.fileList = [];
               this.formReset(name);
               //重置表单，允许多次操作
               this.$message({
@@ -151,17 +171,27 @@ export default {
       this.$refs[name].resetFields();
     },
     uploadSuccess(response, file, fileList) {
-      console.info();
-      // if (response.code !== 0) {
-      //   this.$notify.error({
-      //     title: "错误",
-      //     message: response.message
-      //   });
-      //   return;
-      // }
-      // //文件上传完成，再提交表单
-      // this.onSubmitClick("formValidate");
+      if (response.code !== 0) {
+        this.$notify.error({
+          title: "错误",
+          message: response.message
+        });
+        return;
+      }
+      this.uploadIndex++;
+      this.fileList = fileList;
+      if (this.uploadIndex === fileList.length) {
+        //文件上传完成，再提交表单
+        this.onSubmitClick("formValidate");
+      }
     }
+  },
+  computed: {
+    ...mapGetters({
+      userDistrictId: "districtId",
+      userOrgId: "organizationId",
+      organizationName: "organizationName"
+    })
   }
 };
 </script>

@@ -22,5 +22,12 @@ export default {
             { key: 5, value: '启用' },
             { key: 9, value: '停用' }
         ]
+    },
+    tmisc: {
+        technologyControlList: [
+            { key: 1, value: '启用' },
+            { key: 2, value: '停用' },
+            { key: 3, value: '编制' }
+        ]
     }
 };

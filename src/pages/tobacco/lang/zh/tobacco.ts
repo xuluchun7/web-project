@@ -1685,7 +1685,8 @@ export default {
             author: '作者',
             date: '日期',
             control: '启用状态',
-            type: '类型'
+            type: '类型',
+            organizationName: '上传单位'
         },
         appraise: {
             annual: '年度',
