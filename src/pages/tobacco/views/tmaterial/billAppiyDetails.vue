@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form  >
+        <el-form  style="width: 90%;margin: 0 auto">
             <el-form-item>
             <el-table
                     :row-key="getRowKey"
@@ -12,16 +12,26 @@
                 <el-table-column
                         prop="date"
                         :label="$t('base.date')"
-                        width="160">
+                        width="180">
                 </el-table-column>
                 <el-table-column
                         prop="name"
                         :label="$t('base.name')"
-                        width="160">
+                        width="180">
                 </el-table-column>
                 <el-table-column
                         prop="code"
                         :label="$t('base.code')"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="category.name"
+                        :label="$t('tobacco.tmaterial.billApply.category')"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="measure.name"
+                        :label="$t('tobacco.tmaterial.billApply.measurement')"
                         width="160">
                 </el-table-column>
                 <el-table-column
@@ -59,27 +69,46 @@
                 multipleSelection:[],
                 length:0,
                 num:0,
+                oldArr:[],
+                newArr:[]
             };
         },
         created() {
+            console.log(1212)
             Promise.all([apiMaterial.getAll({
                     size: 500,
                     page: 0,
                 })])
                 .then(res=>{
                     this.length=res[0].content.length
+                    this.oldArr=res[0].content
+
+                    for (var i=0;i<this.ArrmaterialDetails.length;i++) {
+                        console.log(this.oldArr.filter(item => {
+                            return item.name===this.ArrmaterialDetails[i].materialName
+                        }))
+                        this.newArr.push(this.oldArr.filter(item => {
+                            return item.name===this.ArrmaterialDetails[i].materialName
+                        }))
+                    }
+                    for (let i in this.newArr) {
+                        console.log(this.newArr[i])
+                        this.toggleSelection(this.newArr[i])
+                    }
+                    this.showApiMaterial()
                 })
 
-            this.showApiMaterial()
-            this.toggleSelection(this.ArrmaterialDetails)
         },
         mounted(){
-            this.toggleSelection(this.ArrmaterialDetails)
+            for (let i in this.newArr) {
+                console.log(this.newArr[i])
+                this.toggleSelection(this.newArr[i])
+            }
         },
         components: {},
         methods: {
             getRowKey (row) {
-                return row.id
+                return row.name
             },
             showApiMaterial(){
                 Promise.all([apiMaterial.getAll({
@@ -105,6 +134,10 @@
             currentChange(a){
                 this.num=a-1
                 this.showApiMaterial()
+                for (let i in this.newArr) {
+                    console.log(this.newArr[i])
+                    this.toggleSelection(this.newArr[i])
+                }
             },
             toggleSelection(rows) {
                 if (rows) {

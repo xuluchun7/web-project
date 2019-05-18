@@ -2259,7 +2259,9 @@ export default {
             materialSpecifications: '申请物资规格',
             materialApplication: '申请物资用途',
             applicationTime: '申请物资时间',
-            materialDetails: '申请物资明细'
+            materialDetails: '申请物资明细',
+            measurement:'计量单位',
+            category:'物资类别'
         }
     }
 };

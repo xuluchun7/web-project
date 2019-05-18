@@ -35,24 +35,15 @@
 			:row-class-name="tableRowClassName">
 		  <el-table-column type="index">
 			</el-table-column>
-
-			    <el-table-column prop="annual" :label="$t('tobacco.tmaterial.billApply.annual')" />
-			    <el-table-column prop="serial" :label="$t('tobacco.tmaterial.billApply.serial')" />
-			    <el-table-column prop="number" :label="$t('tobacco.tmaterial.billApply.code')" />
-
-
-			    <el-table-column prop="title" :label="$t('tobacco.tmaterial.billApply.title')" />
+				<el-table-column prop="annual" :label="$t('tobacco.tmaterial.billApply.annual')" />
+				<el-table-column prop="number" :label="$t('tobacco.tmaterial.billApply.code')" />
+				<el-table-column prop="title" :label="$t('tobacco.tmaterial.billApply.title')" />
 			    <el-table-column prop="author" :label="$t('tobacco.tmaterial.billApply.author')" />
 			    <el-table-column prop="date" :label="$t('tobacco.tmaterial.billApply.date')" />
-			    <el-table-column prop="operation" :label="$t('tobacco.tmaterial.billApply.operation')" />
-
-			    <el-table-column prop="singleNumber" :label="$t('tobacco.tmaterial.billApply.singleNumber')" />
-
-
-		<el-table-column
-		fixed="right"
-		:label="$t('base.titleOperation')"
-		width="100">
+			<el-table-column
+		     fixed="right"
+		     :label="$t('base.titleOperation')"
+		     width="100">
 		<template slot-scope="scope">
 			<el-button @click="editButtonClick(scope.row,false)" type="text" size="small">{{$t('base.buttonView')}}</el-button>
 			<el-button type="text" size="small" @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
@@ -69,7 +60,7 @@
         </div>
         <template>
             <el-dialog :title="$t('base.buttonAdd')" :visible.sync="childForm.addForm" top="10px"  :before-close="handleClose">
-                <add-form/>
+                <add-form />
             </el-dialog>
             <el-dialog :title="$t('base.buttonEdit')" :visible.sync="childForm.editForm"  top="10px"  :before-close="handleClose">
                 <edit-form :item.sync=formData.viewSelect :isEdit=childForm.isEdit :visible.sync="childForm.editForm" />
@@ -219,7 +210,11 @@
                     search:search
                 })])
                     .then(([response]) => {
+
                         this.formData.billApplyList = response.content;
+                       for (let i in this.formData.billApplyList){
+						   this.formData.billApplyList[i].date=response.content[i].date.substring(0,10)
+					   }
                         this.formData.pagination.total = parseFloat(response.totalElements);
                         this.$notify({
                             title: this.$t('base.hint'),
