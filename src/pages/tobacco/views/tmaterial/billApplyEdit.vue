@@ -79,7 +79,7 @@
                      label="输入数量">
                  <template  slot-scope="scope">
                      <el-input
-                             v-model="scope.row.materialNumber"
+                             v-model="scope.row.barcode"
                              size="mini"
                              placeholder="输入数量">
                          <div slot="append">{{scope.row.measure.name}}</div>
@@ -173,7 +173,8 @@
         created(){
             this.load();
             console.log(this.formItem)
-            this.materialDetails=this.item.billApplyItemList
+            console.log(this.item.billApplyItemList)
+            this.materialDetails=JSON.parse(JSON.stringify(this.item.billApplyItemList))
             this.showMaterialDetailsArr=this.materialDetails.filter((item,index)=>{
                 if (index<5){
                     return item
@@ -214,15 +215,16 @@
                 this.materialDetails=[]
                 this.showMaterialDetailsArr=[]
                 this.materialDetails=arr
-                this.formItem.billApplyItemList= arr
+                this.formItem.billApplyItemList= JSON.parse(JSON.stringify(arr))
                 console.log(arr)
                 for (let i in arr) {
-                    this.formItem.billApplyItemList[i].materialId= JSON.parse(JSON.stringify(this.materialDetails[i].id))
-                    this.formItem.billApplyItemList[i].materialName= JSON.parse(JSON.stringify(this.materialDetails[i].name))
-                    this.formItem.billApplyItemList[i].materialCode=JSON.parse(JSON.stringify(this.materialDetails[i].code ))
-                    this.formItem.billApplyItemList[i].materialNumber= JSON.parse(JSON.stringify(this.materialDetails[i].barcode))
-                    this.formItem.billApplyItemList[i].measure= JSON.parse(JSON.stringify(this.materialDetails[i].measure.id))
-                    this.formItem.billApplyItemList[i].category= JSON.parse(JSON.stringify(this.materialDetails[i].category.id))
+                    this.formItem.billApplyItemList[i].materialId=this.materialDetails[i].id
+                    this.formItem.billApplyItemList[i].materialName=this.materialDetails[i].name
+                    this.formItem.billApplyItemList[i].materialCode=this.materialDetails[i].code
+                    this.formItem.billApplyItemList[i].materialNumber=this.materialDetails[i].barcode
+                    this.formItem.billApplyItemList[i].measure=this.materialDetails[i].measure.id
+                    this.formItem.billApplyItemList[i].category=this.materialDetails[i].category.id
+                    this.materialDetails[i].barcode=this.formItem.billApplyItemList[i].materialNumber
                     for (let key in  this.formItem.billApplyItemList[i]){
                         console.log(key)
                         if (key !=='materialId'&&key !=='materialName'&&key !=='materialCode'&&key !=='materialNumber'&&key !=='measure'&&key !=='category'){
@@ -231,17 +233,15 @@
                     }
 
                 }
-                this.materialDetails=arr
-                this.showMaterialDetailsArr=this.formItem.billApplyItemList.filter((item,index)=>{
+                this.showMaterialDetailsArr=this.materialDetails.filter((item,index)=>{
                     if (index<5){
                         return item
                     }
                 })
-
                 this.showMaterialDetails=showMaterialDetails
             },
             currentChange(page){
-                this.showMaterialDetailsArr=this.formItem.billApplyItemList.filter((item,index)=>{
+                this.showMaterialDetailsArr=this.materialDetails.filter((item,index)=>{
                     if (index>=(page-1)*5&&index<page*5){
                         return item
                     }})
@@ -255,7 +255,7 @@
             item(curVal, oldVal) {
                 this.formItem = JSON.parse(JSON.stringify(curVal));
                 this.load();
-                this.materialDetails=curVal.billApplyItemList
+
             },
         },
         components:{

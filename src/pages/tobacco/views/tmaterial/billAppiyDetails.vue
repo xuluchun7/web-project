@@ -37,7 +37,7 @@
                 <el-table-column
                         type="selection"
                         width="55"
-                        :reserve-selection="true">
+                        :reserve-selection="show">
                 </el-table-column>
 
             </el-table>
@@ -61,8 +61,26 @@
     import apiMaterial from '../../api/tmaterial/apiMaterial'
     export default {
         props:['ArrmaterialDetails'],
+        watch:{
+            ArrmaterialDetails:function (curVal, oldVal) {
+                console.log(curVal)
+                console.log(oldVal)
+                console.log('改变')
+               if (curVal.length===0){
+                   console.log(1)
+                   this.$refs.multipleTable.clearSelection();
+               }
+               else{
+
+                   console.log(2)
+               }
+
+
+            }
+        },
         data() {
             return {
+                show:true,
                 formItem:[],
                 radio: '1',
                 dataItem:[],
@@ -75,6 +93,7 @@
         },
         created() {
             console.log(1212)
+            console.log(this.ArrmaterialDetails)
             Promise.all([apiMaterial.getAll({
                     size: 500,
                     page: 0,
@@ -82,22 +101,26 @@
                 .then(res=>{
                     this.length=res[0].content.length
                     this.oldArr=res[0].content
-
                     for (var i=0;i<this.ArrmaterialDetails.length;i++) {
                         console.log(this.oldArr.filter(item => {
                             return item.name===this.ArrmaterialDetails[i].materialName
                         }))
                         this.newArr.push(this.oldArr.filter(item => {
-                            return item.name===this.ArrmaterialDetails[i].materialName
+                            if (this.ArrmaterialDetails[i].materialName!==undefined){
+                            return item.name===this.ArrmaterialDetails[i].materialName}
+                            else{
+                                return item.name===this.ArrmaterialDetails[i].name
+                            }
                         }))
                     }
                     for (let i in this.newArr) {
                         console.log(this.newArr[i])
                         this.toggleSelection(this.newArr[i])
                     }
-                    this.showApiMaterial()
+                    console.log(this.newArr)
+                    // this.showApiMaterial()
                 })
-
+            this.showApiMaterial()
         },
         mounted(){
             for (let i in this.newArr) {
@@ -135,9 +158,10 @@
                 this.num=a-1
                 this.showApiMaterial()
                 for (let i in this.newArr) {
-                    console.log(this.newArr[i])
                     this.toggleSelection(this.newArr[i])
+
                 }
+
             },
             toggleSelection(rows) {
                 if (rows) {
