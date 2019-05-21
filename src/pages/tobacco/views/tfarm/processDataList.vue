@@ -93,10 +93,10 @@
                    plain
                    @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
         <el-button type='primary'
-                   v-show="false"
+                   v-show="true"
                    style="margin-left:3px"
                    plain
-                   @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
+                   @click='addButtonClick'>{{ $t('base.buttonAdd') }} </el-button>
         <el-button type='primary'
                    v-show="false"
                    style="margin-left:3px"
@@ -229,7 +229,8 @@
                  :visible.sync="childForm.addForm"
                  top="10px"
                  :before-close="handleClose">
-        <add-form />
+        <add-form :processCode="processCode"
+                  :designSchemeCode="designSchemeCode" />
       </el-dialog>
       <el-dialog :title="$t('base.buttonEdit')"
                  :visible.sync="childForm.editForm"
@@ -365,12 +366,16 @@ export default {
           pageSizeOpts: this.GLOBAL.pageSizeOpts
         },
         rowSelection: [],
-        attrrMap: []
+        attrrMap: [],
+        processCode: "",
+        designSchemeCode: ""
       }
     };
   },
   created() {
     this.searchData.organizationId = this.userOrgId;
+    this.processCode = this.$route.query.process;
+    this.designSchemeCode = this.$route.query.designScheme;
     console.log(this.$route.query);
     this.onLoad();
     //根据市一级来查询对应的方案信息
@@ -400,6 +405,9 @@ export default {
     }
   },
   methods: {
+    addButtonClick() {
+      this.childForm.addForm = true;
+    },
     onLoad() {
       //如果不相同，保存d原来的数值
 
