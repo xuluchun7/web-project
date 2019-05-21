@@ -297,7 +297,7 @@ export default {
       if (date === "" || date === undefined || date === null) {
         return "未设置";
       }
-      return dateFormat(date, "YYYY-MM-DD");
+      return parseDate(date, "YYYY-MM-DD");
     },
     handleSelectionChange(val) {
       this.searchData.multipleSelection = val;

@@ -230,9 +230,6 @@ export default {
     handleClose(done) {
       this.onSearchButtonClick();
       done();
-    },
-    dateFormat(date, pattern) {
-      return dateFormat(date, pattern);
     }
   }
 };

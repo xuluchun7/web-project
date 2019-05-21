@@ -55,7 +55,7 @@
           <el-date-picker v-model="formItem.date"
                           type="date"
                           style="width:100%;"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           :placeholder="$t('base.pleaseSelect')">
           </el-date-picker>
         </el-form-item>
@@ -121,7 +121,7 @@
           <el-date-picker v-model="formItem.begin"
                           type="date"
                           style="width:100%;"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           :placeholder="$t('base.pleaseSelect')">
           </el-date-picker>
         </el-form-item>
@@ -130,7 +130,7 @@
         <el-form-item :label="$t('tobacco.tsell.appointment.end')">
           <el-date-picker v-model="formItem.end"
                           type="date"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           style="width:100%;"
                           :placeholder="$t('base.pleaseSelect')">
           </el-date-picker>

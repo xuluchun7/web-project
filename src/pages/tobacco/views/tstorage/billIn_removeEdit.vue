@@ -93,7 +93,7 @@
         <el-form-item :label="$t('tobacco.tstorage.billIn.date')"
                       prop="date">
           <el-date-picker v-model="formItem.date"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           type="date"
                           style="width:100%;"
                           :placeholder="$t('base.pleaseSelect')">

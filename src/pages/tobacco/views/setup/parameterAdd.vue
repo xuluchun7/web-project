@@ -134,7 +134,7 @@ const OrganizationForm = () => import("@/components/Organization");
 import parameterApi from "../../api/setup/api_parameter";
 import { mapGetters } from "vuex";
 import balanceApi from "../../api/setup/api_balance";
-
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -334,7 +334,7 @@ export default {
       if (date === "" || date === undefined || date === null) {
         return "未设置";
       }
-      return dateFormat(date, "YYYY-MM-DD");
+      return parseDate(date, "YYYY-MM-DD");
     },
     clearForm() {
       this.formData.parameterList = [];

@@ -43,7 +43,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item :label="$t('tobacco.tstorage.smokepoint.date')">
-          <el-date-picker value-format="yyyy-MM-dd HH:MM:SS"
+          <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
                           v-model="formItem.date"
                           type="date"
                           :placeholder="$t('base.pleaseSelect')"

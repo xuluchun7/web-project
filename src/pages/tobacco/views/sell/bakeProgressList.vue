@@ -58,7 +58,7 @@
               <el-table-column prop="date"
                                :label="$t('tobacco.tsell.bakeProgressTrace.date')">
                 <template slot-scope="sc">
-                  {{dateFormat(sc.row.date,'YYYY-MM-DD')}}
+                  {{sc.row.date|parseDate('YYYY-MM-DD')}}
                 </template>
               </el-table-column>
             </el-table>
@@ -143,6 +143,7 @@ import organizationApi from "@/api/xbasic/apiOrganization";
 import bakeProgressApi from "../../api/tsell/api_bakeProgress";
 import bakeProgressTraceApi from "../../api/tsell/api_bakeProgressTrace";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -267,7 +268,7 @@ export default {
             auditId: this.loginName,
             auditOpinion: value,
             level: this.searchData.orgLevel,
-            date: this.dateFormat(new Date(), "YYYY-MM-DD"),
+            date: parseDate(new Date(), "YYYY-MM-DD"),
             history: JSON.stringify(row)
           };
           Promise.all([bakeProgressApi.review(data)])
@@ -300,7 +301,7 @@ export default {
             auditId: this.loginName,
             auditOpinion: value,
             level: this.searchData.orgLevel,
-            date: this.dateFormat(new Date(), "YYYY-MM-DD"),
+            date: parseDate(new Date(), "YYYY-MM-DD"),
             history: JSON.stringify(row)
           };
           Promise.all([bakeProgressApi.unreview(data)])

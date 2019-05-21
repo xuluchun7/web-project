@@ -225,6 +225,7 @@ const OrganizationForm = () => import("@/components/Organization");
 
 import paymentApi from "../../api/tsell/api_payment";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -303,8 +304,8 @@ export default {
       },
       formData: {
         beginAndEnd: [
-          this.dateFormat(this.getFirstDate(), "YYYY-MM-DD"),
-          this.dateFormat(this.getLastDate(), "YYYY-MM-DD")
+          parseDate(this.getFirstDate(), "YYYY-MM-DD"),
+          parseDate(this.getLastDate(), "YYYY-MM-DD")
         ],
         paymentList: [],
         pagination: {
@@ -411,8 +412,8 @@ export default {
       if (this.searchData.annual === null) {
         this.searchData.annual = "";
       }
-      let beginDate = this.dateFormat(this.formData.beginAndEnd[0], "yyyymmdd");
-      let endDate = this.dateFormat(this.formData.beginAndEnd[1], "yyyymmdd");
+      let beginDate = parseDate(this.formData.beginAndEnd[0], "YYYYMMDD");
+      let endDate = parseDate(this.formData.beginAndEnd[1], "YYYYMMDD");
       console.log(this.searchData.annual);
       console.log(beginDate);
       console.log(endDate);

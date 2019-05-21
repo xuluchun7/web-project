@@ -154,7 +154,7 @@
 const AddForm = () => import("./stationAdd.vue");
 const EditForm = () => import("./stationEdit.vue");
 const OrganizationForm = () => import("@/components/Organization");
-
+import { parseDate } from "@/filters/index.ts";
 import stationApi from "../../api/setup/api_station";
 import { mapGetters } from "vuex";
 export default {
@@ -356,7 +356,7 @@ export default {
       if (date === "" || date === undefined || date === null) {
         return "未设置";
       }
-      return dateFormat(date, "YYYY-MM-DD");
+      return parseDate(date, "YYYY-MM-DD");
     },
     //格式化状态显示
     formatControl(control) {

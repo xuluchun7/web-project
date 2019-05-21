@@ -118,7 +118,7 @@
                      inline
                      class="table-expand">
               <el-form-item :label="$t('tobacco.tfarm.processData.time')">
-                <span>{{ props.row.time|parseDate('HH:MM:SS') }}</span>
+                <span>{{ props.row.time|parseDate('HH:mm:ss') }}</span>
               </el-form-item>
               <el-form-item :label="$t('tobacco.tfarm.processData.farmerName')">
                 <span>{{ props.row.farmerName }}</span>

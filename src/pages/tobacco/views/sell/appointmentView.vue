@@ -93,14 +93,14 @@
       <el-col :span=12>
         <el-form-item :label="$t('tobacco.tsell.appointment.begin')">
           <span>
-            <span>{{dateFormat(formItem.begin,'HH:MM:SS')}}</span>
+            <span>(formItem.begin|parseDate('HH:mm:ss') </span>
           </span>
         </el-form-item>
       </el-col>
       <el-col :span=12>
 
         <el-form-item :label="$t('tobacco.tsell.appointment.end')">
-          <span>{{dateFormat(formItem.end,'HH:MM:SS')}}</span>
+          <span>(formItem.begin|end('HH:mm:ss') </span>
         </el-form-item>
       </el-col>
     </el-row>
@@ -180,9 +180,6 @@ export default {
     this.load();
   },
   methods: {
-    dateFormat(date, pattern) {
-      return dateFormat(date, pattern);
-    },
     load() {
       this.formItem = JSON.parse(JSON.stringify(this.item));
     },

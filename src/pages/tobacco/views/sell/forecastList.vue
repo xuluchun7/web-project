@@ -184,6 +184,7 @@ import forecastApi from "../../api/tsell/api_forecast";
 import forecastItemApi from "../../api/tsell/api_forecastItem";
 import { mapGetters } from "vuex";
 const path = require("path");
+import { parseDate } from "@/filters/index.ts";
 
 export default {
   data() {
@@ -234,8 +235,8 @@ export default {
       searchData: {
         organizationId: "",
         beginEnd: [
-          this.dateFormat(this.getFirstDate(), "yyyymmdd"),
-          this.dateFormat(this.getLastDate(), "yyyymmdd")
+          parseDate(this.getFirstDate(), "YYYYMMDD"),
+          parseDate(this.getLastDate(), "YYYYMMDD")
         ]
       },
       formData: {

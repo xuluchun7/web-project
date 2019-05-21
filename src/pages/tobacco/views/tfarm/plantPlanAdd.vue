@@ -206,6 +206,7 @@ import hrFarmerApi from "../../api/thuman/api_hrFarmer";
 import typeApi from "../../api/basic/api_type";
 import varietyApi from "../../api/basic/api_variety";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -224,7 +225,7 @@ export default {
         serial: "",
         title: "",
         author: "",
-        date: this.dateFormat(new Date(), "YYYY-MM-DD"),
+        date: parseDate(new Date(), "YYYY-MM-DD"),
         farmerId: "",
         farmerName: "",
         typeId: "10",

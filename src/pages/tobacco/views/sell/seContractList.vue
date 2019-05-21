@@ -336,7 +336,7 @@ import seContractApi from "../../api/tsell/api_seContract";
 import tareaApi from "@/api/tobacco/apiArea";
 import categoryApi from "../../api/basic/api_category";
 import { mapGetters } from "vuex";
-
+import { parseDate } from "@/filters/index.ts";
 // 导出变量
 export default {
   data() {
@@ -473,7 +473,7 @@ export default {
       if (date === "" || date === undefined || date === null) {
         return "未设置";
       }
-      return dateFormat(date, "YYYY-MM-DD");
+      return parseDate(date, "YYYY-MM-DD");
     },
     directiveOnchange(label, value, values) {
       this.searchData.districtId = value;

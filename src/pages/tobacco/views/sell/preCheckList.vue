@@ -86,7 +86,7 @@
                          :label="this.$t('tobacco.tsell.preCheck.reserveBeginEnd')"
                          width="160">
           <template slot-scope="scope">
-            {{scope.row.reserveBegin|parseDate('HH:MM:SS')}}- {{scope.row.reserveEnd|parseDate('HH:MM:SS')}}
+            {{scope.row.reserveBegin|parseDate('HH:mm:ss')}}- {{scope.row.reserveEnd|parseDate('HH:mm:ss')}}
           </template>
         </el-table-column>
         <el-table-column prop="partName"
@@ -495,9 +495,6 @@ export default {
       this.childForm.editForm = false;
       this.onSearchButtonClick();
       done();
-    },
-    dateFormat(date, pattern) {
-      return dateFormat(date, pattern);
     }
   }
 };

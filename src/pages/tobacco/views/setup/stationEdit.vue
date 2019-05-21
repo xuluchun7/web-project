@@ -18,7 +18,7 @@
     <el-form-item :label="$t('tobacco.setup.station.date')"
                   prop="date">
       <el-date-picker v-model="formItem.date"
-                      value-format="yyyy-MM-dd HH:MM:SS"
+                      value-format="yyyy-MM-dd HH:mm:ss"
                       type="date"
                       :placeholder="$t('base.pleaseSelect')"
                       style="width: 100%">

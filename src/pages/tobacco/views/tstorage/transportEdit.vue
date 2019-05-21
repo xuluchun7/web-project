@@ -80,7 +80,7 @@
         <el-form-item :label="$t('tobacco.tstorage.transport.date')"
                       prop="date">
           <el-date-picker v-model="formItem.date"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           type="date"
                           style="width:100%;"
                           :placeholder="$t('base.pleaseSelect')">
@@ -92,7 +92,7 @@
                       prop="depart">
           <el-date-picker v-model="formItem.depart"
                           type="date"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           style="width:100%;"
                           :placeholder="$t('base.pleaseSelect')">
           </el-date-picker>

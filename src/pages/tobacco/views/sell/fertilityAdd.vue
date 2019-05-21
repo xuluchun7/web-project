@@ -100,6 +100,7 @@
 import fertilityApi from "../../api/tsell/api_fertility";
 import seContractApi from "../../api/tsell/api_seContract";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -137,7 +138,7 @@ export default {
   },
   created() {
     this.formItem.annual = new Date().getFullYear().toString();
-    this.formItem.date = this.dateFormat(new Date(), "YYYY-MM-DD HH:MM:SS");
+    this.formItem.date = parseDate(new Date(), "YYYY-MM-DD HH:mm:ss");
   },
   methods: {
     //查询烟农信息

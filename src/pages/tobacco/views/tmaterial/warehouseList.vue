@@ -62,16 +62,13 @@
           </el-table-column>
           <el-table-column prop="code"
                            :label="this.$t('tobacco.tmaterial.warehouse.code')" />
-          <el-table-column prop="serial"
-                           :label="this.$t('tobacco.tmaterial.warehouse.serial')" />
+          <el-table-column prop="organization.organizationName"
+                           label="所属单位" />
           <el-table-column prop="name"
+                           width="300px"
                            :label="this.$t('tobacco.tmaterial.warehouse.name')" />
           <el-table-column prop="keeper"
                            :label="this.$t('tobacco.tmaterial.warehouse.keeper')" />
-          <el-table-column prop="tel"
-                           :label="this.$t('tobacco.tmaterial.warehouse.tel')" />
-          <el-table-column prop="address"
-                           :label="this.$t('tobacco.tmaterial.warehouse.address')" />
           <el-table-column prop="control"
                            :label="this.$t('tobacco.tmaterial.warehouse.control')">
             <template slot-scope="scope">
@@ -257,7 +254,7 @@ const status = [
 ];
 export default {
   directives: { elDragDialog },
-  data() {
+  data () {
     return {
       billIn: {},
       childForm: {
@@ -283,7 +280,7 @@ export default {
           {
             text: this.$t("base.yesterday"),
 
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
@@ -292,7 +289,7 @@ export default {
           },
           {
             text: this.$t("base.threeMonth"),
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
@@ -337,7 +334,7 @@ export default {
       statusList: status
     };
   },
-  created() {
+  created () {
     this.searchData.control = "";
   },
   components: {
@@ -355,7 +352,7 @@ export default {
     })
   },
   filters: {
-    capitalizeState: function(value) {
+    capitalizeState: function (value) {
       let item = status.find(it => {
         return it.value === value;
       });
@@ -363,7 +360,7 @@ export default {
     }
   },
   methods: {
-    initCheckOut() {
+    initCheckOut () {
       let now = moment().format("YYYYMMDDHHmmss");
       this.formData.checkOut = {
         id: UUID(32, 36),
@@ -406,7 +403,7 @@ export default {
         desc: "库存盘点出库"
       };
     },
-    initCheckIn() {
+    initCheckIn () {
       let now = moment().format("YYYYMMDDHHmmss");
       this.formData.checkIn = {
         id: UUID(32, 36),
@@ -449,7 +446,7 @@ export default {
         desc: "库存盘点入库"
       };
     },
-    onCheckSubmitClick() {
+    onCheckSubmitClick () {
       this.initCheckOut();
       this.initCheckIn();
       this.formData.checkOut.refBillId = this.formData.checkIn.id;
@@ -564,7 +561,7 @@ export default {
           console.log(error);
         });
     },
-    onUpdateStatus(row) {
+    onUpdateStatus (row) {
       this.$confirm(
         "你确定库存初始化已完成,并将启用当前仓库吗?(注：启用后将无法再进行初始化操作)",
         "提示",
@@ -617,7 +614,7 @@ export default {
           });
         });
     },
-    editButtonClick(selectRow, isEdit) {
+    editButtonClick (selectRow, isEdit) {
       this.formData.viewSelect = selectRow;
       if (isEdit) {
         this.childForm.editForm = true;
@@ -626,7 +623,7 @@ export default {
       }
       this.childForm.isEdit = isEdit;
     },
-    deleteButtonClick() {
+    deleteButtonClick () {
       if (
         this.formData.selectRow === null ||
         this.formData.selectRow === undefined
@@ -647,9 +644,9 @@ export default {
           this.formData.selectRow = null;
           this.onSearchButtonClick();
         })
-        .catch(error => {});
+        .catch(error => { });
     },
-    deleteButtonConfirm() {
+    deleteButtonConfirm () {
       this.$confirm(
         this.$t("message.deleteConfirm"),
         this.$t("base.titleTip"),
@@ -669,10 +666,10 @@ export default {
           });
         });
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.formData.selectRow = val;
     },
-    onSearchButtonClick() {
+    onSearchButtonClick () {
       //设置组织单位
       let search = "organization.organizationId:like:{orgid}".format({
         orgid: this.searchData.organizationId
@@ -705,39 +702,39 @@ export default {
             position: "bottom-right"
           });
         })
-        .catch(error => {});
+        .catch(error => { });
     },
 
-    onPageChange(index) {
+    onPageChange (index) {
       if (this.formData.pagination.currentPage !== index) {
         this.formData.pagination.currentPage = index;
         this.onSearchButtonClick();
       }
     },
-    onPageSizeChange(size) {
+    onPageSizeChange (size) {
       if (this.formData.pagination.pageSize !== size) {
         this.formData.pagination.pageSize = size;
         this.onSearchButtonClick();
       }
     },
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName ({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
         return "warning-row";
       } else {
         return "success-row";
       }
     },
-    handleClose(done) {
+    handleClose (done) {
       this.childForm.addForm = false;
       this.childForm.editForm = false;
       this.onSearchButtonClick();
       done();
     },
-    initButtonClick(row) {
+    initButtonClick (row) {
       this.formData.selectRow = row;
       this.childForm.stockForm = true;
     },
-    checkButtonClick(row) {
+    checkButtonClick (row) {
       this.formData.selectRow = row;
       this.formData.warehouse = row;
       this.childForm.checkVisible = true;
@@ -764,7 +761,7 @@ export default {
             this.formData.stockOutInList.push(stock);
           }
         })
-        .catch(error => {});
+        .catch(error => { });
     }
   }
 };

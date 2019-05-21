@@ -187,7 +187,7 @@ const OrganizationForm = () => import("@/components/Organization");
 import hrEmployeeApi from "../../api/thuman/api_hrEmployee";
 import categoryApi from "../../api/basic/api_category";
 import { mapGetters } from "vuex";
-
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
@@ -266,7 +266,7 @@ export default {
       })
       .catch(error => {});
     this.formItem.date = this.getNowFormatDate();
-    this.formItem.birth = this.dateFormat(new Date(), "YYYY-MM-DD ");
+    this.formItem.birth = parseDate(new Date(), "YYYY-MM-DD ");
   },
   computed: {
     ...mapGetters({

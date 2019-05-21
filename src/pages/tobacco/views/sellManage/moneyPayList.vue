@@ -86,7 +86,7 @@
 <script>
 const OrganizationForm = () => import("@/components/Organization");
 const path = require("path");
-
+import { parseDate } from "@/filters/index.ts";
 import deliveryApi from "../../api/tsell/api_delivery";
 import { mapGetters } from "vuex";
 export default {
@@ -137,8 +137,8 @@ export default {
       searchData: {
         organizationid: this.userOrgId,
         depart: [
-          this.dateFormat(new Date(), "YYYY-MM-DD"),
-          this.dateFormat(new Date(), "YYYY-MM-DD")
+          parseDate(new Date(), "YYYY-MM-DD"),
+          parseDate(new Date(), "YYYY-MM-DD")
         ],
         start: "",
         end: "",

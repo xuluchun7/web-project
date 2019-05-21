@@ -98,6 +98,7 @@ const path = require("path");
 
 import deliveryApi from "../../api/tsell/api_delivery";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -148,8 +149,8 @@ export default {
         organizationname: this.organizationName,
         time: "",
         depart: [
-          this.dateFormat(new Date(), "YYYY-MM-DD"),
-          this.dateFormat(new Date(), "YYYY-MM-DD")
+          parseDate(new Date(), "YYYY-MM-DD"),
+          parseDate(new Date(), "YYYY-MM-DD")
         ],
         start: "",
         end: "",

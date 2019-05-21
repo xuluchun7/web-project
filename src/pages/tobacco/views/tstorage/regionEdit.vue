@@ -40,7 +40,7 @@
     </el-form-item>
     <el-form-item :label="$t('tobacco.tstorage.region.date')"
                   prop="date">
-      <el-date-picker value-format="yyyy-MM-dd HH:MM:SS"
+      <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
                       v-model="formItem.date"
                       type="date"
                       :placeholder="$t('base.pleaseSelect')"

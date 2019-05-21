@@ -21,7 +21,7 @@
     <el-row>
       <el-col :span="12">
         <el-form-item :label="$t('tobacco.tsell.applybreachofcontract.applyDate')">
-          <el-date-picker value-format="yyyy-MM-dd HH:MM:SS"
+          <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
                           v-model="formItem.applyDate"
                           type="date"
                           :placeholder="$t('base.pleaseSelect')"
@@ -55,7 +55,7 @@
     <el-row>
       <el-col :span="12">
         <el-form-item :label="$t('tobacco.tsell.applybreachofcontract.recoveryDate')">
-          <el-date-picker value-format="yyyy-MM-dd HH:MM:SS"
+          <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
                           v-model="formItem.recoveryDate"
                           type="date"
                           :placeholder="$t('base.pleaseSelect')"
@@ -82,7 +82,7 @@
       <el-col :span="12"
               v-if="formItem.control === 'SG_A04'">
         <el-form-item :label="$t('tobacco.tsell.applybreachofcontract.examineDate')">
-          <el-date-picker value-format="yyyy-MM-dd HH:MM:SS"
+          <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
                           v-model="formItem.examineDate"
                           type="date"
                           :placeholder="$t('base.pleaseSelect')"

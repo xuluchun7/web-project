@@ -242,6 +242,7 @@ const OrganizationForm = () => import("@/components/Organization");
 import hrFarmerApi from "../../api/thuman/api_hrFarmer";
 import categoryApi from "../../api/basic/api_category";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     //验证手机号
@@ -302,9 +303,9 @@ export default {
         name: "",
         identity: "",
         sex: "SC_S00",
-        birth: this.dateFormat(new Date(), "YYYY-MM-DD"),
+        birth: parseDate(new Date(), "YYYY-MM-DD"),
         author: this.userName,
-        date: this.dateFormat(new Date(), "YYYY-MM-DD"),
+        date: parseDate(new Date(), "YYYY-MM-DD"),
         countryId: "",
         facility: "",
         countryName: "",

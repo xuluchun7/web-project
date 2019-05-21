@@ -48,7 +48,7 @@
         <el-form-item :label="$t('tobacco.tsell.preCheck.date')">
           <el-date-picker type="date"
                           v-model="formItem.date"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           :placeholder="$t('base.pleaseSelect')"
                           style="width: 100%">
           </el-date-picker>
@@ -82,7 +82,7 @@
         <el-form-item :label="$t('tobacco.tsell.preCheck.reserveBegin')">
           <el-date-picker v-model="datetimes"
                           type="datetimerange"
-                          value-format="yyyy-MM-dd HH:MM:SS"
+                          value-format="yyyy-MM-dd HH:mm:ss"
                           style="width:100%;"
                           :placeholder="$t('base.pleaseSelect')">
           </el-date-picker>
@@ -237,6 +237,7 @@ import seContractApi from "../../api/tsell/api_seContract";
 import partApi from "../../api/basic/api_part";
 import colorApi from "../../api/basic/api_color";
 import { mapGetters } from "vuex";
+import { parseDate } from "@/filters/index.ts";
 export default {
   data() {
     return {
@@ -260,7 +261,7 @@ export default {
         contractWeight: 0,
         farmerId: "",
         farmerName: "",
-        year: this.dateFormat(new Date(), "yyyy"),
+        year: parseDate(new Date(), "yyyy"),
         typeName: "烤烟",
         typeId: "10",
         statusId: "902",
@@ -296,8 +297,8 @@ export default {
         districtName: ""
       },
       datetimes: [
-        this.dateFormat(new Date(), "yyyy-mm-hh HH:MM:SS"),
-        this.dateFormat(new Date(), "yyyy-mm-hh HH:MM:SS")
+        parseDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
+        parseDate(new Date(), "YYYY-MM-DD HH:mm:ss")
       ],
       formData: {
         seContractList: [],
@@ -436,9 +437,9 @@ export default {
     onSubmitClick(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          this.formItem.date = this.dateFormat(
+          this.formItem.date = parseDate(
             this.formItem.date,
-            "YYYY-MM-DD HH:MM:SS"
+            "YYYY-MM-DD HH:mm:ss"
           );
           this.formItem.reserveBegin = this.datetimes[0];
           this.formItem.reserveEnd = this.datetimes[1];
