@@ -22,6 +22,7 @@
 				<el-button type='primary' @click='onSearchButtonClick'>{{ $t('base.buttonSearch') }} </el-button>
 				<el-button type='primary' @click='childForm.addForm=true'>{{ $t('base.buttonAdd') }} </el-button>
 				<el-button type='primary' @click='deleteButtonConfirm'>{{ $t('base.buttonDelete') }} </el-button>                
+
 			</el-button-group>
         </div>
       </div>
@@ -33,7 +34,20 @@
 			:data="formData.billApplyList"
 			style="width: 100%"
 			:row-class-name="tableRowClassName">
-		  <el-table-column type="index">
+			<el-table-column type="expand">
+				<template slot-scope="props">
+					<el-table
+							:data="props.row.billApplyItemList"
+							style="width: 100%">
+						<el-table-column prop="materialCode" :label="$t('tobacco.tmaterial.billApply.annual')" />
+						<el-table-column prop="materialId" :label="$t('tobacco.tmaterial.billApply.code')" />
+						<el-table-column prop="materialName" :label="$t('tobacco.tmaterial.billApply.title')" />
+						<el-table-column prop="materialNumber" :label="$t('tobacco.tmaterial.billApply.author')" />
+
+					</el-table>
+				</template>
+			</el-table-column>
+		  <el-table-column type="index" >
 			</el-table-column>
 				<el-table-column prop="annual" :label="$t('tobacco.tmaterial.billApply.annual')" />
 				<el-table-column prop="number" :label="$t('tobacco.tmaterial.billApply.code')" />
@@ -46,7 +60,9 @@
 		     width="100">
 		<template slot-scope="scope">
 			<el-button @click="editButtonClick(scope.row,false)" type="text" size="small">{{$t('base.buttonView')}}</el-button>
-			<el-button type="text" size="small" @click="editButtonClick(scope.row,true)">{{$t('base.buttonEdit')}}</el-button>
+			<el-button type="text" size="small" @click="editButtonClick(scope.row,true)" >{{$t('base.buttonEdit')}}</el-button>
+			<el-button type="text" size="small" v-if="userOrgId===scope.row.organization.organizationId&&scope.row.control===1" @click="saveButtonSubmit(scope.row)">{{$t('base.buttonSubmit')}}</el-button>
+			<el-button type="text" size="small" v-if="scope.row.organization.lead===scope.row.organization.organizationId&&scope.row.control===2" @click="saveButtonSubmit(scope.row)">分配</el-button>
 		</template>
 		</el-table-column>
 		</el-table>
@@ -62,8 +78,8 @@
             <el-dialog :title="$t('base.buttonAdd')" :visible.sync="childForm.addForm" top="10px"  :before-close="handleClose">
                 <add-form />
             </el-dialog>
-            <el-dialog :title="$t('base.buttonEdit')" :visible.sync="childForm.editForm"  top="10px"  :before-close="handleClose">
-                <edit-form :item.sync=formData.viewSelect :isEdit=childForm.isEdit :visible.sync="childForm.editForm" />
+            <el-dialog :title="$t('base.buttonEdit')" :visible.sync="childForm.editForm"  top="10px"  :before-close="handleClose" >
+                <edit-form :item.sync=formData.viewSelect :isEdit=childForm.isEdit :visible.sync="childForm.editForm"/>
             </el-dialog>
             <el-dialog :title="$t('base.buttonView')" :visible.sync="childForm.viewForm"  top="10px"  :before-close="handleClose">
                 <edit-form :item=formData.viewSelect :isEdit =childForm.isEdit :visible.sync="childForm.viewForm" />
@@ -197,9 +213,10 @@
                 this.formData.selectRow = val;
             },
             onSearchButtonClick(){
-				let search = "organization.organizationId:like:{orgid}".format(
+				let search = "organization.organizationId:like:{orgid}:or;(lead:EQ:{userOrgId};control:EQ:2)".format(
 						{
 							orgid: this.searchData.organizationId,
+							userOrgId:this.userOrgId
 						}
 				);
 
@@ -211,10 +228,12 @@
                 })])
                     .then(([response]) => {
 
-                        this.formData.billApplyList = response.content;
+                        this.formData.billApplyList = JSON.parse(JSON.stringify(response.content));
                        for (let i in this.formData.billApplyList){
 						   this.formData.billApplyList[i].date=response.content[i].date.substring(0,10)
 					   }
+                       console.log(this.formData)
+                       console.log(this.formData.billApplyList)
                         this.formData.pagination.total = parseFloat(response.totalElements);
                         this.$notify({
                             title: this.$t('base.hint'),
@@ -252,7 +271,15 @@
                 this.childForm.editForm=false;
                 this.onSearchButtonClick();
                 done();
-            }
+            },
+			saveButtonSubmit(row){
+            	console.log(row.id)
+            	console.log(this.$store.state.user.user.loginName)
+				Promise.all([billApplyApi.getByLead(row.id,this.$store.state.user.user.loginName)])
+						.then(res=>{
+							console.log(res)
+						})
+			}
         },
 		computed: {
 			...mapGetters({

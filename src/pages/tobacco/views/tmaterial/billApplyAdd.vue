@@ -123,6 +123,7 @@
         <el-dialog :title="$t('tobacco.tmaterial.billApply.materialDetails')" :visible.sync="showMaterialDetails" append-to-body>
             <materialDetails-form @saveMaterialDetails="topSaveMaterialDetails"
               :ArrmaterialDetails="materialDetails"
+
              />
         </el-dialog>
     </div>
@@ -132,6 +133,7 @@
     import materialDetails from './billAppiyDetails'
     import util from '@/utils/util.ts'
     import { mapGetters } from "vuex";
+    import deepClone from "../../../../../../../新建文件夹/dingTalk/src/pages/tobacco/utils/deepClone";
     export default {
          data () {
             return {
@@ -154,7 +156,6 @@
                     code: [
                         { required: true, message: '编码不能为空', trigger: 'blur' }
                     ],
-
                 },
                 showMaterialDetails:false,
                 showMaterialDetailsArr:[],
@@ -171,11 +172,11 @@
         },
         methods:{
             onSubmitClick(name) {
-                console.log(name)
-                console.log(this.userOrgId)
                 this.formItem.annual=new Date().getFullYear()
                 this.formItem.lead=this.userOrgId.substring(0,this.userOrgId.length-2)
-                this.formItem.billApplyItemList=this.materialDetails
+                // this.formItem.billApplyItemList=this.materialDetails
+
+                this.formItem.billApplyItemList=this.deepClone(this.materialDetails)
                 for (let i in this.formItem.billApplyItemList) {
                         this.formItem.billApplyItemList[i].materialId=this.materialDetails[i].id
                         this.formItem.billApplyItemList[i].materialName=this.materialDetails[i].name
@@ -189,9 +190,9 @@
                             delete this.formItem.billApplyItemList[i][key]
                         }
                     }
-
+                console.log(this.materialDetails)
                 }
-                console.log(this.formItem)
+
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         Promise.all([ billApplyApi.save(this.formItem)])
@@ -205,10 +206,12 @@
                                 this.formItem.billApplyItemList=[]
                                 this.showMaterialDetailsArr=[]
                                 this.materialDetails=[]
-
                             })
                             .catch(error => {
                                 console.log(error);
+                                this.formItem.billApplyItemList=[]
+                                this.showMaterialDetailsArr=[]
+                                this.materialDetails=[]
                             });
                     } else {
                         this.$message({
@@ -222,7 +225,6 @@
                 this.$refs[name].resetFields();
             },
             topSaveMaterialDetails(arr,showMaterialDetails){
-                this.materialDetails=[]
                 this.showMaterialDetailsArr=[]
                 this.materialDetails=arr
                 this.showMaterialDetailsArr=arr.filter((item,index)=>{
@@ -237,6 +239,11 @@
                     if (index>=(page-1)*5&&index<page*5){
                         return item
                     }})
+            },
+
+            deepClone(obj){
+              let objClone=JSON.parse(JSON.stringify(obj))
+                return objClone
             }
         },
         components:{
