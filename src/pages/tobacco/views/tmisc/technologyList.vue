@@ -33,7 +33,7 @@
                 :row-class-name="tableRowClassName">
         <el-table-column type="index">
         </el-table-column>
-        <el-table-column prop="organization.organizationName"
+        <el-table-column prop="organizationName"
                          :label="this.$t('tobacco.tmisc.technology.organizationName')" />
         <el-table-column prop="annual"
                          :label="this.$t('tobacco.tmisc.technology.annual')" />
@@ -286,7 +286,7 @@ export default {
           size: this.formData.pagination.pageSize,
           page: this.formData.pagination.currentPage - 1,
           orgId: this.userOrgId,
-          fileName: ""
+          fileName: this.formData.pagination.keyword
         })
       ])
         .then(([response]) => {
