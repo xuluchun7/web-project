@@ -60,19 +60,41 @@
 <script>
     import apiMaterial from '../../api/tmaterial/apiMaterial'
     export default {
-        props:['ArrmaterialDetails'],
+        props:['ArrmaterialDetails','openId'],
         watch:{
             ArrmaterialDetails:function (curVal, oldVal) {
                 console.log(curVal)
                 console.log(oldVal)
                 console.log('改变')
+
                if (curVal.length===0){
                    console.log(1)
                    this.$refs.multipleTable.clearSelection();
                }
                else{
-
                    console.log(2)
+                   for (var i=0;i<curVal.length;i++) {
+                       console.log(this.oldArr.filter(item => {
+                           return item.name===curVal[i].materialName
+                       }))
+                       this.newArr=[]
+                       if (this.oldArr.filter(item => {
+                           return item.name===curVal[i].materialName
+                       }).length!==0)
+                       {
+                       this.newArr.push(this.oldArr.filter(item => {
+                           if (curVal[i].materialName!==undefined){
+                               return item.name===curVal[i].materialName}
+                           else{
+                               return item.name===curVal[i].name
+                           }
+                       }))
+                       }
+                   }
+                   if (this.newArr.length!==0){
+                       for (let i in this.newArr) {
+                           this.toggleSelection([this.newArr[i][0]])
+                       }}
                }
 
 
@@ -105,18 +127,29 @@
                         console.log(this.oldArr.filter(item => {
                             return item.name===this.ArrmaterialDetails[i].materialName
                         }))
-                        this.newArr.push(this.oldArr.filter(item => {
+                        console.log(this.ArrmaterialDetails[i].materialName)
+                        if (this.oldArr.filter(item => {
                             if (this.ArrmaterialDetails[i].materialName!==undefined){
-                            return item.name===this.ArrmaterialDetails[i].materialName}
+                                return item.name===this.ArrmaterialDetails[i].materialName;
+                            }
                             else{
                                 return item.name===this.ArrmaterialDetails[i].name
                             }
-                        }))
+                        }).length!==0){
+                        this.newArr.push(this.oldArr.filter(item => {
+                            if (this.ArrmaterialDetails[i].materialName!==undefined){
+                            return item.name===this.ArrmaterialDetails[i].materialName;
+                            }
+                            else{
+                            return item.name===this.ArrmaterialDetails[i].name
+                            }
+                        }))}
                     }
+                    this.showApiMaterial()
+                    if (this.newArr.length!==0){
                     for (let i in this.newArr) {
-                        console.log(this.newArr[i])
-                        this.toggleSelection(this.newArr[i])
-                    }
+                        this.toggleSelection([this.newArr[i][0]])
+                    }}
                     console.log(this.newArr)
                     // this.showApiMaterial()
                 })
@@ -143,24 +176,39 @@
                         this.formItem=res[0].content
                         for (var i in this.formItem){
                             this.formItem[i].date=this.formItem[i].date.substring(0,10)
-                        }
 
+                        }
+                        for (var k=0;k<this.ArrmaterialDetails.length;k++) {
+                          for (var j=0;j<this.formItem.length;j++) {
+                              console.log(this.ArrmaterialDetails)
+                              console.log(this.formItem)
+                              if (this.formItem[j].name===this.ArrmaterialDetails[k].materialName){
+                                  this.formItem[j].materialNumber=this.ArrmaterialDetails[k].materialNumber
+                              }
+                          }
+                        }
+                        console.log(this.formItem)
                     })
             },
             handleSelectionChange(val) {
+                this.multipleSelection = []
                 this.multipleSelection = val;
+                console.log(val)
                 console.log(this.multipleSelection)
+                console.log(this.ArrmaterialDetails)
+
             },
             onSubmit(){
                 this.$emit('saveMaterialDetails',this.multipleSelection,false)
+
             },
             currentChange(a){
                 this.num=a-1
                 this.showApiMaterial()
-                for (let i in this.newArr) {
-                    this.toggleSelection(this.newArr[i])
-
-                }
+                if (this.newArr.length!==0){
+                    for (let i in this.newArr) {
+                        this.toggleSelection([this.newArr[i][0]])
+                    }}
 
             },
             toggleSelection(rows) {
@@ -169,10 +217,13 @@
                         this.$refs.multipleTable.toggleRowSelection(row);
                     });
                 } else {
+                    console.log(121)
                     this.$refs.multipleTable.clearSelection();
+
                 }
                 }
-        }
+        },
+
     };
 </script>
 <style scoped>

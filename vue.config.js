@@ -4,7 +4,7 @@ const fs = require('fs');
 /** 获取多页的入口脚本和模板 */
 const loadPages = () => {
     const [globPathJs, pages] = [
-        // 入口脚本正则
+        ['./src/pages/**/main.ts', 'entry'], // 入口脚本正则
         Object.create(null)
     ];
 
@@ -37,7 +37,8 @@ const loadPages = () => {
             console.log('无法获取多页入口模板');
         }
         pages.index = {
-
+            entry: './src/main.ts',
+            template: './src/public/index.html'
             //filename: 'index.html'
         };
         return pages;
